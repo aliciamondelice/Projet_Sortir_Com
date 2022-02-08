@@ -44,13 +44,17 @@ class Trip
     #[ORM\JoinColumn(nullable: false)]
     private $state;
 
-    #[ORM\OneToMany(mappedBy: 'organized_trips', targetEntity: User::class)]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'organized_trips')]
+    #[ORM\JoinColumn(nullable: false)]
     private $organizer;
+
+    #[ORM\ManyToOne(targetEntity: Site::class, inversedBy: 'trips')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $site;
 
     public function __construct()
     {
         $this->users = new ArrayCollection();
-        $this->organizer = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -181,32 +185,26 @@ class Trip
         return $this;
     }
 
-    /**
-     * @return Collection|User[]
-     */
-    public function getOrganizer(): Collection
+    public function getOrganizer(): ?User
     {
         return $this->organizer;
     }
 
-    public function addOrganizer(User $organizer): self
+    public function setOrganizer(?User $organizer): self
     {
-        if (!$this->organizer->contains($organizer)) {
-            $this->organizer[] = $organizer;
-            $organizer->setOrganizedTrips($this);
-        }
+        $this->organizer = $organizer;
 
         return $this;
     }
 
-    public function removeOrganizer(User $organizer): self
+    public function getSite(): ?Site
     {
-        if ($this->organizer->removeElement($organizer)) {
-            // set the owning side to null (unless already changed)
-            if ($organizer->getOrganizedTrips() === $this) {
-                $organizer->setOrganizedTrips(null);
-            }
-        }
+        return $this->site;
+    }
+
+    public function setSite(?Site $site): self
+    {
+        $this->site = $site;
 
         return $this;
     }

@@ -37,9 +37,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinColumn(nullable: false)]
     private $site;
 
-    #[ORM\ManyToOne(targetEntity: Trip::class, inversedBy: 'organizer')]
-    private $organized_trips;
-
     #[ORM\Column(type: 'string', length: 50)]
     private $username;
 
@@ -58,9 +55,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private $is_active;
 
+    #[ORM\OneToMany(mappedBy: 'organizer', targetEntity: Trip::class, orphanRemoval: true)]
+    private $organized_trips;
+
     public function __construct()
     {
         $this->trips = new ArrayCollection();
+        $this->organized_trips = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -169,18 +170,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getOrganizedTrips(): ?Trip
-    {
-        return $this->organized_trips;
-    }
-
-    public function setOrganizedTrips(?Trip $organized_trips): self
-    {
-        $this->organized_trips = $organized_trips;
-
-        return $this;
-    }
-
     public function getUsername(): ?string
     {
         return $this->username;
@@ -249,6 +238,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsActive(bool $is_active): self
     {
         $this->is_active = $is_active;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Trip[]
+     */
+    public function getOrganizedTrips(): Collection
+    {
+        return $this->organized_trips;
+    }
+
+    public function addOrganizedTrip(Trip $organizedTrip): self
+    {
+        if (!$this->organized_trips->contains($organizedTrip)) {
+            $this->organized_trips[] = $organizedTrip;
+            $organizedTrip->setOrganizer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrganizedTrip(Trip $organizedTrip): self
+    {
+        if ($this->organized_trips->removeElement($organizedTrip)) {
+            // set the owning side to null (unless already changed)
+            if ($organizedTrip->getOrganizer() === $this) {
+                $organizedTrip->setOrganizer(null);
+            }
+        }
 
         return $this;
     }
