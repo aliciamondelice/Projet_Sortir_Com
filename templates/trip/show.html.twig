@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Trip{% endblock %}
+
+{% block body %}
+    <h1>Trip</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ trip.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ trip.name }}</td>
+            </tr>
+            <tr>
+                <th>Informations</th>
+                <td>{{ trip.informations }}</td>
+            </tr>
+            <tr>
+                <th>Starting_date</th>
+                <td>{{ trip.startingDate ? trip.startingDate|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Ending_date</th>
+                <td>{{ trip.endingDate ? trip.endingDate|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Duration</th>
+                <td>{{ trip.duration }}</td>
+            </tr>
+            <tr>
+                <th>Max_attendees</th>
+                <td>{{ trip.maxAttendees }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('trip_index') }}">back to list</a>
+
+    <a href="{{ path('trip_edit', {'id': trip.id}) }}">edit</a>
+
+    {{ include('trip/_delete_form.html.twig') }}
+{% endblock %}
