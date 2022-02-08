@@ -21,9 +21,13 @@ class Site
     #[ORM\OneToMany(mappedBy: 'site', targetEntity: User::class)]
     private $users;
 
+    #[ORM\OneToMany(mappedBy: 'site', targetEntity: Trip::class, orphanRemoval: true)]
+    private $trips;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->trips = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -67,6 +71,36 @@ class Site
             // set the owning side to null (unless already changed)
             if ($user->getSite() === $this) {
                 $user->setSite(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Trip[]
+     */
+    public function getTrips(): Collection
+    {
+        return $this->trips;
+    }
+
+    public function addTrip(Trip $trip): self
+    {
+        if (!$this->trips->contains($trip)) {
+            $this->trips[] = $trip;
+            $trip->setSite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTrip(Trip $trip): self
+    {
+        if ($this->trips->removeElement($trip)) {
+            // set the owning side to null (unless already changed)
+            if ($trip->getSite() === $this) {
+                $trip->setSite(null);
             }
         }
 

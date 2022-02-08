@@ -11,8 +11,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
-use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  */
@@ -30,7 +29,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $id;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
-    #[Assert\Email(message: "The email '{{ value }}' is not a valid email.")]
     private $email;
 
     #[ORM\Column(type: 'json')]
@@ -58,25 +56,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 50)]
     private $surname;
 
-
-    #[Assert\Regex(pattern: "/^(0)[1-9]([-. ]?[0-9]{2} ){3}([-. ]?[0-9]{2})$/" ,message: "Veuillez rentrer un numéro de téléphone qui respecte cet format SVP : 0X XX XX XX XX") ]
     #[ORM\Column(type: 'string', length: 15)]
     private $phone;
 
-    #[ORM\Column(type: 'boolean', nullable: true)]
+    #[ORM\Column(type: 'boolean')]
     private $is_admin;
 
-    #[ORM\Column(type: 'boolean', nullable: true)]
+    #[ORM\Column(type: 'boolean')]
     private $is_active;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $PictureLink;
-
-    /**
-     * @Vich\UploadableField(mapping="user_picture", fileNameProperty="PictureLink")
-     * @param File|UploadedFile|null $fichierImage
-     */
-    private $pictureFile;
     public function __construct()
     {
         $this->trips = new ArrayCollection();
@@ -271,35 +259,4 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-
-    public function getPictureLink(): ?string
-    {
-        return $this->PictureLink;
-    }
-
-    public function setPictureLink(?string $PictureLink): self
-    {
-        $this->PictureLink = $PictureLink;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPictureFile():mixed
-    {
-        return $this->pictureFile;
-    }
-
-    public function setPictureFile(?File $fichier = null): self
-    {
-        $this->pictureFile = $fichier;
-        if ($fichier) {
-            $this->author = '';
-        }
-        return $this;
-    }
-
-
 }
