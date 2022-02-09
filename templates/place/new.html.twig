@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <h2>Ajouter un nouveau lieu :</h2>
+    <br>
     {{ form_start(formPlace) }}
     {{ form_row(formPlace.name, {
         label: 'Nom'
@@ -19,4 +21,6 @@
     }) }}
     <button class="btn">{{ button_label|default('Proposer') }}</button>
     {{ form_end(formPlace) }}
+
+    <a href="{{ path('new_city') }}">Nouvelle ville</a>
 {% endblock %}

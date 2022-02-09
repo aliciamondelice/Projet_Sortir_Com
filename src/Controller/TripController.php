@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Trip;
 use App\Form\TripType;
+use App\Repository\CityRepository;
 use App\Repository\TripRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,11 +24,13 @@ class TripController extends AbstractController
     }
 
     #[Route('/new', name: 'trip_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, CityRepository $repoCity): Response
     {
         $trip = new Trip();
         $formTrip = $this->createForm(TripType::class, $trip);
         $formTrip->handleRequest($request);
+
+        $listeVille = $repoCity->findAll();
 
         if ($formTrip->isSubmitted() && $formTrip->isValid()) {
             $entityManager->persist($trip);
@@ -39,7 +42,9 @@ class TripController extends AbstractController
         return $this->renderForm('trip/new.html.twig', [
             'trip' => $trip,
             'formTrip' => $formTrip,
+            'listeVille' => $listeVille,
         ]);
+
     }
 
     #[Route('/{id}', name: 'trip_show', methods: ['GET'])]

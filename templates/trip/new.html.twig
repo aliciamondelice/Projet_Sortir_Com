@@ -31,9 +31,11 @@
         label: 'Lieu'
     }) }}
 
+    {% for city in listeVille %}
+        {{ city.name }}
+    {% endfor %}
 
-    <a href="{{ path('place') }}">Nouveau lieu</a>
-    <a href="{{ path('new_city') }}">Nouvelle ville</a>
+    <a href="{{ path('new_place') }}">Nouveau lieu</a>
     <button class="btn">{{ button_label|default('Proposer') }}</button>
     {{ form_end(formTrip) }}
 

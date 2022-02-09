@@ -22,7 +22,7 @@ class CityController extends AbstractController
         ]);
     }
 
-    #[Route('/place', name:'place')]
+    #[Route('/new_place', name:'new_place')]
 
         public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -55,7 +55,7 @@ class CityController extends AbstractController
             $entityManager->persist($city);
             $entityManager->flush();
 
-            return $this->redirectToRoute('place', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('new_place', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('city/new.html.twig', [
