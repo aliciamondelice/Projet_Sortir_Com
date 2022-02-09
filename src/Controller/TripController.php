@@ -26,10 +26,10 @@ class TripController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $trip = new Trip();
-        $form = $this->createForm(TripType::class, $trip);
-        $form->handleRequest($request);
+        $formTrip = $this->createForm(TripType::class, $trip);
+        $formTrip->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($formTrip->isSubmitted() && $formTrip->isValid()) {
             $entityManager->persist($trip);
             $entityManager->flush();
 
@@ -38,7 +38,7 @@ class TripController extends AbstractController
 
         return $this->renderForm('trip/new.html.twig', [
             'trip' => $trip,
-            'form' => $form,
+            'formTrip' => $formTrip,
         ]);
     }
 
