@@ -133,4 +133,8 @@ class Place
 
         return $this;
     }
+    function __toString()
+    {
+        return $this->name;
+    }
 }

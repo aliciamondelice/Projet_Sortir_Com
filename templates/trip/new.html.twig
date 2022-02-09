@@ -3,9 +3,43 @@
 {% block title %}New Trip{% endblock %}
 
 {% block body %}
-    <h1>Create new Trip</h1>
+    <h1>Organisez un nouvel événement ! </h1>
 
-    {{ include('trip/_form.html.twig') }}
+    {{ form_start(formTrip) }}
+    {{ form_row(formTrip.users, {
+        label: 'Organisateur'
+    }) }}
+    {{ form_row(formTrip.name, {
+        label: 'Intitulé'
+    }) }}
+    {{ form_row(formTrip.informations, {
+        label: 'Informations'
+    }) }}
+    {{ form_row(formTrip.starting_date, {
+        label: 'Date de début'
+    }) }}
+    {{ form_row(formTrip.ending_date, {
+        label: 'Date de fin'
+    }) }}
+    {{ form_row(formTrip.duration, {
+        label: 'Durée'
+    }) }}
+    {{ form_row(formTrip.max_attendees, {
+        label: 'Nombre maximum de participants'
+    }) }}
+    {{ form_row(formTrip.place, {
+        label: 'Lieu'
+    }) }}
+    {{ form_row(formTrip.state, {
+        label: 'Etat'
+    }) }}
+
+
+
+    <a href="{{ path('place') }}">Nouveau lieu</a>
+    <a href="{{ path('new_city') }}">Nouvelle ville</a>
+    <button class="btn">{{ button_label|default('Proposer') }}</button>
+    {{ form_end(formTrip) }}
 
     <a href="{{ path('trip_index') }}">back to list</a>
 {% endblock %}

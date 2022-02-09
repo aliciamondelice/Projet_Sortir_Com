@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+
+    {{ form_start(formCity) }}
+    {{ form_row(formCity.name, {
+        label: 'Nom'
+    }) }}
+    {{ form_row(formCity.cp, {
+        label: 'Code Postal'
+    }) }}
+
+    <button class="btn">{{ button_label|default('Proposer') }}</button>
+
+    {{ form_end(formCity) }}
+
+{% endblock %}
