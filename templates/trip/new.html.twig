@@ -1,10 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Trip{% endblock %}
+{% block title %}Créer une sortie{% endblock %}
+{% block meta_title %}Créer une sortie{% endblock %}
 
 {% block body %}
-    <h1>Organisez un nouvel événement ! </h1>
-
     {{ form_start(formTrip) }}
     {{ form_row(formTrip.users, {
         label: 'Organisateur'

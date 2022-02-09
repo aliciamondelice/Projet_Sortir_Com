@@ -1,9 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Trip{% endblock %}
+{% block title %}{{ trip.name }}{% endblock %}
+{% block meta_title %}{{ trip.name }}{% endblock %}
 
 {% block body %}
-    <h1>Trip</h1>
+    <!-- Contenu de la page à développer ici (Ce qu'il y a après le titre de la page en bleu) -->
 
     <table class="table">
         <tbody>
@@ -38,9 +39,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('trip_index') }}">back to list</a>
-
-    <a href="{{ path('trip_edit', {'id': trip.id}) }}">edit</a>
-
-    {{ include('trip/_delete_form.html.twig') }}
+    <a href="{{ path('home') }}" class="button is-primary is-fullwidth mb-3">Retour</a>
 {% endblock %}

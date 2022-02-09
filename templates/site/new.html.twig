@@ -1,12 +1,17 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Créer un site{% endblock %}
+{% block meta_title %}Créer un site{% endblock %}
+
 {% block body %}
+    <!-- Contenu de la page à développer ici (Ce qu'il y a après le titre de la page en bleu) -->
 
-{{ form_start(formSite) }}
-    {{ form_row(formSite.name, {
-        label: 'Nom du campus'
-    }) }}
-    <button class="btn">{{ button_label|default('Ajouter') }}</button>
-{{ form_end(formSite) }}
+    {{ form_start(formSite) }}
+        {{ form_row(formSite.name, {
+            label: 'Nom du campus'
+        }) }}
 
+        <button type="submit" class="button is-primary is-fullwidth mb-3">{{ button_label|default('Enregistrer') }}</button>
+        <a class="button is-danger is-fullwidth" href="{{ path("city") }}">Annuler</a>
+    {{ form_end(formSite) }}
 {% endblock %}

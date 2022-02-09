@@ -1,14 +1,26 @@
 html{
-    overflow: hidden;
     min-height: 100%;
 }
 html:after {
     content: "";
     position: absolute;
-    bottom: -120px;
-    right: -80px;
+    bottom: 0px;
+    right: 0px;
     background: url(../images/background_logo.png) center center no-repeat;
     background-size: contain;
-    height: 500px;
-    width: 307px;
+    height: 800px;
+    width: 509px;
+    z-index: -1;
+}
+.color-text-blue{
+    color: #02AAB0;
+}
+.field ul li {
+    color: #f14668;
+    display: block;
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+}
+.background-blue{
+    background-color:#02AAB0 ;
 }
