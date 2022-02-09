@@ -5,7 +5,7 @@
 
 {% block body %}
     <!-- Contenu de la page à développer ici (Ce qu'il y a après le titre de la page en bleu) -->
-
+    
     {{ form_start(formPlace) }}
         {{ form_row(formPlace.name, {
             label: 'Nom'
@@ -26,4 +26,6 @@
         <button type="submit" class="button is-primary is-fullwidth mb-3">{{ button_label|default('Enregistrer') }}</button>
         <a class="button is-danger is-fullwidth" href="{{ path("city") }}">Annuler</a>
     {{ form_end(formPlace) }}
+
+    <a href="{{ path('new_city') }}">Nouvelle ville</a>
 {% endblock %}

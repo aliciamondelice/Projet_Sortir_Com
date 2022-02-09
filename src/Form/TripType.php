@@ -22,6 +22,7 @@ class TripType extends AbstractType
             ->add('max_attendees')
             ->add('users')
             ->add('place');
+
             //->add('state',
             //EntityType::class,
             //["class"=>State::class,
