@@ -7,6 +7,31 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
         {% block link %}<link href="{{ asset('css/styleBase.css') }}" rel="stylesheet">{% endblock %}
     </head>
+    {% block header %}
+    <header>
+        <nav class="navbar" role="navigation" aria-label="main navigation">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="{{ path('home') }}">
+                    <img src="{{ asset('images/Logo_green.png') }}" alt="logo">
+                </a>
+
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+
+            <div id="navbarBasicExample" class="navbar-menu">
+                <div class="navbar-end">
+                    <a class="navbar-item">Accueil</a>
+                    <a class="navbar-item">Mon profil</a>
+                    <a class="navbar-item">Se déconnecter</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    {% endblock%}
     <body>
         {% block logo %}{% endblock %}
         {% block body %}{% endblock %}
