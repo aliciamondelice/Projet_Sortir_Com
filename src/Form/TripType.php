@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\State;
 use App\Entity\Trip;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -20,7 +22,12 @@ class TripType extends AbstractType
             ->add('max_attendees')
             ->add('users')
             ->add('place')
-            ->add('state')
+            ->add('state',
+            EntityType::class,
+            ["class"=>State::class,
+                "choice_label" =>"libelle",
+                "expanded"=> true,
+                "label"=>"Etats :"])
         ;
     }
 

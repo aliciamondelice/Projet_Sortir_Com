@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ form_start(formPlace) }}
+    {{ form_row(formPlace.name, {
+        label: 'Nom'
+    }) }}
+    {{ form_row(formPlace.street, {
+        label: 'Rue'
+    }) }}
+    {{ form_row(formPlace.latitude, {
+        label: 'Latitude'
+    }) }}
+    {{ form_row(formPlace.longitude, {
+        label: 'Longitude'
+    }) }}
+    {{ form_row((formPlace.city), {
+        label: 'Ville'
+    }) }}
+    <button class="btn">{{ button_label|default('Proposer') }}</button>
+    {{ form_end(formPlace) }}
+{% endblock %}
