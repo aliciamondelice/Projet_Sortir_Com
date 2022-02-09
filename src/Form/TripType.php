@@ -21,14 +21,14 @@ class TripType extends AbstractType
             ->add('duration')
             ->add('max_attendees')
             ->add('users')
-            ->add('place')
-            ->add('state',
-            EntityType::class,
-            ["class"=>State::class,
-                "choice_label" =>"libelle",
-                "expanded"=> true,
-                "label"=>"Etats :"])
-        ;
+            ->add('place');
+            //->add('state',
+            //EntityType::class,
+            //["class"=>State::class,
+            //"choice_label" =>"libelle",
+            //"expanded"=> true,
+            //"label"=>"Etats :"])
+            //;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

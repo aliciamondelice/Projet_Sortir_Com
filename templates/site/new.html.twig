@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+{{ form_start(formSite) }}
+    {{ form_row(formSite.name, {
+        label: 'Nom du campus'
+    }) }}
+    <button class="btn">{{ button_label|default('Ajouter') }}</button>
+{{ form_end(formSite) }}
+
+{% endblock %}
