@@ -22,11 +22,11 @@
                 <h1 class="title has-text-white">Sortir.com</h1>
                 <div class="field">
                     <label for="inputEmail" class="label">Email</label>
-                    <input placeholder="Email" class="input" type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+                    <input placeholder="Email" type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control input" autocomplete="email" required autofocus>
                 </div>
                <div class="field">
                    <label for="inputPassword" class="label">Mot de passe</label>
-                   <input placeholder="*********" class="input" type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+                   <input placeholder="*********" type="password" name="password" id="inputPassword" class=" input form-control" autocomplete="current-password" required>
                </div>
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
