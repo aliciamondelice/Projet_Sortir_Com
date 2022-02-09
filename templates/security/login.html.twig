@@ -5,8 +5,8 @@
 {% block title %}Se Connecter{% endblock %}
 
 {% block body %}
-    <div class="container">
-        <div class="section has-text-centered">
+    <div class="container is-flex is-justify-content-center is-align-items-center">
+        <div class="section is-flex-grow-1 has-text-centered">
             <img src="{{ asset('images/logo_white.png') }}" alt="logo">
             <form method="post" class="field">
                 {% if error %}
@@ -30,7 +30,7 @@
                </div>
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-                <button class="button is-black" type="submit">Connexion</button>
+                <button class="button is-black is-fullwidth" type="submit">Connexion</button>
             </form>
         </div>
     </div>
