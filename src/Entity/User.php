@@ -300,13 +300,6 @@ $this->author = '';
 return $this;
 }
 
-    /**
-     * @return Collection|Trip[]
-     */
-    public function getOrganizedTrips(): Collection
-    {
-        return $this->organized_trips;
-    }
 
     public function addOrganizedTrip(Trip $organizedTrip): self
     {
