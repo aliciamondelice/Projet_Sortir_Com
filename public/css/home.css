@@ -1,0 +1,11 @@
+.background-image{
+
+    background: url("../images/background_image.png") center center no-repeat;
+    background-size: cover;
+}
+#header-home .section {
+    max-width: 1000px;
+}
+#header-home .container{
+    min-height: 500px;
+}
