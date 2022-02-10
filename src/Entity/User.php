@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Entity;
 
 use App\Repository\UserRepository;
@@ -11,243 +10,295 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
+/**
+* @UniqueEntity(fields={"email"}, message="There is already an account with this email")
+*/
+
 
 /**
- * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
- */
-
-
-/**
- * @Vich\Uploadable
- */
+* @Vich\Uploadable
+*/
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
+#[ORM\Id]
+#[ORM\GeneratedValue]
+#[ORM\Column(type: 'integer')]
+private $id;
 
-    #[ORM\Column(type: 'string', length: 180, unique: true)]
-    private $email;
+#[ORM\Column(type: 'string', length: 180, unique: true)]
+#[Assert\Email(message: "The email '{{ value }}' is not a valid email.")]
+private $email;
 
-    #[ORM\Column(type: 'json')]
-    private $roles = [];
+#[ORM\Column(type: 'json')]
+private $roles = [];
 
-    #[ORM\Column(type: 'string')]
-    private $password;
+#[ORM\Column(type: 'string')]
+private $password;
 
-    #[ORM\ManyToMany(targetEntity: Trip::class, inversedBy: 'users')]
-    private $trips;
+#[ORM\ManyToMany(targetEntity: Trip::class, inversedBy: 'users')]
+private $trips;
 
-    #[ORM\ManyToOne(targetEntity: Site::class, inversedBy: 'users')]
-    #[ORM\JoinColumn(nullable: false)]
-    private $site;
+#[ORM\ManyToOne(targetEntity: Site::class, inversedBy: 'users')]
+#[ORM\JoinColumn(nullable: false)]
+private $site;
 
-    #[ORM\Column(type: 'string', length: 50)]
-    private $username;
+#[ORM\OneToMany(targetEntity: Trip::class, mappedBy: 'organizer')]
+private $organized_trips;
 
-    #[ORM\Column(type: 'string', length: 50)]
-    private $name;
+#[ORM\Column(type: 'string', length: 50)]
+private $username;
 
-    #[ORM\Column(type: 'string', length: 50)]
-    private $surname;
+#[ORM\Column(type: 'string', length: 50)]
+private $name;
 
-    #[ORM\Column(type: 'string', length: 15)]
-    private $phone;
+#[ORM\Column(type: 'string', length: 50)]
+private $surname;
 
-    #[ORM\Column(type: 'boolean')]
-    private $is_admin;
 
-    #[ORM\Column(type: 'boolean')]
-    private $is_active;
+#[Assert\Regex(pattern: "/^(0)[1-9]([-. ]?[0-9]{2} ){3}([-. ]?[0-9]{2})$/" ,message: "Veuillez rentrer un numéro de téléphone qui respecte cet format SVP : 0X XX XX XX XX") ]
+#[ORM\Column(type: 'string', length: 15)]
+private $phone;
 
-    #[ORM\OneToMany(mappedBy: 'organizer', targetEntity: Trip::class, orphanRemoval: true)]
-    private $organized_trips;
+#[ORM\Column(type: 'boolean', nullable: true)]
+private $is_admin;
 
-    public function __construct()
-    {
-        $this->trips = new ArrayCollection();
-        $this->organized_trips = new ArrayCollection();
+#[ORM\Column(type: 'boolean', nullable: true)]
+private $is_active;
+
+#[ORM\Column(type: 'string', length: 255, nullable: true)]
+private $PictureLink;
+
+/**
+* @Vich\UploadableField(mapping="user_picture", fileNameProperty="PictureLink")
+* @param File|UploadedFile|null $fichierImage
+*/
+private $pictureFile;
+public function __construct()
+{
+$this->trips = new ArrayCollection();
+}
+
+public function getId(): ?int
+{
+return $this->id;
+}
+
+public function getEmail(): ?string
+{
+return $this->email;
+}
+
+public function setEmail(string $email): self
+{
+$this->email = $email;
+
+return $this;
+}
+
+/**
+* A visual identifier that represents this user.
+*
+* @see UserInterface
+*/
+public function getUserIdentifier(): string
+{
+return (string) $this->email;
+}
+
+/**
+* @see UserInterface
+*/
+public function getRoles(): array
+{
+$roles = $this->roles;
+// guarantee every user at least has ROLE_USER
+$roles[] = 'ROLE_USER';
+
+return array_unique($roles);
+}
+
+public function setRoles(array $roles): self
+{
+$this->roles = $roles;
+
+return $this;
+}
+
+/**
+* @see PasswordAuthenticatedUserInterface
+*/
+public function getPassword(): string
+{
+return $this->password;
+}
+
+public function setPassword(string $password): self
+{
+$this->password = $password;
+
+return $this;
+}
+
+/**
+* @see UserInterface
+*/
+public function eraseCredentials()
+{
+// If you store any temporary, sensitive data on the user, clear it here
+// $this->plainPassword = null;
+}
+
+/**
+* @return Collection|Trip[]
+*/
+public function getTrips(): Collection
+{
+return $this->trips;
+}
+
+public function addTrip(Trip $trip): self
+{
+    if (!$this->trips->contains($trip)) {
+        $this->trips[] = $trip;
     }
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+    return $this;
+}
 
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
+public function removeTrip(Trip $trip): self
+{
+    $this->trips->removeElement($trip);
 
-    public function setEmail(string $email): self
-    {
-        $this->email = $email;
+    return $this;
+}
 
-        return $this;
-    }
+public function getSite(): ?Site
+{
+return $this->site;
+}
 
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
-    public function getUserIdentifier(): string
-    {
-        return (string) $this->email;
-    }
+public function setSite(?Site $site): self
+{
+$this->site = $site;
 
-    /**
-     * @see UserInterface
-     */
-    public function getRoles(): array
-    {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+return $this;
+}
 
-        return array_unique($roles);
-    }
+public function getOrganizedTrips(): ?Trip
+{
+return $this->organized_trips;
+}
 
-    public function setRoles(array $roles): self
-    {
-        $this->roles = $roles;
+public function setOrganizedTrips(?Trip $organized_trips): self
+{
+$this->organized_trips = $organized_trips;
 
-        return $this;
-    }
+return $this;
+}
 
-    /**
-     * @see PasswordAuthenticatedUserInterface
-     */
-    public function getPassword(): string
-    {
-        return $this->password;
-    }
+public function getUsername(): ?string
+{
+return $this->username;
+}
 
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
+public function setUsername(string $username): self
+{
+$this->username = $username;
 
-        return $this;
-    }
+return $this;
+}
 
-    /**
-     * @see UserInterface
-     */
-    public function eraseCredentials()
-    {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
-    }
+public function getName(): ?string
+{
+return $this->name;
+}
 
-    /**
-     * @return Collection|Trip[]
-     */
-    public function getTrips(): Collection
-    {
-        return $this->trips;
-    }
+public function setName(string $name): self
+{
+$this->name = $name;
 
-    public function addTrip(Trip $trip): self
-    {
-        if (!$this->trips->contains($trip)) {
-            $this->trips[] = $trip;
-        }
+return $this;
+}
 
-        return $this;
-    }
+public function getSurname(): ?string
+{
+return $this->surname;
+}
 
-    public function removeTrip(Trip $trip): self
-    {
-        $this->trips->removeElement($trip);
+public function setSurname(string $surname): self
+{
+$this->surname = $surname;
 
-        return $this;
-    }
+return $this;
+}
 
-    public function getSite(): ?Site
-    {
-        return $this->site;
-    }
+public function getPhone(): ?string
+{
+return $this->phone;
+}
 
-    public function setSite(?Site $site): self
-    {
-        $this->site = $site;
+public function setPhone(string $phone): self
+{
+$this->phone = $phone;
 
-        return $this;
-    }
+return $this;
+}
 
-    public function getUsername(): ?string
-    {
-        return $this->username;
-    }
+public function getIsAdmin(): ?bool
+{
+return $this->is_admin;
+}
 
-    public function setUsername(string $username): self
-    {
-        $this->username = $username;
+public function setIsAdmin(bool $is_admin): self
+{
+$this->is_admin = $is_admin;
 
-        return $this;
-    }
+return $this;
+}
 
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
+public function getIsActive(): ?bool
+{
+return $this->is_active;
+}
 
-    public function setName(string $name): self
-    {
-        $this->name = $name;
+public function setIsActive(bool $is_active): self
+{
+$this->is_active = $is_active;
 
-        return $this;
-    }
+return $this;
+}
 
-    public function getSurname(): ?string
-    {
-        return $this->surname;
-    }
+public function getPictureLink(): ?string
+{
+return $this->PictureLink;
+}
 
-    public function setSurname(string $surname): self
-    {
-        $this->surname = $surname;
+public function setPictureLink(?string $PictureLink): self
+{
+$this->PictureLink = $PictureLink;
 
-        return $this;
-    }
+return $this;
+}
 
-    public function getPhone(): ?string
-    {
-        return $this->phone;
-    }
+/**
+* @return mixed
+*/
+public function getPictureFile():mixed
+{
+return $this->pictureFile;
+}
 
-    public function setPhone(string $phone): self
-    {
-        $this->phone = $phone;
-
-        return $this;
-    }
-
-    public function getIsAdmin(): ?bool
-    {
-        return $this->is_admin;
-    }
-
-    public function setIsAdmin(bool $is_admin): self
-    {
-        $this->is_admin = $is_admin;
-
-        return $this;
-    }
-
-    public function getIsActive(): ?bool
-    {
-        return $this->is_active;
-    }
-
-    public function setIsActive(bool $is_active): self
-    {
-        $this->is_active = $is_active;
-
-        return $this;
-    }
+public function setPictureFile(?File $fichier = null): self
+{
+$this->pictureFile = $fichier;
+if ($fichier) {
+$this->author = '';
+}
+return $this;
+}
 
     /**
      * @return Collection|Trip[]
