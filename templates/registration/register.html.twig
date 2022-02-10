@@ -1,17 +1,38 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Register{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href=" {{ asset('css/profil.css') }}">
+{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
+    <div class="block">
+        <h1 class="title is-2"> Créer votre compte</h1>
+    </div>
 
     {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+    {{ form_row(registrationForm.pictureFile) }}
+    {{ form_row(registrationForm.username,{ 'attr': {'class': 'input'} }
+    ) }}
+    {{ form_row(registrationForm.name,{ 'attr': {'class': 'input'} }
+    )  }}
+    {{ form_row(registrationForm.surname,{ 'attr': {'class': 'input'} }
+    )  }}
+    {{ form_row(registrationForm.phone,{ 'attr': {'class': 'input'} }
+    )  }}
+    {{ form_row(registrationForm.email,{ 'attr': {'class': 'input'} }
+    )  }}
+    {{ form_row(registrationForm.password.first,{ 'attr': {'class': 'input'} }
+    )  }}
+    {{ form_row(registrationForm.password.second,{ 'attr': {'class': 'input'} }
+    )  }}
+    {{ form_row(registrationForm.site,{ 'attr': {'class': 'input'} }
+    )  }}
 
-        <button type="submit" class="btn">Register</button>
+    <button type="submit" class="button is-fullwidth is-primary">Enregistrer</button>
+    <button type="reset" class="button is-fullwidth is-danger">Annuler</button>
+
+
     {{ form_end(registrationForm) }}
+
 {% endblock %}
