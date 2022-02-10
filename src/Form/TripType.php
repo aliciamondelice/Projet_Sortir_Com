@@ -29,7 +29,7 @@ class TripType extends AbstractType
         $builder
 
             ->add('name', TextType::class, [
-                'label' => 'Intitulé',
+                'label' => 'Nom de la sortie',
                 'required' => true,
                 'row_attr' => ['class' => 'field'],
                 'label_attr' => ['class' => 'label'],
@@ -41,23 +41,16 @@ class TripType extends AbstractType
                 ],
             ])
 
-            ->add('informations', TextareaType::class, [
-                'label' => 'Information',
-                'required' => true,
-                'row_attr' => ['class' => 'field'],
-                'label_attr' => ['class' => 'label'],
-                'attr' => ['class' => 'textarea'],
-            ])
-
             ->add('starting_date', DateTimeType::class,[
-                'label' => 'Date de début',
+                'label' => 'Date et heure de la sortie',
                 'required' => true,
                 'row_attr' => ['class' => 'field'],
                 'label_attr' => ['class' => 'label'],
                 'attr' => ['class' => 'input'],
             ])
+
             ->add('ending_date', DateType::class,[
-                'label' => 'Date de début',
+                'label' => 'Date limite d\'inscription',
                 'required' => true,
                 'row_attr' => ['class' => 'field'],
                 'label_attr' => ['class' => 'label'],
@@ -65,12 +58,12 @@ class TripType extends AbstractType
             ])
 
             ->add('duration', NumberType::class, [
-                'label' => 'Durée',
+                'label' => 'Durée (en minutes)',
                 'required' => true,
                 'row_attr' => ['class' => 'field'],
                 'label_attr' => ['class' => 'label'],
                 'attr' => ['class' => 'input'],
-                ])
+            ])
 
             ->add('max_attendees', NumberType::class, [
                 'label' => 'Nombre maximum de places',
@@ -80,6 +73,13 @@ class TripType extends AbstractType
                 'attr' => ['class' => 'input'],
             ])
 
+            ->add('informations', TextareaType::class, [
+                'label' => 'Description',
+                'required' => true,
+                'row_attr' => ['class' => 'field'],
+                'label_attr' => ['class' => 'label'],
+                'attr' => ['class' => 'textarea'],
+            ])
 
             //->add('city', EntityType::class, [
              //   'class' => City::class,
@@ -115,7 +115,15 @@ class TripType extends AbstractType
                 "expanded"=>true,
                 "label"=>"Site :"
             ]);
+    }
 
+    /*        ->add('place', EntityType::class, [
+                'class' => City::class,
+                'choice_label' => 'name',
+                'row_attr' => ['class' => 'field'],
+                'label_attr' => ['class' => 'label'],
+                'attr' => ['class' => 'input'],
+            ]);*/
     }
 
     public function configureOptions(OptionsResolver $resolver): void

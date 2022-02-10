@@ -26,9 +26,9 @@
 
                 <div id="navbarBasicExample" class="navbar-menu">
                     <div class="navbar-end">
-                        <a class="navbar-item color-text-blue has-text-weight-medium">Accueil</a>
+                        <a class="navbar-item color-text-blue has-text-weight-medium" href="{{ path('home') }}">Accueil</a>
                         <a class="navbar-item color-text-blue has-text-weight-medium">Mon profil</a>
-                        <a class="navbar-item color-text-blue has-text-weight-medium">Se déconnecter</a>
+                        <a class="navbar-item color-text-blue has-text-weight-medium" href="{{ path('app_logout') }}">Se déconnecter</a>
                     </div>
                 </div>
             </nav>
@@ -50,5 +50,6 @@
                 {% block body %}{% endblock %}
             </div>
         </div>
+    <script src="{{ asset('script.js') }}"></script>
     </body>
 </html>
