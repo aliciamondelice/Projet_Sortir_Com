@@ -35,7 +35,7 @@
     {% endfor %}
 
     <a href="{{ path('new_place') }}">Nouveau lieu</a>
-    <button class="btn">{{ button_label|default('Proposer') }}</button>
+    <button class="button">{{ button_label|default('Proposer') }}</button>
     {{ form_end(formTrip) }}
 
     <a href="{{ path('trip_index') }}">back to list</a>
