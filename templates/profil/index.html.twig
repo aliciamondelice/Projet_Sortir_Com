@@ -5,4 +5,21 @@
 
 {% block body %}
     <!-- Contenu de la page à développer ici (Ce qu'il y a après le titre de la page en bleu) -->
+    
+    <section class="section ">
+    <div class="block">
+    <h1 class="title is-2"> {{ user.getUsername()}}</h1>
+    </div>
+    <figure class="image is-128x128">
+        <img class="is-rounded" src="{{ asset('images/users/'~user.getPictureLink()) }}" alt="photo_user" />
+    </figure>
+    <p>Prénom : {{ user.getName()}}</p>
+    <p>Nom : {{ user.getSurname()}}</p>
+    <p>Téléphone : {{ user.getPhone()}}</p>
+    <p>Email : {{ user.getEmail()}}</p>
+    <p>Site : {{ user.site.getName()}}</p>
+        <a href="" class="button is-fullwidth is-primary">Retour</a>
+    </section>
+
+
 {% endblock %}
