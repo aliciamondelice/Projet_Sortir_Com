@@ -55,19 +55,6 @@
             "./migrations/.gitignore"
         ]
     },
-    "doctrine/doctrine-migrations-bundle": {
-        "version": "3.2",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "3.1",
-            "ref": "ee609429c9ee23e22d6fa5728211768f51ed2818"
-        },
-        "files": [
-            "./config/packages/doctrine_migrations.yaml",
-            "./migrations/.gitignore"
-        ]
-    },
     "doctrine/event-manager": {
         "version": "1.1.1"
     },
@@ -88,6 +75,15 @@
     },
     "doctrine/sql-formatter": {
         "version": "1.1.2"
+    },
+    "giggsey/libphonenumber-for-php": {
+        "version": "8.12.43"
+    },
+    "giggsey/locale": {
+        "version": "2.1"
+    },
+    "jms/metadata": {
+        "version": "2.6.1"
     },
     "nikic/php-parser": {
         "version": "v4.13.2"
@@ -216,6 +212,9 @@
             "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
         }
     },
+    "symfony/mime": {
+        "version": "v6.0.3"
+    },
     "symfony/options-resolver": {
         "version": "v6.0.3"
     },
@@ -226,6 +225,9 @@
         "version": "v1.24.0"
     },
     "symfony/polyfill-intl-icu": {
+        "version": "v1.24.0"
+    },
+    "symfony/polyfill-intl-idn": {
         "version": "v1.24.0"
     },
     "symfony/polyfill-intl-normalizer": {
@@ -329,5 +331,17 @@
     },
     "twig/twig": {
         "version": "v3.3.8"
+    },
+    "vich/uploader-bundle": {
+        "version": "1.19",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.7",
+            "ref": "c4f5755b37fb65b9c6a3cbdae91205c15a137ed4"
+        },
+        "files": [
+            "./config/packages/vich_uploader.yaml"
+        ]
     }
 }
