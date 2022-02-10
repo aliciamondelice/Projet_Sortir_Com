@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Place;
 use App\Entity\Trip;
+use App\Form\PlaceType;
 use App\Form\TripType;
 use App\Repository\CityRepository;
 use App\Repository\TripRepository;
@@ -26,8 +28,12 @@ class TripController extends AbstractController
     #[Route('/new', name: 'trip_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, CityRepository $repoCity): Response
     {
+        $place = new Place();
+        $formPlace = $this->createForm(PlaceType::class, $place);
+
         $trip = new Trip();
         $formTrip = $this->createForm(TripType::class, $trip);
+
         $formTrip->handleRequest($request);
 
         $listeVille = $repoCity->findAll();
@@ -42,6 +48,7 @@ class TripController extends AbstractController
         return $this->renderForm('trip/new.html.twig', [
             'trip' => $trip,
             'formTrip' => $formTrip,
+            'formPlace' => $formPlace,
             'listeVille' => $listeVille,
         ]);
 

@@ -4,26 +4,35 @@
 {% block meta_title %}Créer une sortie{% endblock %}
 
 {% block body %}
-   {{ form_start(formTrip) }}
+    {{ form_start(formTrip) }}
+        <h2 class="has-text-centered subtitle has-text-weight-medium has-text-black">A propos de l'évènement</h2>
+        {{ form_row(formTrip.name, {}) }}
+        {{ form_row(formTrip.starting_date, {}) }}
+        {{ form_row(formTrip.ending_date, {}) }}
+        {{ form_row(formTrip.duration, {}) }}
+        {{ form_row(formTrip.max_attendees, {}) }}
+        {{ form_row(formTrip.informations, {}) }}
 
-    {{ form_row(formTrip.name, {
-    }) }}
-   {{ form_row(formTrip.starting_date, {
-   }) }}
-   {{ form_row(formTrip.ending_date, {
-   }) }}
-   {{ form_row(formTrip.duration, {
-   }) }}
-   {{ form_row(formTrip.max_attendees, {
-   }) }}
-   {{ form_row(formTrip.informations, {
-   }) }}
-     <h1 class="has-text-centered subtitle has-text-weight-medium has-text-black">Lieu de l'évènement</h1>
+        <h2 class="has-text-centered subtitle has-text-weight-medium has-text-black">Lieu de l'évènement</h2>
 
-    {{ form_row(formTrip.site, {}) }}
-    {#{{ form_row(formTrip.city, {}) }}#}
-    {{ form_row(formTrip.place, {}) }}
-    <a class="button is-black is-fullwidth" href="{{ path('new_place') }}">Ajouter un lieu</a>
+        {{ form_row(formTrip.site, {}) }}
+        {{ form_row(formTrip.city, {}) }}
+        {{ form_row(formTrip.place, {}) }}
+        <a class="button is-black is-fullwidth">Ajouter un lieu</a>
+
+        <div class="has-background-light p-3">
+            {{ form_start(formPlace) }}
+            {{ form_row(formPlace.name, {
+            }) }}
+            {{ form_row(formPlace.street, {
+            }) }}
+            {{ form_row(formPlace.latitude, {
+            }) }}
+            {{ form_row(formPlace.longitude, {
+            }) }}
+            {{ form_row((formPlace.city), {
+            }) }}
+        </div>
 
 
 

@@ -84,18 +84,18 @@ class TripType extends AbstractType
                 'class' => Site::class,
                 'label' => 'Site organisateur',
                 'required' => true,
-                'row_attr' => ['class' => 'field'],
-                'label_attr' => ['class' => 'label'],
+                'row_attr' => ['class' => 'select is-fullwidth'],
+                'label_attr' => ['class' => 'is-hidden'],
                 'attr' => ['class' => 'input'],
             ])
 
-/*            ->add('city', EntityType::class, [
+           ->add('city', EntityType::class, [
                 'class' => City::class,
                 'choice_label' => 'name',
                 'row_attr' => ['class' => 'field'],
                 'label_attr' => ['class' => 'label'],
                 'attr' => ['class' => 'input'],
-            ])*/
+            ])
 
             ->add('place', EntityType::class, [
                 'class' => Place::class,
