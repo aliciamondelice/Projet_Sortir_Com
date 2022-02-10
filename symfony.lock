@@ -51,6 +51,19 @@
             "ref": "ee609429c9ee23e22d6fa5728211768f51ed2818"
         },
         "files": [
+            "config/packages/doctrine_migrations.yaml",
+            "migrations/.gitignore"
+        ]
+    },
+    "doctrine/doctrine-migrations-bundle": {
+        "version": "3.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.1",
+            "ref": "ee609429c9ee23e22d6fa5728211768f51ed2818"
+        },
+        "files": [
             "./config/packages/doctrine_migrations.yaml",
             "./migrations/.gitignore"
         ]
@@ -67,6 +80,9 @@
     "doctrine/lexer": {
         "version": "1.2.2"
     },
+    "doctrine/migrations": {
+        "version": "3.4.1"
+    },
     "doctrine/orm": {
         "version": "2.11.1"
     },
@@ -76,6 +92,11 @@
     "doctrine/sql-formatter": {
         "version": "1.1.2"
     },
+    "friendsofphp/proxy-manager-lts": {
+        "version": "v1.0.5"
+    },
+    "laminas/laminas-code": {
+        "version": "4.5.1"
     "giggsey/libphonenumber-for-php": {
         "version": "8.12.43"
     },
@@ -284,6 +305,9 @@
     },
     "symfony/service-contracts": {
         "version": "v3.0.0"
+    },
+    "symfony/stopwatch": {
+        "version": "v6.0.3"
     },
     "symfony/string": {
         "version": "v6.0.3"

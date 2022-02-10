@@ -161,18 +161,18 @@ return $this->trips;
 
 public function addTrip(Trip $trip): self
 {
-if (!$this->trips->contains($trip)) {
-$this->trips[] = $trip;
-}
+    if (!$this->trips->contains($trip)) {
+        $this->trips[] = $trip;
+    }
 
-return $this;
+    return $this;
 }
 
 public function removeTrip(Trip $trip): self
 {
-$this->trips->removeElement($trip);
+    $this->trips->removeElement($trip);
 
-return $this;
+    return $this;
 }
 
 public function getSite(): ?Site
@@ -301,4 +301,25 @@ return $this;
 }
 
 
+    public function addOrganizedTrip(Trip $organizedTrip): self
+    {
+        if (!$this->organized_trips->contains($organizedTrip)) {
+            $this->organized_trips[] = $organizedTrip;
+            $organizedTrip->setOrganizer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrganizedTrip(Trip $organizedTrip): self
+    {
+        if ($this->organized_trips->removeElement($organizedTrip)) {
+            // set the owning side to null (unless already changed)
+            if ($organizedTrip->getOrganizer() === $this) {
+                $organizedTrip->setOrganizer(null);
+            }
+        }
+
+        return $this;
+    }
 }

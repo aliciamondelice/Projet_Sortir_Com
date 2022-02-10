@@ -25,7 +25,14 @@
                <div class="field">
                    <label for="inputPassword" class="label">Mot de passe</label>
                    <input placeholder="*********" type="password" name="password" id="inputPassword" class=" input form-control" autocomplete="current-password" required>
-               </div>
+
+                       <label class="label mt-3">
+                           <input type="checkbox" name="remember_me" checked>
+                           Se Souvenir de moi
+                       </label>
+
+                   </div>
+                </div>
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
                 <button class="button is-black is-fullwidth" type="submit">Connexion</button>

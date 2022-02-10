@@ -32,7 +32,7 @@ class SiteController extends AbstractController
             $entityManager->persist($site);
             $entityManager->flush();
 
-            return $this->redirectToRoute('place', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('new_place', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('site/new.html.twig', [

@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
- {% block link %}<link href="{{ asset('css/home.css') }}" rel="stylesheet">{% endblock %}
+ {% block link %}
+     <link href="{{ asset('css/home.css') }}" rel="stylesheet">{% endblock %}
 
 {% block meta_title %}Accueil{% endblock %}
 
@@ -62,112 +63,112 @@
 {% endblock %}
 
 {% block body %}
-    <div>
-        <button class="button is-fullwidth mb-6 background-blue has-text-white" type="submit">Créer une sortie</button>
+<div>
+    <a href="{{ path('trip_new') }}" class="button is-fullwidth mb-6 background-blue has-text-white" >Créer une sortie</a>
+</div>
+<div class="columns">
+    <div class="column">
+        <div class="card">
+            <div class="card-content">
+                <p class="title">
+                    Philo
+                </p>
+                <p class="subtitle">
+                    @LiliDelice
+                </p>
+                <p class="content">
+                                  <span class="icon is-small is-left">
+                                    <i class="fas fa-calendar"></i>
+                                </span>
+                    Le 19/07/2018 à 23:45 <br>
+                    <b>Fin des inscriptions :</b> 19/07/2018 à 23:46<br>
+                    <b>Nombre d'inscrits :</b> 6/8<br>
+                    <b>Etat :</b> En cours<br>
+                    <b>Inscription :</b> Non inscrit<br>
+                </p>
+            </div>
+            <footer class="card-footer">
+                <p class="card-footer-item">
+                              <span>
+                                <a href="#">Afficher</a>
+                              </span>
+                </p>
+                <p class="card-footer-item">
+                              <span>
+                                <a href="#">S'inscrire</a>
+                              </span>
+                </p>
+            </footer>
+        </div>
     </div>
-            <div class="columns">
-                <div class="column">
-                    <div class="card">
-                        <div class="card-content">
-                            <p class="title">
-                                Philo
-                            </p>
-                            <p class="subtitle">
-                                @LiliDelice
-                            </p>
-                            <p class="content">
-                                  <span class="icon is-small is-left">
-                                    <i class="fas fa-calendar"></i>
-                                </span>
-                                Le 19/07/2018 à 23:45 <br>
-                                <b>Fin des inscriptions :</b> 19/07/2018 à 23:46<br>
-                                <b>Nombre d'inscrits :</b> 6/8<br>
-                                <b>Etat :</b> En cours<br>
-                                <b>Inscription :</b> Non inscrit<br>
-                            </p>
-                        </div>
-                        <footer class="card-footer">
-                            <p class="card-footer-item">
-                              <span>
-                                <a href="#">Afficher</a>
-                              </span>
-                            </p>
-                            <p class="card-footer-item">
-                              <span>
-                                <a href="#">S'inscrire</a>
-                              </span>
-                            </p>
-                        </footer>
-                    </div>
-                </div>
 
-                    <div class="column">
-                        <div class="card">
-                            <div class="card-content">
-                                <p class="title">
-                                    Tir à l'arc
-                                </p>
-                                <p class="subtitle">
-                                    @LiliDelice
-                                </p>
-                                <p class="content">
+    <div class="column">
+        <div class="card">
+            <div class="card-content">
+                <p class="title">
+                    Tir à l'arc
+                </p>
+                <p class="subtitle">
+                    @LiliDelice
+                </p>
+                <p class="content">
                                   <span class="icon is-small is-left">
                                     <i class="fas fa-calendar"></i>
                                 </span>
-                                    Le 19/07/2018 à 23:45 <br>
-                                    <b>Fin des inscriptions :</b> 19/07/2018 à 23:46<br>
-                                    <b>Nombre d'inscrits :</b> 6/8<br>
-                                    <b>Etat :</b> En cours<br>
-                                    <b>Inscription :</b> Non inscrit<br>
-                                </p>
-                            </div>
-                            <footer class="card-footer">
-                                <p class="card-footer-item">
+                    Le 19/07/2018 à 23:45 <br>
+                    <b>Fin des inscriptions :</b> 19/07/2018 à 23:46<br>
+                    <b>Nombre d'inscrits :</b> 6/8<br>
+                    <b>Etat :</b> En cours<br>
+                    <b>Inscription :</b> Non inscrit<br>
+                </p>
+            </div>
+            <footer class="card-footer">
+                <p class="card-footer-item">
                               <span>
                                 <a href="#">Afficher</a>
                               </span>
-                                </p>
-                                <p class="card-footer-item">
+                </p>
+                <p class="card-footer-item">
                               <span>
                                 <a href="#">S'inscrire</a>
                               </span>
-                                </p>
-                            </footer>
-                        </div>
-                    </div>
-                        <div class="column">
-                            <div class="card">
-                                <div class="card-content">
-                                    <p class="title">
-                                        Maquettage sur XD
-                                    </p>
-                                    <p class="subtitle">
-                                        @LiliDelice
-                                    </p>
-                                    <p class="content">
+                </p>
+            </footer>
+        </div>
+    </div>
+    <div class="column">
+        <div class="card">
+            <div class="card-content">
+                <p class="title">
+                    Maquettage sur XD
+                </p>
+                <p class="subtitle">
+                    @LiliDelice
+                </p>
+                <p class="content">
                                   <span class="icon is-small is-left">
                                     <i class="fas fa-calendar"></i>
                                 </span>
-                                        Le 19/07/2018 à 23:45 <br>
-                                        <b>Fin des inscriptions :</b> 19/07/2018 à 23:46<br>
-                                        <b>Nombre d'inscrits :</b> 6/8<br>
-                                        <b>Etat :</b> En cours<br>
-                                        <b>Inscription :</b> Non inscrit<br>
-                                    </p>
-                                </div>
-                                <footer class="card-footer">
-                                    <p class="card-footer-item">
+                    Le 19/07/2018 à 23:45 <br>
+                    <b>Fin des inscriptions :</b> 19/07/2018 à 23:46<br>
+                    <b>Nombre d'inscrits :</b> 6/8<br>
+                    <b>Etat :</b> En cours<br>
+                    <b>Inscription :</b> Non inscrit<br>
+                </p>
+            </div>
+            <footer class="card-footer">
+                <p class="card-footer-item">
                               <span>
                                 <a href="#">Afficher</a>
                               </span>
-                                    </p>
-                                    <p class="card-footer-item">
+                </p>
+                <p class="card-footer-item">
                               <span>
                                 <a href="#">S'inscrire</a>
                               </span>
-                                    </p>
-                                </footer>
-                            </div>
-             </div>
+                </p>
+            </footer>
+        </div>
+    </div>
 
-{% endblock %}
+    {% endblock %}
