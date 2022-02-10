@@ -22,9 +22,9 @@ class CityController extends AbstractController
         ]);
     }
 
-    #[Route('/new_place', name:'new_place')]
 
-        public function new(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/new_place', name:'new_place')]
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $place = new Place();
         $formPlace = $this->createForm(PlaceType::class, $place);
@@ -44,7 +44,6 @@ class CityController extends AbstractController
     }
 
     #[Route('/new_city', name:'new_city')]
-
     public function newCity(Request $request, EntityManagerInterface $entityManager): Response
     {
         $city = new City();

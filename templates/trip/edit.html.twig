@@ -1,10 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Trip{% endblock %}
+{% block title %}Modifier une sortie{% endblock %}
+{% block meta_title %}Modifier une sortie{% endblock %}
 
 {% block body %}
-    <h1>Edit Trip</h1>
-
     {{ include('trip/_form.html.twig', {'button_label': 'Update'}) }}
 
     <a href="{{ path('trip_index') }}">back to list</a>

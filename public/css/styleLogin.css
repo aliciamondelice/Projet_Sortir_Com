@@ -1,3 +1,14 @@
-*{
-   background: url("../images/background_image.png") fixed;;
+html{
+   min-height: 100%;
+   background: url("../images/background_image.png") no-repeat center center fixed;
+   background-size: cover;
+}
+html, body {
+   height: 100%;
+}
+.container {
+   min-height: 100%;
+}
+.section {
+   max-width: 500px;
 }
