@@ -3,10 +3,10 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block meta_title %}{% endblock %} | Sortir.com</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
         <link href="{{ asset('css/styleBase.css') }}" rel="stylesheet">
+        <link rel="icon" href="{{ asset('images/favicon.ico') }}" />
         {% block link %}{% endblock %}
     </head>
     <body>
@@ -40,6 +40,11 @@
             </div>
         </div>
         {% endblock %}
+        {% if app.user %}
+            <div class="mb-3">
+                You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Se Déconnecter</a>
+            </div>
+        {% endif %}
         <div class="container">
             <div class="section">
                 {% block body %}{% endblock %}

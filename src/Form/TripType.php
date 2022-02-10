@@ -7,6 +7,7 @@ use App\Entity\Place;
 use App\Entity\Site;
 use App\Entity\State;
 use App\Entity\Trip;
+use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -80,30 +81,39 @@ class TripType extends AbstractType
                 'attr' => ['class' => 'textarea'],
             ])
 
-            ->add('site', EntityType::class, [
-                'class' => Site::class,
-                'label' => 'Site organisateur',
-                'required' => true,
-                'row_attr' => ['class' => 'select is-fullwidth'],
-                'label_attr' => ['class' => 'is-hidden'],
-                'attr' => ['class' => 'input'],
-            ])
-
-           ->add('city', EntityType::class, [
-                'class' => City::class,
-                'choice_label' => 'name',
-                'row_attr' => ['class' => 'field'],
-                'label_attr' => ['class' => 'label'],
-                'attr' => ['class' => 'input'],
-            ])
-
+            //->add('city', EntityType::class, [
+             //   'class' => City::class,
+             //   'choice_label' => 'name',
+             //   'row_attr' => ['class' => 'field'],
+             //   'label_attr' => ['class' => 'label'],
+             //   'attr' => ['class' => 'input'],
+            //])
             ->add('place', EntityType::class, [
-                'class' => Place::class,
-                'label' => 'Lieux',
-                'choice_label' => 'name',
-                'row_attr' => ['class' => 'field'],
-                'label_attr' => ['class' => 'label'],
-                'attr' => ['class' => 'input'],
+            'class' => Place::class,
+            'choice_label' => 'name',
+            'row_attr' => ['class' => 'field'],
+            'label_attr' => ['class' => 'label'],
+            'attr' => ['class' => 'input'],
+            ])
+            ->add('state',
+            EntityType::class,
+            ["class"=>State::class,
+            "choice_label" =>"libelle",
+            "expanded"=> true,
+            "label"=>"Etats :"])
+
+            ->add('organizer', EntityType::class, [
+                'class' => User::class,
+                "choice_label"=>"name",
+                "expanded"=> true,
+                "label"=>"Organisateur :"
+            ])
+
+            ->add('site', EntityType::class, [
+                "class"=>Site::class,
+                "choice_label"=>"name",
+                "expanded"=>true,
+                "label"=>"Site :"
             ]);
     }
 
@@ -114,15 +124,7 @@ class TripType extends AbstractType
                 'label_attr' => ['class' => 'label'],
                 'attr' => ['class' => 'input'],
             ]);*/
-
-            //->add('state',
-            //EntityType::class,
-            //["class"=>State::class,
-            //"choice_label" =>"libelle",
-            //"expanded"=> true,
-            //"label"=>"Etats :"])
-            //;
-
+    }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
