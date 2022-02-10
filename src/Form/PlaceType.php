@@ -17,28 +17,28 @@ class PlaceType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'label' => 'Nom',
-                'required' => true,
+                'required' => false,
                 'row_attr' => ['class' => 'field'],
                 'label_attr' => ['class' => 'label'],
                 'attr' => ['class' => 'input'],
             ])
             ->add('street', TextType::class, [
                 'label' => 'Rue',
-                'required' => true,
+                'required' => false,
                 'row_attr' => ['class' => 'field'],
                 'label_attr' => ['class' => 'label'],
                 'attr' => ['class' => 'input'],
             ])
             ->add('latitude', TextType::class, [
                 'label' => 'Latitude',
-                'required' => true,
+                'required' => false,
                 'row_attr' => ['class' => 'field'],
                 'label_attr' => ['class' => 'label'],
                 'attr' => ['class' => 'input'],
             ])
             ->add('longitude', TextType::class, [
                 'label' => 'Longitude',
-                'required' => true,
+                'required' => false,
                 'row_attr' => ['class' => 'field'],
                 'label_attr' => ['class' => 'label'],
                 'attr' => ['class' => 'input'],
@@ -47,8 +47,8 @@ class PlaceType extends AbstractType
                 'class' => City::class,
                 'label' => 'Ville',
                 'required' => true,
-                'row_attr' => ['class' => 'field'],
-                'label_attr' => ['class' => 'label'],
+                'row_attr' => ['class' => 'select is-fullwidth'],
+                'label_attr' => ['class' => 'is-hidden'],
                 'attr' => ['class' => 'input'],
             ])
         ;
