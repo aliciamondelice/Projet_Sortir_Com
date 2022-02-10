@@ -21,14 +21,17 @@ class State
     #[ORM\OneToMany(mappedBy: 'state', targetEntity: Trip::class)]
     private $trips;
 
-    public function __construct()
-    {
-        $this->trips = new ArrayCollection();
-    }
-
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id): void
+    {
+        $this->id = $id;
     }
 
     public function getLibelle(): ?string
@@ -55,7 +58,7 @@ class State
     {
         if (!$this->trips->contains($trip)) {
             $this->trips[] = $trip;
-            $trip->setState($this);
+            $trip->setState($this->setId(1));
         }
 
         return $this;
@@ -71,5 +74,10 @@ class State
         }
 
         return $this;
+    }
+    public function __construct()
+    {
+        $this->trips = new ArrayCollection();
+
     }
 }

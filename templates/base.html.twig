@@ -40,6 +40,11 @@
             </div>
         </div>
         {% endblock %}
+        {% if app.user %}
+            <div class="mb-3">
+                You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Se Déconnecter</a>
+            </div>
+        {% endif %}
         <div class="container">
             <div class="section">
                 {% block body %}{% endblock %}
