@@ -4,38 +4,31 @@
 {% block meta_title %}Créer une sortie{% endblock %}
 
 {% block body %}
-    {{ form_start(formTrip) }}
-    {{ form_row(formTrip.users, {
-        label: 'Organisateur'
-    }) }}
+   {{ form_start(formTrip) }}
+
     {{ form_row(formTrip.name, {
-        label: 'Intitulé'
+
     }) }}
     {{ form_row(formTrip.informations, {
-        label: 'Informations'
     }) }}
     {{ form_row(formTrip.starting_date, {
-        label: 'Date de début'
     }) }}
     {{ form_row(formTrip.ending_date, {
-        label: 'Date de fin'
     }) }}
     {{ form_row(formTrip.duration, {
-        label: 'Durée'
     }) }}
     {{ form_row(formTrip.max_attendees, {
-        label: 'Nombre maximum de participants'
-    }) }}
-    {{ form_row(formTrip.place, {
-        label: 'Lieu'
     }) }}
 
-    {% for city in listeVille %}
-        {{ city.name }}
-    {% endfor %}
+    {{ form_row(formTrip.place, {}) }}
+
+
 
     <a href="{{ path('new_place') }}">Nouveau lieu</a>
-    <button class="button">{{ button_label|default('Proposer') }}</button>
+ <br>
+    <a href="{{ path('new_city') }}">Nouvelle ville</a>
+    <button class="btn">{{ button_label|default('Proposer') }}</button>
+
     {{ form_end(formTrip) }}
 
     <a href="{{ path('trip_index') }}">back to list</a>
