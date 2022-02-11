@@ -1,38 +1,69 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Register{% endblock %}
 {% block stylesheets %}
     <link rel="stylesheet" href=" {{ asset('css/profil.css') }}">
 {% endblock %}
+{% block title %}Mon profil{% endblock %}
+
 
 {% block body %}
-    <div class="block">
-        <h1 class="title is-2"> Créer votre compte</h1>
+
+    <div class="container " >
+
+    <div class ="block" id="image_par_default">
+        <img class="photo_par_default" src="{{ asset('images/img_user.png') }}" alt="photo_user_par_default"></figure>
     </div>
 
-    {{ form_start(registrationForm) }}
-    {{ form_row(registrationForm.pictureFile) }}
+    {{ form_start(registrationForm)}}
+
+     <div class ="block" id ="file_img">
+    {{ form_row(registrationForm.pictureFile)}}
+    </div>
+    <div class ="block">
     {{ form_row(registrationForm.username,{ 'attr': {'class': 'input'} }
     ) }}
+    </div>
+    <div class ="block">
     {{ form_row(registrationForm.name,{ 'attr': {'class': 'input'} }
     )  }}
+    </div>
+    <div class ="block">
     {{ form_row(registrationForm.surname,{ 'attr': {'class': 'input'} }
     )  }}
+    </div>
+    <div class ="block">
     {{ form_row(registrationForm.phone,{ 'attr': {'class': 'input'} }
     )  }}
+    </div>
+    <div class ="block">
     {{ form_row(registrationForm.email,{ 'attr': {'class': 'input'} }
     )  }}
+    </div>
+    <div class ="block">
     {{ form_row(registrationForm.password.first,{ 'attr': {'class': 'input'} }
     )  }}
+    </div>
+    <div class ="block">
     {{ form_row(registrationForm.password.second,{ 'attr': {'class': 'input'} }
     )  }}
+    </div>
+
+    <div class ="block" id="site_options">
+
     {{ form_row(registrationForm.site,{ 'attr': {'class': 'input'} }
+
     )  }}
+    </div>
 
-    <button type="submit" class="button is-fullwidth is-primary">Enregistrer</button>
+    <div class ="block" id ="button_form">
+
+    <button type="submit" class="button is-fullwidth is-primary" id = "button_submit">Enregistrer</button>
     <button type="reset" class="button is-fullwidth is-danger">Annuler</button>
-
+    </div>
 
     {{ form_end(registrationForm) }}
 
+</div>
+
+
 {% endblock %}
+
