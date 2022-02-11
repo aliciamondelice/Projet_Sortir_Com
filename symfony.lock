@@ -51,19 +51,6 @@
             "ref": "ee609429c9ee23e22d6fa5728211768f51ed2818"
         },
         "files": [
-            "config/packages/doctrine_migrations.yaml",
-            "migrations/.gitignore"
-        ]
-    },
-    "doctrine/doctrine-migrations-bundle": {
-        "version": "3.2",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "3.1",
-            "ref": "ee609429c9ee23e22d6fa5728211768f51ed2818"
-        },
-        "files": [
             "./config/packages/doctrine_migrations.yaml",
             "./migrations/.gitignore"
         ]
@@ -95,9 +82,6 @@
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.5"
     },
-    "laminas/laminas-code": {
-        "version": "4.5.1"
-    },
     "giggsey/libphonenumber-for-php": {
         "version": "8.12.43"
     },
@@ -106,6 +90,9 @@
     },
     "jms/metadata": {
         "version": "2.6.1"
+    },
+    "laminas/laminas-code": {
+        "version": "4.5.1"
     },
     "nikic/php-parser": {
         "version": "v4.13.2"
@@ -350,6 +337,20 @@
     },
     "symfony/var-exporter": {
         "version": "v6.0.3"
+    },
+    "symfony/web-profiler-bundle": {
+        "version": "6.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "6bdfa1a95f6b2e677ab985cd1af2eae35d62e0f6"
+        },
+        "files": [
+            "./config/packages/dev/web_profiler.yaml",
+            "./config/packages/test/web_profiler.yaml",
+            "./config/routes/dev/web_profiler.yaml"
+        ]
     },
     "symfony/yaml": {
         "version": "v6.0.3"
