@@ -33,7 +33,12 @@
         <div class = "block" id = "link_home">
         <a href="{{ path("home") }}" class="button is-small is-fullwidth is-primary">Retour</a>
         </div>
+        <div class = "block" id = "link_home">
+            <a href= "/profil/{{ user.id }}/edit" class="button is-small is-fullwidth is-primary">Modifier le profil</a>
+        </div>
     </div>
+
+
 
 
 {% endblock %}
