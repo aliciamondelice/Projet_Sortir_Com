@@ -3,8 +3,11 @@
 namespace App\Form;
 
 use App\Entity\City;
+use App\Entity\Place;
+use App\Entity\Site;
 use App\Entity\State;
 use App\Entity\Trip;
+use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -24,9 +27,17 @@ class TripType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-
+            /*->add('organizer', EntityType::class, [
+                'class' => User::class,
+                "choice_label" => "name",
+                "expanded" => true,
+                "label" => "Organisateur :",
+                'row_attr' => ['class' => 'field'],
+                'label_attr' => ['class' => 'label'],
+                'attr' => ['class' => 'input'],
+            ])*/
             ->add('name', TextType::class, [
-                'label' => 'Intitulé',
+                'label' => 'Nom de la sortie',
                 'required' => true,
                 'row_attr' => ['class' => 'field'],
                 'label_attr' => ['class' => 'label'],
@@ -37,38 +48,27 @@ class TripType extends AbstractType
                     ]),
                 ],
             ])
-
-            ->add('informations', TextareaType::class, [
-                'label' => 'Information',
+            ->add('starting_date', DateTimeType::class, [
+                'label' => 'Date et heure de la sortie',
                 'required' => true,
                 'row_attr' => ['class' => 'field'],
                 'label_attr' => ['class' => 'label'],
-                'attr' => ['class' => 'textarea'],
+                'attr' => ['class' => 'form-date'],
             ])
-
-            ->add('starting_date', DateTimeType::class,[
-                'label' => 'Date de début',
+            ->add('ending_date', DateType::class, [
+                'label' => 'Date limite d\'inscription',
                 'required' => true,
                 'row_attr' => ['class' => 'field'],
                 'label_attr' => ['class' => 'label'],
-                'attr' => ['class' => 'input'],
+                'attr' => ['class' => 'form-date'],
             ])
-            ->add('ending_date', DateType::class,[
-                'label' => 'Date de début',
-                'required' => true,
-                'row_attr' => ['class' => 'field'],
-                'label_attr' => ['class' => 'label'],
-                'attr' => ['class' => 'input'],
-            ])
-
             ->add('duration', NumberType::class, [
-                'label' => 'Durée',
+                'label' => 'Durée (en minutes)',
                 'required' => true,
                 'row_attr' => ['class' => 'field'],
                 'label_attr' => ['class' => 'label'],
                 'attr' => ['class' => 'input'],
-                ])
-
+            ])
             ->add('max_attendees', NumberType::class, [
                 'label' => 'Nombre maximum de places',
                 'required' => true,
@@ -76,24 +76,41 @@ class TripType extends AbstractType
                 'label_attr' => ['class' => 'label'],
                 'attr' => ['class' => 'input'],
             ])
-
-
-            ->add('place', EntityType::class, [
-                'class' => City::class,
-                'choice_label' => 'name',
+            ->add('informations', TextareaType::class, [
+                'label' => 'Description',
+                'required' => true,
                 'row_attr' => ['class' => 'field'],
                 'label_attr' => ['class' => 'label'],
+                'attr' => ['class' => 'textarea'],
+            ])
+            ->add('place', EntityType::class, [
+                'class' => Place::class,
+                'choice_label' => 'city',
+            ])
+            ->add('place', EntityType::class, [
+                'class' => Place::class,
+                'required' => false,
+                'label' => 'Lieu',
+                'choice_label' => 'name',
+                'row_attr' => ['class' => 'select is-fullwidth'],
+                'label_attr' => ['class' => 'is-hidden'],
                 'attr' => ['class' => 'input'],
             ]);
 
-            //->add('state',
-            //EntityType::class,
-            //["class"=>State::class,
-            //"choice_label" =>"libelle",
-            //"expanded"=> true,
-            //"label"=>"Etats :"])
-            //;
+            /*->add('state', EntityType::class, [
+                "class" => State::class,
+                "choice_label" => "libelle",
+                "expanded" => true,
+                "label" => "Etats :"]);*/
+
+            /*->add('site', EntityType::class, [
+                "class" => Site::class,
+                "choice_label" => "name",
+                "expanded" => true,
+                "label" => "Site :"
+            ]);*/
     }
+
 
     public function configureOptions(OptionsResolver $resolver): void
     {
