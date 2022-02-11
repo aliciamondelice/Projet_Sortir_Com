@@ -12,9 +12,17 @@
     <div class="block" id = "user_name">
     <h2 class="title is-3"> {{ user.getUsername()}}</h2>
     </div>
+
+            {%  if user.getPictureLink() is not null %}
         <div class ="block" id="user_img">
         <img class="img_user" src="{{ asset('images/users/'~user.getPictureLink()) }}" alt="photo_user" />
         </div>
+            {% endif %}
+        {%  if user.getPictureLink() is null %}
+            <div class ="block" id="img_default">
+                <img class="photo_default" src="{{ asset('images/img_user.png') }}" alt="photo_user_par_default"></figure>
+            </div>
+        {% endif %}
         <div class ="box">
        <p><span class = "title_info">Prénom : </span>{{ user.getName()}}</p>
     <p><span class = "title_info">Nom : </span>{{ user.getSurname()}}</p>
