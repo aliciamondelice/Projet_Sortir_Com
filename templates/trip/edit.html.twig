@@ -4,9 +4,39 @@
 {% block meta_title %}Modifier une sortie{% endblock %}
 
 {% block body %}
-    {{ include('trip/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ form_start(formTrip) }}
+    {{ form_row(formTrip.name, {
+        label: 'Intitulé'
+    }) }}
+    {{ form_row(formTrip.starting_date, {}) }}
+    {{ form_row(formTrip.ending_date, {}) }}
+    {{ form_row(formTrip.duration, {}) }}
+    {{ form_row(formTrip.max_attendees, {}) }}
+    {{ form_row(formTrip.informations, {}) }}
+    {{ form_row(formTrip.place, {}) }}
 
-    <a href="{{ path('trip_index') }}">back to list</a>
+    <br>
+    <br>
+    <a class="button is-black is-fullwidth mb-4" id="add_place" onclick="open_place()">Ajouter un lieu</a>
+    <script>
+        function open_place() {
+            if(document.querySelector('#new_place').classList.contains('is-hidden'))
+                document.querySelector('#new_place').classList.remove("is-hidden")
+            else
+                document.querySelector('#new_place').classList.add("is-hidden")
+        }
+
+    </script>
+
+    <div class="has-background-light p-3 mb-6 is-hidden" id="new_place">
+        {{ include ('place/new.html.twig')}}
+
+    </div>
+    <button class="button is-primary is-fullwidth mb-2">{{ button_label|default('Enregistrer') }}</button>
+    {{ form_end(formTrip) }}
+
 
     {{ include('trip/_delete_form.html.twig') }}
+
+    <a class="button is-warning is-fullwidth" href="{{ path('trip_index') }}">Retour à la liste</a>
 {% endblock %}

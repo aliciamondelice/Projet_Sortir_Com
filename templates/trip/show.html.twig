@@ -22,11 +22,11 @@
             </tr>
             <tr>
                 <th>Date de l'évenement</th>
-                <td>{{ trip.startingDate ? trip.startingDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ trip.startingDate ? trip.startingDate|date('d-m-Y H:i') : '' }}</td>
             </tr>
             <tr>
                 <th>Fin des inscription</th>
-                <td>{{ trip.endingDate ? trip.endingDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ trip.endingDate ? trip.endingDate|date('d-m-Y') : '' }}</td>
             </tr>
             <tr>
                 <th>Durée</th>
@@ -45,5 +45,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('home') }}" class="button is-primary is-fullwidth mb-3">Retour</a>
+    <a href="{{ path('trip_index') }}" class="button is-primary is-fullwidth mb-3">Retour</a>
 {% endblock %}
