@@ -63,14 +63,24 @@ class RegistrationFormType extends AbstractType
                 'placeholder' => 'Site',
                 'choice_label' => "name",
 
+
                 "label"=>FALSE
 
             ])
+
+       // array('required' => false)
             ->add('pictureFile',
-                VichImageType::class, array('required' => false,'label'=>false),
+                VichImageType::class,
                 [
                     'image_uri' => true,
-                    "label" => "Téléverser une image : "
+                    'required'=>false,
+                    'label'=>FALSE,
+
+
+
+
+
+
                 ]
             );
 

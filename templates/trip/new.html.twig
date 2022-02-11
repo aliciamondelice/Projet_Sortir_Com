@@ -4,32 +4,65 @@
 {% block meta_title %}Créer une sortie{% endblock %}
 
 {% block body %}
-   {{ form_start(formTrip) }}
+    {{ form_start(formTrip) }}
+        <h2 class="has-text-centered title has-text-weight-medium has-text-black">A propos de l'évènement</h2>
 
-    {{ form_row(formTrip.name, {
+        <div class="field control">
+            {% if app.user %}
+                <label class="label">Organisateur</label>
+                <input class="input" type="text" value="{{ app.user.username }}" disabled>
+            {% endif %}
+        </div>
 
-    }) }}
-    {{ form_row(formTrip.informations, {
-    }) }}
-    {{ form_row(formTrip.starting_date, {
-    }) }}
-    {{ form_row(formTrip.ending_date, {
-    }) }}
-    {{ form_row(formTrip.duration, {
-    }) }}
-    {{ form_row(formTrip.max_attendees, {
-    }) }}
+        {{ form_row(formTrip.name, {}) }}
+        {{ form_row(formTrip.starting_date, {}) }}
+        {{ form_row(formTrip.ending_date, {}) }}
+        {{ form_row(formTrip.duration, {}) }}
+        {{ form_row(formTrip.max_attendees, {}) }}
+        {{ form_row(formTrip.informations, {}) }}
 
-    {{ form_row(formTrip.place, {}) }}
+        <h2 class="has-text-centered title has-text-weight-medium has-text-black mt-6">Lieu de l'évènement</h2>
+
+        <div class="field control">
+            {% if app.user %}
+                <label class="label">Site organisateur</label>
+                <input class="input" type="text" value="{{ app.user.site }}" disabled>
+            {% endif %}
+        </div>
+        <div class="field">
+            <label class="label">Ville</label>
+            {{ form_row((formPlace.city), {}) }}
+        </div>
+
+        <div class="field">
+            <label class="label">Lieu</label>
+            {{ form_row(formTrip.place, {}) }}
+        </div>
+
+        <a class="button is-black is-fullwidth mb-4" id="add_place" onclick="open_place()">Ajouter un lieu</a>
+    <script>
+        function open_place() {
+            if(document.querySelector('#new_place').classList.contains('is-hidden'))
+                document.querySelector('#new_place').classList.remove("is-hidden")
+            else
+                document.querySelector('#new_place').classList.add("is-hidden")
+        }
+    </script>
+
+        <div class="has-background-light p-3 mb-6 is-hidden" id="new_place">
+            {{ form_row(formPlace.name, {}) }}
+            {{ form_row(formPlace.street, {}) }}
+            {{ form_row(formPlace.latitude, {}) }}
+            {{ form_row(formPlace.longitude, {}) }}
+        </div>
 
 
 
-    <a href="{{ path('new_place') }}">Nouveau lieu</a>
- <br>
-    <a href="{{ path('new_city') }}">Nouvelle ville</a>
-    <button class="btn">{{ button_label|default('Proposer') }}</button>
-
+    {#<a href="{{ path('new_place') }}">Nouveau lieu</a><br>#}
+    {#<a href="{{ path('new_city') }}">Nouvelle ville</a>#}
+    <button type="submit" class="button color-text-green is-fullwidth has-text-white mb-2">{{ button_label|default('Enregistrer') }}</button>
+    <!--<button class="button is-success is-fullwidth mb-2">{{ button_label|default('Publier la sortie') }}</button>-->
+    <a class="button is-danger is-fullwidth" href="{{ path('home') }}">Annuler</a>
     {{ form_end(formTrip) }}
 
-    <a href="{{ path('trip_index') }}">back to list</a>
 {% endblock %}

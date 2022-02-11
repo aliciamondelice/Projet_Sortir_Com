@@ -4,29 +4,24 @@
 {% block meta_title %}Créer un lieu{% endblock %}
 
 {% block body %}
-    <!-- Contenu de la page à développer ici (Ce qu'il y a après le titre de la page en bleu) -->
-    
-    {{ form_start(formPlace) }}
+
+    <div class="has-background-light p-3">
+        {{ form_start(formPlace) }}
         {{ form_row(formPlace.name, {
-            label: 'Nom'
         }) }}
         {{ form_row(formPlace.street, {
-            label: 'Rue'
         }) }}
         {{ form_row(formPlace.latitude, {
-            label: 'Latitude'
         }) }}
         {{ form_row(formPlace.longitude, {
-            label: 'Longitude'
         }) }}
         {{ form_row((formPlace.city), {
-            label: 'Ville'
         }) }}
-
+    </div>
         <button type="submit" class="button is-primary is-fullwidth mb-3">{{ button_label|default('Enregistrer') }}</button>
         <a class="button is-danger is-fullwidth" href="{{ path("city") }}">Annuler</a>
     {{ form_end(formPlace) }}
 
-    <a href="{{ path('new_city') }}">Nouvelle ville</a>
+    {#<a href="{{ path('new_city') }}">Nouvelle ville</a>#}
     {# <a href="https://www.google.com/maps/dir/?api=1&destination={{  }}+{{  }}" target="_blank">M'y rendre</a> #}
 {% endblock %}
