@@ -109,20 +109,55 @@ class TripController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'trip_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Trip $trip, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Trip $trip, EntityManagerInterface $entityManager, CityRepository $repoCity, CityRepository $cityRepository,  StateRepository $stateRepository): Response
     {
         $form = $this->createForm(TripType::class, $trip);
         $form->handleRequest($request);
+        $place = new Place();
+        $formPlace = $this->createForm(PlaceType::class, $place);
+
+
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            $state = $stateRepository->find(1);
+            $trip->setState($state);
 
+
+
+            /* Si le champ pour séléctionner un lieu est vide, on créé un nouveau lieu */
+            if(empty($request->request->all('trip')['place'])) {
+                /* On créé un objet de type Place */
+                $lieu = new Place();
+                /* On définit toutes les valeurs de Place */
+                $lieu->setName($request->request->all('place')['name']);
+                $lieu->setStreet($request->request->all('place')['street']);
+
+                /* On récupère City (la ville) pour la relation ManyToOne de Place */
+
+                /* On met City dans Place */
+
+
+                /* On créé une nouvelle entrée dans la BDD */
+                $entityManager->persist($lieu);
+                $entityManager->flush();
+
+                /* On donne la nouvelle entrée à Trip */
+                $trip->setPlace($lieu);
+            }
+                $entityManager->persist($trip);
+                $entityManager->flush();
             return $this->redirectToRoute('trip_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('trip/edit.html.twig', [
             'trip' => $trip,
-            'form' => $form,
+            'formTrip' => $form,
+            'formPlace' => $formPlace,
+
+
+
+
+
         ]);
     }
 
