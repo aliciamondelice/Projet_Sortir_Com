@@ -38,6 +38,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $roles = [];
 
     #[ORM\Column(type: 'string')]
+
+    #[Assert\Length(min: 8, minMessage: "Le mot de passe doit avoir 8 caractères au minimum.")]
     private $password;
 
     #[ORM\ManyToMany(targetEntity: Trip::class, inversedBy: 'users')]
@@ -51,16 +53,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $organized_trips;
 
     #[ORM\Column(type: 'string', length: 50)]
+   /* #[Assert\Regex(pattern: "/(^([0-9a-zA-Z_]){3,20}$)/", message: "Le pseudo doit avoir que des lettres et des chiffres avec 3 caractères au minimum et 20 au maximum.")]*/
     private $username;
 
     #[ORM\Column(type: 'string', length: 50)]
+    /*#[Assert\Regex(pattern: "/(^[a-zA-Z][a-zA-Z\s]{3,20}[a-zA-Z]$)/", message: "Le prénom ne doit pas avoir des chiffres. Il contient 3 lettre au minimum et 20 au maximum.")]*/
     private $name;
 
     #[ORM\Column(type: 'string', length: 50)]
+    /*#[Assert\Regex(pattern: "/(^[a-zA-Z][a-zA-Z\s]{3,20}[a-zA-Z]$)/", message: "Le nom ne doit pas avoir des chiffres. Il contient 3 lettres au minimum et 20 au maximum.")]*/
+    #[Assert\Length(min: 3, minMessage: "Le nom doit avoir 3 lettres au minimun.")]
     private $surname;
 
 
-    #[Assert\Regex(pattern: "/^(0)[1-9]([-. ]?[0-9]{2} ){3}([-. ]?[0-9]{2})$/", message: "Veuillez rentrer un numéro de téléphone qui respecte cet format SVP : 0X XX XX XX XX")]
+    /*#[Assert\Regex(pattern: "/^(0)[1-9]([-. ]?[0-9]{2} ){3}([-. ]?[0-9]{2})$/", message: "Veuillez rentrer un numéro de téléphone qui respecte ce format SVP : 0X XX XX XX XX.")]*/
     #[ORM\Column(type: 'string', length: 15)]
     private $phone;
 

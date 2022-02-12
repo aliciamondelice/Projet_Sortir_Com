@@ -9,8 +9,8 @@
 
     <div class="container " >
 
-    <div class ="block" id="image_par_default">
-        <img class="photo_par_default" src="{{ asset('images/img_user.png') }}" alt="photo_user_par_default"></figure>
+    <div class ="block" id="img_default">
+        <img class="photo_default" src="{{ asset('images/img_user.png') }}" alt="photo_user_par_default"></figure>
     </div>
 
     {{ form_start(registrationForm)}}
@@ -19,46 +19,38 @@
     {{ form_row(registrationForm.pictureFile)}}
     </div>
     <div class ="block">
-    {{ form_row(registrationForm.username,{ 'attr': {'class': 'input'} }
-    ) }}
+    {{ form_row(registrationForm.username) }}
     </div>
     <div class ="block">
-    {{ form_row(registrationForm.name,{ 'attr': {'class': 'input'} }
-    )  }}
+    {{ form_row(registrationForm.name)  }}
     </div>
     <div class ="block">
-    {{ form_row(registrationForm.surname,{ 'attr': {'class': 'input'} }
-    )  }}
+    {{ form_row(registrationForm.surname)  }}
     </div>
     <div class ="block">
-    {{ form_row(registrationForm.phone,{ 'attr': {'class': 'input'} }
-    )  }}
+    {{ form_row(registrationForm.phone)  }}
     </div>
     <div class ="block">
-    {{ form_row(registrationForm.email,{ 'attr': {'class': 'input'} }
-    )  }}
+    {{ form_row(registrationForm.email)  }}
     </div>
     <div class ="block">
-    {{ form_row(registrationForm.password.first,{ 'attr': {'class': 'input'} }
-    )  }}
+    {{ form_row(registrationForm.password.first)  }}
     </div>
     <div class ="block">
-    {{ form_row(registrationForm.password.second,{ 'attr': {'class': 'input'} }
-    )  }}
+    {{ form_row(registrationForm.password.second)  }}
     </div>
 
     <div class ="block" id="site_options">
 
-    {{ form_row(registrationForm.site,{ 'attr': {'class': 'input'} }
-
-    )  }}
+    {{ form_row(registrationForm.site)  }}
     </div>
 
     <div class ="block" id ="button_form">
 
-    <button type="submit" class="button is-fullwidth is-primary" id = "button_submit">Enregistrer</button>
-    <button type="reset" class="button is-fullwidth is-danger">Annuler</button>
+    <button type="submit" class="button is-small is-fullwidth is-primary" id = "button_submit">Enregistrer</button>
+    <button type="reset" class="button is-small is-fullwidth is-danger">Annuler</button>
     </div>
+
 
     {{ form_end(registrationForm) }}
 

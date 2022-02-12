@@ -18,7 +18,7 @@ class Trip
     #[ORM\Column(type: 'string', length: 50)]
     private $name;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'text')]
     private $informations;
 
     #[ORM\Column(type: 'datetime')]
@@ -51,6 +51,9 @@ class Trip
     #[ORM\ManyToOne(targetEntity: Site::class, inversedBy: 'trips')]
     #[ORM\JoinColumn(nullable: false)]
     private $site;
+
+    #[ORM\Column(type: 'text', nullable: true)]
+    private $reason_cancel;
 
     public function __construct()
     {
@@ -206,6 +209,17 @@ class Trip
     {
         $this->site = $site;
 
+        return $this;
+    }
+
+    public function getReasonCancel(): ?string
+    {
+        return $this->reason_cancel;
+    }
+
+    public function setReasonCancel(?string $reason_cancel): self
+    {
+        $this->reason_cancel = $reason_cancel;
         return $this;
     }
 }

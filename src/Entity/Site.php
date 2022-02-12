@@ -106,6 +106,7 @@ class Site
 
         return $this;
     }
+
     // permet d'appeler le nom du site en fonction de l'utilisateur
     function __toString()
     {
