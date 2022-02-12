@@ -1,18 +1,18 @@
 .container{
     margin-left: auto;
     margin-right: auto;
-    width: 70%;
+    width: 60%;
 }
 #file_img{
     text-align: center;
 }
-#image_par_default{
+#img_default{
     text-align: center;
 }
-img.photo_par_default{
+img.photo_default{
     border-radius: 20px;
-    height: 200px;
-    width: 200px;
+    height: 150px;
+    width: 150px;
 }
 #site_options{
     margin-bottom: 12%;

@@ -116,9 +116,12 @@ class TripController extends AbstractController
     {
         $form = $this->createForm(TripType::class, $trip);
         $form->handleRequest($request);
+        $place = new Place();
+        $formPlace = $this->createForm(PlaceType::class, $place);
+
+
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $state = $form->get('saveAndAdd')->isClicked()
                 ? $stateRepository->find(2)
                 : $stateRepository->find(1);
