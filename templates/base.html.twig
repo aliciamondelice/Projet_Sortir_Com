@@ -9,6 +9,7 @@
         <link rel="icon" href="{{ asset('images/favicon.ico') }}" />
         {% block link %}{% endblock %}
         {% block stylesheets %}{% endblock %}
+        {% block script %}{% endblock %}
     </head>
     <body>
         <header>
@@ -28,9 +29,7 @@
                 <div id="navbarBasicExample" class="navbar-menu">
                     <div class="navbar-end">
                         <a class="navbar-item color-text-blue has-text-weight-medium" href="{{ path('home') }}">Accueil</a>
-                        {% if app.user %}
-                            <a class="navbar-item color-text-blue has-text-weight-medium" href="{{ path('profil', {'id' : app.user.id}) }}">Mon profil</a>
-                        {% endif %}
+                        <a class="navbar-item color-text-blue has-text-weight-medium" href="{{ path('profil', {'id' : app.user.id}) }}">Mon profil</a>
                         <a class="navbar-item color-text-blue has-text-weight-medium" href="{{ path('app_logout') }}">Se déconnecter</a>
                     </div>
                 </div>
@@ -39,11 +38,9 @@
         {% block header %}
         <div class="container">
             <div class="section pb-0">
-                {% if app.user %}
-                    <div class="mb-2">
-                        <p class="has-text-centered">Bonjour, {{ app.user.username }}</p>
-                    </div>
-                {% endif %}
+                <div class="mb-2">
+                    <p class="has-text-centered">Bonjour, {{ app.user.username }}</p>
+                </div>
                 <h1 class="title  is-1 has-text-centered has-text-weight-bold color-text-blue">{% block title %}{% endblock %}</h1>
             </div>
         </div>

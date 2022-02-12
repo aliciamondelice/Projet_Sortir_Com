@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Place;
 use App\Entity\State;
 use App\Entity\Trip;
+use App\Entity\User;
 use App\Form\PlaceType;
 use App\Form\TripType;
 use App\Repository\CityRepository;
@@ -51,7 +52,9 @@ class TripController extends AbstractController
 
         if ($formTrip->isSubmitted() && $formTrip->isValid()) {
 
-            $state = $stateRepository->find(1);
+            $state = $formTrip->get('saveAndAdd')->isClicked()
+                ? $stateRepository->find(2)
+                : $stateRepository->find(1);
             $trip->setState($state);
 
 
@@ -109,7 +112,7 @@ class TripController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'trip_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Trip $trip, EntityManagerInterface $entityManager, CityRepository $repoCity, CityRepository $cityRepository,  StateRepository $stateRepository): Response
+    public function edit(Request $request, Trip $trip, EntityManagerInterface $entityManager, CityRepository $cityRepository, StateRepository $stateRepository): Response
     {
         $form = $this->createForm(TripType::class, $trip);
         $form->handleRequest($request);
@@ -119,49 +122,68 @@ class TripController extends AbstractController
 
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $state = $stateRepository->find(1);
+            $state = $form->get('saveAndAdd')->isClicked()
+                ? $stateRepository->find(2)
+                : $stateRepository->find(1);
             $trip->setState($state);
 
-
-
-            /* Si le champ pour séléctionner un lieu est vide, on créé un nouveau lieu */
-            if(empty($request->request->all('trip')['place'])) {
-                /* On créé un objet de type Place */
-                $lieu = new Place();
-                /* On définit toutes les valeurs de Place */
-                $lieu->setName($request->request->all('place')['name']);
-                $lieu->setStreet($request->request->all('place')['street']);
-
-                /* On récupère City (la ville) pour la relation ManyToOne de Place */
-
-                /* On met City dans Place */
-
-
-                /* On créé une nouvelle entrée dans la BDD */
-                $entityManager->persist($lieu);
-                $entityManager->flush();
-
-                /* On donne la nouvelle entrée à Trip */
-                $trip->setPlace($lieu);
-            }
-                $entityManager->persist($trip);
-                $entityManager->flush();
-            return $this->redirectToRoute('trip_index', [], Response::HTTP_SEE_OTHER);
+            $entityManager->persist($trip);
+            $entityManager->flush();
+            return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('trip/edit.html.twig', [
             'trip' => $trip,
-            'formTrip' => $form,
-            'formPlace' => $formPlace,
-
-
-
-
-
+            'formTrip' => $form
         ]);
     }
 
     #[Route('/{id}', name: 'trip_delete', methods: ['POST'])]
+    public function delete(Request $request, Trip $trip, EntityManagerInterface $entityManager, StateRepository $stateRepository): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$trip->getId(), $request->request->get('_token'))) {
+
+            $trip->setReasonCancel($request->request->get('why'));
+            $state = $stateRepository->find(5);
+            $trip->setState($state);
+
+            $entityManager->persist($trip);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
+    }
+    #[Route('/register/{id}', name: 'register_user_trip', methods: ['POST'])]
+    public function registerUserTrip(Request $request, Trip $trip, EntityManagerInterface $entityManager, UserRepository $userRepository): Response
+    {
+        /*J'instancie l'utilsateur dont l'id est celui de l'utilsateur connecté*/
+        $user = $userRepository->find($this->security->getUser()->getId());
+
+        /*Je l'ajoute dans mon tableau users avec la fonction addUser*/
+        $trip->addUser($user);
+
+        $entityManager->persist($trip);
+        $entityManager->flush();
+
+        return $this->redirectToRoute( 'trip_show', ["id"=>$trip->getId()], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/unsubscribe/{id}', name: 'unsubscribe_user_trip', methods: ['POST'])]
+    public function unsubscribeUserTrip(Request $request, Trip $trip, EntityManagerInterface $entityManager, UserRepository $userRepository): Response
+    {
+        /*J'instancie l'utilsateur dont l'id est celui de l'utilsateur connecté*/
+        $user = $userRepository->find($this->security->getUser()->getId());
+
+        /*Je l'ajoute dans mon tableau users avec la fonction addUser*/
+        $trip->removeUser($user);
+
+        $entityManager->persist($trip);
+        $entityManager->flush();
+        return $this->redirectToRoute('trip_show', ["id"=>$trip->getId()], Response::HTTP_SEE_OTHER);
+
+    }
+
+    /*#[Route('/{id}', name: 'trip_delete', methods: ['POST'])]
     public function delete(Request $request, Trip $trip, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$trip->getId(), $request->request->get('_token'))) {
@@ -170,5 +192,5 @@ class TripController extends AbstractController
         }
 
         return $this->redirectToRoute('trip_index', [], Response::HTTP_SEE_OTHER);
-    }
+    }*/
 }

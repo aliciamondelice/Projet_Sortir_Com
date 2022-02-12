@@ -8,51 +8,53 @@
     <div class="background-image" id="header-home">
         <div class="container is-flex is-justify-content-center is-align-items-center">
             <div class="section is-flex-grow-1">
-                <div class="columns">
-                    <div class="column">
-                        <input class="input mb-2" type="text" placeholder="Rechercher...">
-                        <div class="control has-icons-left mb-2">
-                            <input class="input" type="text" placeholder="Date début">
-                            <span class="icon is-small is-left">
-                                <i class="fas fa-calendar"></i>
-                            </span>
+                <form id="search" onsubmit="launch_search(); return false;">
+                    <div class="columns">
+                        <div class="column">
+                            <input class="input mb-2" type="text" placeholder="Rechercher...">
+                            <div class="control has-icons-left mb-2">
+                                <input class="input" type="text" placeholder="Date début">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-calendar"></i>
+                                </span>
+                            </div>
+                            <div class="control has-icons-left mb-2">
+                                <input class="input" type="text" placeholder="Date fin">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-calendar"></i>
+                                </span>
+                            </div>
+                            <button class="button is-black is-fullwidth" type="submit">Rechercher</button>
                         </div>
-                        <div class="control has-icons-left mb-2">
-                            <input class="input" type="text" placeholder="Date fin">
-                            <span class="icon is-small is-left">
-                                <i class="fas fa-calendar"></i>
-                            </span>
+                        <div class="column">
+                            <div class="select is-fullwidth mb-2">
+                                <select>
+                                    <option>Site</option>
+                                </select>
+                            </div>
+
+                            <label class="checkbox has-text-white mb-2 is-block">
+                                <input id="organizer" type="checkbox" value="{{ app.user.id }}">
+                                Sorties dont je suis l'organisateur/trice
+                            </label>
+
+                            <label class="checkbox has-text-white mb-2 is-block">
+                                <input type="checkbox">
+                                Sorties auxquelles je suis inscrit/e
+                            </label>
+
+                            <label class="checkbox has-text-white mb-2 is-block">
+                                <input type="checkbox">
+                                Sorties auxquelles je ne suis pas inscrit/e
+                            </label>
+
+                            <label class="checkbox has-text-white is-block">
+                                <input type="checkbox">
+                                Sorties passées
+                            </label>
                         </div>
-                        <button class="button is-black is-fullwidth" type="submit">Rechercher</button>
                     </div>
-                    <div class="column">
-                        <div class="select is-fullwidth mb-2">
-                            <select>
-                                <option>Site</option>
-                            </select>
-                        </div>
-
-                        <label class="checkbox has-text-white mb-2 is-block">
-                            <input type="checkbox">
-                            Sorties dont je suis l'organisateur/trice
-                        </label>
-
-                        <label class="checkbox has-text-white mb-2 is-block">
-                            <input type="checkbox">
-                            Sorties auxquelles je suis inscrit/e
-                        </label>
-
-                        <label class="checkbox has-text-white mb-2 is-block">
-                            <input type="checkbox">
-                            Sorties auxquelles je ne suis pas inscrit/e
-                        </label>
-
-                        <label class="checkbox has-text-white is-block">
-                            <input type="checkbox">
-                            Sorties passées
-                        </label>
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
@@ -60,117 +62,91 @@
 
 {% block body %}
 
-{% if app.user %}
-    <div class="mb-2">
-        <p class="has-text-centered">Bonjour, {{ app.user.username }}</p>
+    {% if app.user %}
+        <div class="mb-2">
+            <p class="has-text-centered">Bonjour, {{ app.user.username }}</p>
+        </div>
+    {% endif %}
+    <div>
+        <a href="{{ path('trip_new') }}" class="button is-fullwidth mb-6 background-blue has-text-white">Créer une
+            sortie</a>
     </div>
-{% endif %}
-<div>
-    <a href="{{ path('trip_new') }}" class="button is-fullwidth mb-6 background-blue has-text-white" >Créer une sortie</a>
-</div>
-<div class="columns">
-    <div class="column">
-        <div class="card">
-            <div class="card-content">
-                <p class="title">
-                    Philo
-                </p>
-                <p class="subtitle">
-                    @LiliDelice
-                </p>
-                <p class="content">
+    <div class="columns is-flex-wrap-wrap">
+        {% for trip in trips %}
+            <div class="column is-4">
+                <div class="card" data-organizer="1">
+                    <div class="card-content">
+                        <p class="title">
+                            {{ trip.name }}
+                        </p>
+                        <p class="subtitle">
+                            <a href="{{ path('profil', {id : trip.organizer.id}) }}">
+                                @{{ trip.organizer.username }}
+                            </a>
+                        </p>
+                        <p class="content">
                                   <span class="icon is-small is-left">
                                     <i class="fas fa-calendar"></i>
                                 </span>
-                    Le 19/07/2018 à 23:45 <br>
-                    <b>Fin des inscriptions :</b> 19/07/2018 à 23:46<br>
-                    <b>Nombre d'inscrits :</b> 6/8<br>
-                    <b>Etat :</b> En cours<br>
-                    <b>Inscription :</b> Non inscrit<br>
-                </p>
+                            {{ trip.startingDate|date('Y-m-d H:i:s') }}<br>
+                            <b>Fin des inscriptions :</b> {{ trip.endingDate|date('Y-m-d H:i:s') }}<br>
+                            <b>Nombre d'inscrits :</b> {{ trip.users|length }}/{{ trip.MaxAttendees }}<br>
+                            {% if trip.state.id == 5 %}
+                                <span class="has-text-danger"><b>Etat :</b> {{ trip.state.libelle }}</span><br>
+                            {% else %}
+                                <b>Etat :</b> {{ trip.state.libelle }}<br>
+                            {% endif %}
+                            <b>Inscription :</b> Non inscrit<br>
+                        </p>
+                    </div>
+                    <footer class="card-footer">
+                        <p class="card-footer-item">
+                            <span>
+                                <a href="{{ path('trip_show', {id : trip.id}) }}">Afficher</a>
+                            </span>
+                        </p>
+                        {% if trip.state.id != 5 %}
+                            {# Si l'id de l'utilisateur est dans la liste des utilisateurs inscrits #}
+                            {% if trip in app.user.trips%}
+                                {{ include('trip/_unsubscribe_user_form.html.twig')  }}
+                            {% else %}
+                                {# Si l'id de l'utilisateur n'est pas orgnisateur#}
+                                {% if app.user.id != trip.organizer.id %}
+                                    {{ include('trip/_register_user_form.html.twig')  }}
+                                {% endif %}
+                            {% endif %}
+
+
+
+                            {% if app.user.id == trip.organizer.id %}
+                                <p class="card-footer-item">
+                                    <span>
+                                        <a href="{{ path('trip_edit', {id : trip.id}) }}">Modifier</a>
+                                    </span>
+                                </p>
+                            {% endif %}
+                        {% endif %}
+                    </footer>
+                </div>
             </div>
-            <footer class="card-footer">
-                <p class="card-footer-item">
-                              <span>
-                                <a href="#">Afficher</a>
-                              </span>
-                </p>
-                <p class="card-footer-item">
-                              <span>
-                                <a href="#">S'inscrire</a>
-                              </span>
-                </p>
-            </footer>
-        </div>
+        {% endfor %}
     </div>
 
-    <div class="column">
-        <div class="card">
-            <div class="card-content">
-                <p class="title">
-                    Tir à l'arc
-                </p>
-                <p class="subtitle">
-                    @LiliDelice
-                </p>
-                <p class="content">
-                                  <span class="icon is-small is-left">
-                                    <i class="fas fa-calendar"></i>
-                                </span>
-                    Le 19/07/2018 à 23:45 <br>
-                    <b>Fin des inscriptions :</b> 19/07/2018 à 23:46<br>
-                    <b>Nombre d'inscrits :</b> 6/8<br>
-                    <b>Etat :</b> En cours<br>
-                    <b>Inscription :</b> Non inscrit<br>
-                </p>
-            </div>
-            <footer class="card-footer">
-                <p class="card-footer-item">
-                              <span>
-                                <a href="#">Afficher</a>
-                              </span>
-                </p>
-                <p class="card-footer-item">
-                              <span>
-                                <a href="#">S'inscrire</a>
-                              </span>
-                </p>
-            </footer>
-        </div>
-    </div>
-    <div class="column">
-        <div class="card">
-            <div class="card-content">
-                <p class="title">
-                    Maquettage sur XD
-                </p>
-                <p class="subtitle">
-                    @LiliDelice
-                </p>
-                <p class="content">
-                                  <span class="icon is-small is-left">
-                                    <i class="fas fa-calendar"></i>
-                                </span>
-                    Le 19/07/2018 à 23:45 <br>
-                    <b>Fin des inscriptions :</b> 19/07/2018 à 23:46<br>
-                    <b>Nombre d'inscrits :</b> 6/8<br>
-                    <b>Etat :</b> En cours<br>
-                    <b>Inscription :</b> Non inscrit<br>
-                </p>
-            </div>
-            <footer class="card-footer">
-                <p class="card-footer-item">
-                              <span>
-                                <a href="#">Afficher</a>
-                              </span>
-                </p>
-                <p class="card-footer-item">
-                              <span>
-                                <a href="#">S'inscrire</a>
-                              </span>
-                </p>
-            </footer>
-        </div>
-    </div>
+    <script>
+        function launch_search() {
+            const organizer = document.querySelector('#organizer');        /*Je récupère la checkbox #oragnizer*/
+            if (organizer.checked) {                                        /*Si #organizer est coché */
+                let cards = document.querySelectorAll('.card')             /*Je récupère toutes les sorties*/
+                cards.forEach(function (card) {                             /*Pour chacune des sorties*/
+                    card.classList.add('is-hidden');                       /*j'ajoute une classe pour les masquer*/
+                    let organizer_id = card.getAttribute("data-organizer");/*Je récupère l'id de l'utilisateur qui a crée la sortie*/
+                    if (organizer_id === organizer.value) {                  /*Si l'utilisateur connecté = à l'id de l'utilisateur qui a crée la sortie */
+                        card.classList.remove('is-hidden');                /*j'affiche la card*/
+                    }
+                });
+            }
+        }
+    </script>
+{% endblock %}
 
-    {% endblock %}
+
