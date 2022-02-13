@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Trip;
 use App\Entity\User;
+use App\Repository\StateRepository;
 use App\Repository\TripRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -15,9 +16,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
     #[Route('/home', name: 'home')]
-    public function index(TripRepository $tripRepository): Response
+    public function index(TripRepository $tripRepository, StateRepository  $stateRepository, TripController $tripController, EntityManagerInterface $entityManager): Response
     {
         $trip = $tripRepository->findAll();
+        $tripController->updateState($trip,$stateRepository, $entityManager);
         return $this->render('home/index.html.twig', [
             'trips' => $trip,
         ]);

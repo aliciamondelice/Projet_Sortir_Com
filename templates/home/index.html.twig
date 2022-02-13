@@ -73,62 +73,69 @@
     </div>
     <div class="columns is-flex-wrap-wrap">
         {% for trip in trips %}
-            <div class="column is-4">
-                <div class="card" data-organizer="1">
-                    <div class="card-content">
-                        <p class="title">
-                            {{ trip.name }}
-                        </p>
-                        <p class="subtitle">
-                            <a href="{{ path('profil', {id : trip.organizer.id}) }}">
-                                @{{ trip.organizer.username }}
-                            </a>
-                        </p>
-                        <p class="content">
+            {% if (((app.user.id != trip.organizer.id and trip.state.id != 1) or (app.user.id == trip.organizer.id)) and (trip.state.id != 6)) %}
+                <div class="column is-4">
+                    <div class="card" data-organizer="1">
+                        <div class="card-content">
+                            <p class="title">
+                                {{ trip.name }}
+                            </p>
+                            <p class="subtitle">
+                                <a href="{{ path('profil', {id : trip.organizer.id}) }}">
+                                    @{{ trip.organizer.username }}
+                                </a>
+                            </p>
+                            <p class="content">
                                   <span class="icon is-small is-left">
                                     <i class="fas fa-calendar"></i>
                                 </span>
-                            {{ trip.startingDate|date('Y-m-d H:i:s') }}<br>
-                            <b>Fin des inscriptions :</b> {{ trip.endingDate|date('Y-m-d H:i:s') }}<br>
-                            <b>Nombre d'inscrits :</b> {{ trip.users|length }}/{{ trip.MaxAttendees }}<br>
-                            {% if trip.state.id == 5 %}
-                                <span class="has-text-danger"><b>Etat :</b> {{ trip.state.libelle }}</span><br>
-                            {% else %}
-                                <b>Etat :</b> {{ trip.state.libelle }}<br>
-                            {% endif %}
-                            <b>Inscription :</b> Non inscrit<br>
-                        </p>
-                    </div>
-                    <footer class="card-footer">
-                        <p class="card-footer-item">
+                                {{ trip.startingDate|date('Y-m-d H:i:s') }}<br>
+                                <b>Fin des inscriptions :</b> {{ trip.endingDate|date('Y-m-d H:i:s') }}<br>
+                                <b>Nombre d'inscrits :</b> {{ trip.users|length }}/{{ trip.MaxAttendees }}<br>
+                                {% if trip.state.id == 5 %}
+                                    <span class="has-text-danger"><b>Etat :</b> {{ trip.state.libelle }}</span><br>
+                                {% else %}
+                                    <b>Etat :</b> {{ trip.state.libelle }}<br>
+                                {% endif %}
+                                <b>Inscription :</b> Non inscrit<br>
+                            </p>
+                        </div>
+                        <footer class="card-footer">
+                            <p class="card-footer-item">
                             <span>
                                 <a href="{{ path('trip_show', {id : trip.id}) }}">Afficher</a>
                             </span>
-                        </p>
-                        {% if trip.state.id != 5 %}
-                            {# Si l'id de l'utilisateur est dans la liste des utilisateurs inscrits #}
-                            {% if trip in app.user.trips%}
-                                {{ include('trip/_unsubscribe_user_form.html.twig')  }}
-                            {% else %}
-                                {# Si l'id de l'utilisateur n'est pas orgnisateur#}
-                                {% if app.user.id != trip.organizer.id %}
-                                    {{ include('trip/_register_user_form.html.twig')  }}
+                            </p>
+                            {% if trip.state.id != 5 %}
+                                {# Si l'id de l'utilisateur est dans la liste des utilisateurs inscrits #}
+                                {% if trip in app.user.trips%}
+                                    {{ include('trip/_unsubscribe_user_form.html.twig')  }}
+                                {% else %}
+                                    {# Si l'id de l'utilisateur n'est pas orgnisateur#}
+                                    {% if app.user.id != trip.organizer.id %}
+                                        {{ include('trip/_register_user_form.html.twig')  }}
+                                    {% endif %}
                                 {% endif %}
-                            {% endif %}
 
 
 
-                            {% if app.user.id == trip.organizer.id %}
-                                <p class="card-footer-item">
+                                {% if app.user.id == trip.organizer.id %}
+                                    <p class="card-footer-item">
                                     <span>
                                         <a href="{{ path('trip_edit', {id : trip.id}) }}">Modifier</a>
                                     </span>
-                                </p>
+                                    </p>
+                                {% endif %}
+
+                                {# Si l'id de l'utilisateur est égal à celui de l'organisateur et qie l'id de la sortie est égal à 1 (=en création) #}
+                                {% if (trip.state.id == 1 and app.user.id == trip.organizer.id) %}
+                                    {{ include('trip/_publish_trip.html.twig') }}
+                                {% endif %}
                             {% endif %}
-                        {% endif %}
-                    </footer>
+                        </footer>
+                    </div>
                 </div>
-            </div>
+            {% endif %}
         {% endfor %}
     </div>
 

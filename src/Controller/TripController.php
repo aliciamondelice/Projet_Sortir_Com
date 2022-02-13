@@ -13,6 +13,8 @@ use App\Repository\SiteRepository;
 use App\Repository\StateRepository;
 use App\Repository\TripRepository;
 use App\Repository\UserRepository;
+use DateInterval;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -91,7 +93,7 @@ class TripController extends AbstractController
 
 
 
-            return $this->redirectToRoute('trip_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('trip/new.html.twig', [
@@ -116,16 +118,18 @@ class TripController extends AbstractController
     {
         $form = $this->createForm(TripType::class, $trip);
         $form->handleRequest($request);
-        $place = new Place();
-        $formPlace = $this->createForm(PlaceType::class, $place);
-
-
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $state = $form->get('saveAndAdd')->isClicked()
-                ? $stateRepository->find(2)
-                : $stateRepository->find(1);
-            $trip->setState($state);
+
+            if($trip->getState()->getId() == 1) {
+                $enregistrer_et_publier = $form->get('saveAndAdd')->isClicked();
+                if ($enregistrer_et_publier == true) {
+                    $state = $stateRepository->find(2);
+                } else {
+                    $state = $stateRepository->find(1);
+                }
+                $trip->setState($state);
+            }
 
             $entityManager->persist($trip);
             $entityManager->flush();
@@ -183,14 +187,45 @@ class TripController extends AbstractController
 
     }
 
-    /*#[Route('/{id}', name: 'trip_delete', methods: ['POST'])]
-    public function delete(Request $request, Trip $trip, EntityManagerInterface $entityManager): Response
+    public function updateState($trips, StateRepository $stateRepository, EntityManagerInterface $entityManager)
     {
-        if ($this->isCsrfTokenValid('delete'.$trip->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($trip);
-            $entityManager->flush();
-        }
+        foreach($trips as $trip){
+            /*Si la date de clôture est inférieure ç la date du jour et qu'elle est ouverte, alors elle est fermée*/
+            if ($trip->getEndingDate()->format('Y-m-d') < date('Y-m-d') && $trip->getState()->getId() == 2){
+                /*J'instancie l'état dont l'id est 4(fermé)*/
+                $state = $stateRepository->find(4);
+                /*Je définis l'état de trip avec la fonction setstate*/
+                $trip->setState($state);
 
-        return $this->redirectToRoute('trip_index', [], Response::HTTP_SEE_OTHER);
-    }*/
+                $entityManager->persist($trip);
+                $entityManager->flush();
+            }
+            $startingDate = new DateTime($trip->getStartingDate()->format('Y-m-d')); // Y-m-d
+            $startingDate->add(new DateInterval('P30D'));
+            $startingDate = $startingDate->format('Y-m-d');
+
+            if(date('Y-m-d') > $startingDate) {
+                /*J'instancie l'état dont l'id est 6(archivée)*/
+                $state = $stateRepository->find(6);
+                /*Je définis l'état de trip avec la fonction setstate*/
+                $trip->setState($state);
+
+                $entityManager->persist($trip);
+                $entityManager->flush();
+            }
+        }
+    }
+    #[Route('/publish/{id}', name: 'publish_trip', methods: ['POST'])]
+    public function publishTrip(Trip $trip, EntityManagerInterface $entityManager, StateRepository $stateRepository): Response
+    {
+        /*J'instancie l'état dont l'id est 2(ouvert)*/
+        $state = $stateRepository->find(2);
+        /*Je définis l'état de trip avec la fonction setstate*/
+        $trip->setState($state);
+
+        $entityManager->persist($trip);
+        $entityManager->flush();
+        return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
+
+    }
 }

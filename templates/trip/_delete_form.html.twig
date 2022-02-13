@@ -1,10 +1,10 @@
 <form method="post" action="{{ path('trip_delete', {'id': trip.id}) }}" onsubmit="return confirm('Voulez-vous vraiment supprimer cet événement?');">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ trip.id) }}">
     <div class="field">
-        <label class="label"  for="why">Raison de la suppression</label>
+        <label class="label"  for="why">Raison de l'annulation</label>
         <div class="control">
             <textarea class="textarea" placeholder="" id="why" name="why"></textarea>
         </div>
     </div>
-    <button class="button is-danger is-fullwidth mb-2">Supprimer l'événement</button>
+    <button class="button is-danger is-fullwidth mb-2">Annuler la sortie</button>
 </form>
