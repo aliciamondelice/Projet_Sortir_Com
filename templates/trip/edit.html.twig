@@ -34,15 +34,15 @@
 
     {{ form_end(formTrip) }}
 
-    <button class="js-modal-trigger button is-danger is-fullwidth mb-2" data-target="modal-js-delete">Supprimer</button>
-    <a class="button is-warning is-fullwidth" href="{{ path('trip_index') }}">Retour à la liste</a>
+    <button class="js-modal-trigger button is-danger is-fullwidth mb-2" data-target="modal-js-delete">Annuler la sortie</button>
+    <a class="button is-warning is-fullwidth" href="{{ path('home') }}">Retour à la liste</a>
 
     <div id="modal-js-delete" class="modal">
         <div class="modal-background"></div>
 
         <div class="modal-content">
             <div class="box">
-                <p class="mb-5">Suppression de : <b>{{ trip.name }}</b></p>
+                <p class="mb-5">Annulation de : <b>{{ trip.name }}</b></p>
                 {{ include('trip/_delete_form.html.twig') }}
             </div>
         </div>
