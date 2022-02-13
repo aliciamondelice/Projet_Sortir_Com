@@ -106,7 +106,7 @@
                                 <a href="{{ path('trip_show', {id : trip.id}) }}">Afficher</a>
                             </span>
                             </p>
-                            {% if trip.state.id != 5 %}
+                            {% if trip.state.id != 5 and trip.users|length != trip.maxAttendees %}
                                 {# Si l'id de l'utilisateur est dans la liste des utilisateurs inscrits #}
                                 {% if trip in app.user.trips%}
                                     {{ include('trip/_unsubscribe_user_form.html.twig')  }}
@@ -119,7 +119,7 @@
 
 
 
-                                {% if app.user.id == trip.organizer.id %}
+                                {% if app.user.id == trip.organizer.id and trip.state.id <= 2 %}
                                     <p class="card-footer-item">
                                     <span>
                                         <a href="{{ path('trip_edit', {id : trip.id}) }}">Modifier</a>
