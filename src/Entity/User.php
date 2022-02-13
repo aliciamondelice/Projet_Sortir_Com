@@ -62,6 +62,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string', length: 50)]
     /*#[Assert\Regex(pattern: "/(^[a-zA-Z][a-zA-Z\s]{3,20}[a-zA-Z]$)/", message: "Le nom ne doit pas avoir des chiffres. Il contient 3 lettres au minimum et 20 au maximum.")]*/
+
     #[Assert\Length(min: 3, minMessage: "Le nom doit avoir 3 lettres au minimun.")]
     private $surname;
 
