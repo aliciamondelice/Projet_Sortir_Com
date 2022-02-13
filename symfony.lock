@@ -51,19 +51,6 @@
             "ref": "ee609429c9ee23e22d6fa5728211768f51ed2818"
         },
         "files": [
-            "config/packages/doctrine_migrations.yaml",
-            "migrations/.gitignore"
-        ]
-    },
-    "doctrine/doctrine-migrations-bundle": {
-        "version": "3.2",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "3.1",
-            "ref": "ee609429c9ee23e22d6fa5728211768f51ed2818"
-        },
-        "files": [
             "./config/packages/doctrine_migrations.yaml",
             "./migrations/.gitignore"
         ]
@@ -95,17 +82,33 @@
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.5"
     },
-    "laminas/laminas-code": {
-        "version": "4.5.1"
-    },
     "giggsey/libphonenumber-for-php": {
         "version": "8.12.43"
     },
     "giggsey/locale": {
         "version": "2.1"
     },
+    "imagine/imagine": {
+        "version": "1.2.4"
+    },
     "jms/metadata": {
         "version": "2.6.1"
+    },
+    "laminas/laminas-code": {
+        "version": "4.5.1"
+    },
+    "liip/imagine-bundle": {
+        "version": "2.7",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.8",
+            "ref": "d1227d002b70d1a1f941d91845fcd7ac7fbfc929"
+        },
+        "files": [
+            "./config/packages/liip_imagine.yaml",
+            "./config/routes/liip_imagine.yaml"
+        ]
     },
     "nikic/php-parser": {
         "version": "v4.13.2"
@@ -260,6 +263,9 @@
     },
     "symfony/polyfill-php81": {
         "version": "v1.24.0"
+    },
+    "symfony/process": {
+        "version": "v6.0.3"
     },
     "symfony/property-access": {
         "version": "v6.0.3"

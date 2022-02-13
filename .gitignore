@@ -179,3 +179,6 @@ fabric.properties
 # End of https://www.toptal.com/developers/gitignore/api/symfony,phpstorm,composer
 
 .env.local
+###> liip/imagine-bundle ###
+/public/media/cache/
+###< liip/imagine-bundle ###

@@ -1,0 +1,38 @@
+.container{
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%;
+}
+#file_img{
+    text-align: center;
+}
+#img_default{
+    text-align: center;
+}
+img.photo_default{
+    border-radius: 20px;
+    height: 150px;
+    width: 150px;
+}
+#site_options{
+    margin-bottom: 12%;
+}
+#button_form{
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+}
+#button_submit{
+    margin-bottom: 2%;
+}
+#img_default{
+    text-align: center;
+}
+
+img.photo_default {
+    border-radius: 50%;
+}
+input#profil_edit_pictureFile_file {
+
+}
+

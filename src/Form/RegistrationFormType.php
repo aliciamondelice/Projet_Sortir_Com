@@ -57,20 +57,19 @@ class RegistrationFormType extends AbstractType
                 'invalid_message' => 'Le mot de passe doit être identique.',
                 'options' => ['attr' => ['class' => 'password-field']],
                 'required' => true,
-                'first_options'  => ['label'  => FALSE,
-                    'attr' => [
-                        'placeholder' => 'Mot de passe',
+                'first_options'  => [
+                    'attr' => ['placeholder' => 'Mot de passe',
                         'class' => 'input',
                     ]],
-                'second_options' => [ 'label' => FALSE,
+                'second_options' => [
                     'attr' => [
-                        'placeholder' => 'Retaper le mot de passe',
-                         'class' => 'input'
+                        'class' => 'input'
+                    ]
 
-                ]
-
-                    ],
+                ],
             ])
+
+
             ->add('site', EntityType::class,[
                 'class' => Site::class,
                 'placeholder' => 'Site',
