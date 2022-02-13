@@ -11,25 +11,24 @@
                 <form id="search" onsubmit="launch_search(); return false;">
                     <div class="columns">
                         <div class="column">
-                            <input class="input mb-2" type="text" placeholder="Rechercher...">
+                            <input id="search" class="input mb-2" type="text" placeholder="Rechercher...">
                             <div class="control has-icons-left mb-2">
-                                <input class="input" type="text" placeholder="Date début">
-                                <span class="icon is-small is-left">
-                                    <i class="fas fa-calendar"></i>
-                                </span>
+                                <label class="has-text-white">Date de début</label>
+                                <input id="date_debut" class="input" type="date" placeholder="Date début">
                             </div>
                             <div class="control has-icons-left mb-2">
-                                <input class="input" type="text" placeholder="Date fin">
-                                <span class="icon is-small is-left">
-                                    <i class="fas fa-calendar"></i>
-                                </span>
+                                <label class="has-text-white">Date de clôture</label>
+                                <input id="date_cloture" class="input" type="date" placeholder="Date fin">
                             </div>
                             <button class="button is-black is-fullwidth" type="submit">Rechercher</button>
                         </div>
+
                         <div class="column">
                             <div class="select is-fullwidth mb-2">
-                                <select>
-                                    <option>Site</option>
+                                <select id="sites">
+                                {% for site in sites %}
+                                        <option value="{{ site.id }}">{{ site.name }}</option>
+                                {% endfor %}
                                 </select>
                             </div>
 
@@ -39,17 +38,17 @@
                             </label>
 
                             <label class="checkbox has-text-white mb-2 is-block">
-                                <input type="checkbox">
+                                <input id="is-register" value="{{ app.user.id }}" type="checkbox">
                                 Sorties auxquelles je suis inscrit/e
                             </label>
 
                             <label class="checkbox has-text-white mb-2 is-block">
-                                <input type="checkbox">
+                                <input id="is-not-register" value="{{ app.user.id }}" type="checkbox">
                                 Sorties auxquelles je ne suis pas inscrit/e
                             </label>
 
                             <label class="checkbox has-text-white is-block">
-                                <input type="checkbox">
+                                <input id="too-late" value="4" type="checkbox">
                                 Sorties passées
                             </label>
                         </div>
@@ -75,7 +74,7 @@
         {% for trip in trips %}
             {% if (((app.user.id != trip.organizer.id and trip.state.id != 1) or (app.user.id == trip.organizer.id)) and (trip.state.id != 6)) %}
                 <div class="column is-4">
-                    <div class="card" data-organizer="1">
+                    <div class="card" data-organizer="{{ trip.organizer.id }}" data-register="{{ app.user.id }}">
                         <div class="card-content">
                             <p class="title">
                                 {{ trip.name }}
@@ -139,21 +138,41 @@
         {% endfor %}
     </div>
 
-    <script>
+    {#<script>
         function launch_search() {
-            const organizer = document.querySelector('#organizer');        /*Je récupère la checkbox #oragnizer*/
-            if (organizer.checked) {                                        /*Si #organizer est coché */
-                let cards = document.querySelectorAll('.card')             /*Je récupère toutes les sorties*/
-                cards.forEach(function (card) {                             /*Pour chacune des sorties*/
-                    card.classList.add('is-hidden');                       /*j'ajoute une classe pour les masquer*/
-                    let organizer_id = card.getAttribute("data-organizer");/*Je récupère l'id de l'utilisateur qui a crée la sortie*/
-                    if (organizer_id === organizer.value) {                  /*Si l'utilisateur connecté = à l'id de l'utilisateur qui a crée la sortie */
-                        card.classList.remove('is-hidden');                /*j'affiche la card*/
+            /*Je récupère la checkbox #oragnizer*/
+            let checkbox_organizer_id = document.querySelector('#organizer');
+
+            /*Si #organizer est coché, je récupère toutes les sorties */
+            if (checkbox_organizer_id.checked) {
+                let cards = document.querySelectorAll('.card')
+                /*Pour chacune des sorties, j'ajoute une classe pour les masquer. Et je récupère l'id de l'utilisateur qui a crée la sortie*/
+                cards.forEach(function (card) {
+                    card.parentElement.classList.add('is-hidden');
+                    let card_organizer_id = card.getAttribute("data-organizer");
+                        /*Si l'utilisateur connecté = à l'id de l'utilisateur qui a crée la sortie, j'affiche la card */
+                        if (card_organizer_id === checkbox_organizer_id.value) {
+                            card.parentElement.classList.remove('is-hidden');
+                        }
+                });
+            }
+
+            let checkbox_is_register = document.querySelector('#is-register');
+
+            if (checkbox_is_register.checked){
+                let cards = document.querySelectorAll('.card')
+
+                cards.forEach(function (card) {
+                    card.parentElement.classList.add('is-hidden');
+                    let card_is_register = card.getAttribute("data-register");
+
+                    if (card_is_register === checkbox_is_register.value) {
+                        card.parentElement.classList.remove('is-hidden');
                     }
                 });
             }
         }
-    </script>
+    </script>#}
 {% endblock %}
 
 
