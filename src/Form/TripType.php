@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -95,8 +96,15 @@ class TripType extends AbstractType
                 'row_attr' => ['class' => 'select is-fullwidth'],
                 'label_attr' => ['class' => 'is-hidden'],
                 'attr' => ['class' => 'input'],
+            ])
+            ->add('save', SubmitType::class, [
+                'label' => 'Enregistrer',
+                'attr' => ['class' => 'button color-text-green is-fullwidth has-text-white mb-2']
+            ])
+            ->add('saveAndAdd', SubmitType::class, [
+                'label' => 'Publier la sortie',
+                'attr' => ['class' => 'button is-success is-fullwidth mb-2']
             ]);
-
             /*->add('state', EntityType::class, [
                 "class" => State::class,
                 "choice_label" => "libelle",

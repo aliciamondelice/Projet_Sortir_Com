@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Place;
 use App\Entity\State;
 use App\Entity\Trip;
+use App\Entity\User;
 use App\Form\PlaceType;
 use App\Form\TripType;
 use App\Repository\CityRepository;
@@ -12,6 +13,8 @@ use App\Repository\SiteRepository;
 use App\Repository\StateRepository;
 use App\Repository\TripRepository;
 use App\Repository\UserRepository;
+use DateInterval;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -51,7 +54,9 @@ class TripController extends AbstractController
 
         if ($formTrip->isSubmitted() && $formTrip->isValid()) {
 
-            $state = $stateRepository->find(1);
+            $state = $formTrip->get('saveAndAdd')->isClicked()
+                ? $stateRepository->find(2)
+                : $stateRepository->find(1);
             $trip->setState($state);
 
 
@@ -88,7 +93,7 @@ class TripController extends AbstractController
 
 
 
-            return $this->redirectToRoute('trip_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('trip/new.html.twig', [
@@ -109,31 +114,118 @@ class TripController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'trip_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Trip $trip, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Trip $trip, EntityManagerInterface $entityManager, CityRepository $cityRepository, StateRepository $stateRepository): Response
     {
         $form = $this->createForm(TripType::class, $trip);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
 
-            return $this->redirectToRoute('trip_index', [], Response::HTTP_SEE_OTHER);
+            if($trip->getState()->getId() == 1) {
+                $enregistrer_et_publier = $form->get('saveAndAdd')->isClicked();
+                if ($enregistrer_et_publier == true) {
+                    $state = $stateRepository->find(2);
+                } else {
+                    $state = $stateRepository->find(1);
+                }
+                $trip->setState($state);
+            }
+
+            $entityManager->persist($trip);
+            $entityManager->flush();
+            return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('trip/edit.html.twig', [
             'trip' => $trip,
-            'form' => $form,
+            'formTrip' => $form
         ]);
     }
 
     #[Route('/{id}', name: 'trip_delete', methods: ['POST'])]
-    public function delete(Request $request, Trip $trip, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, Trip $trip, EntityManagerInterface $entityManager, StateRepository $stateRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$trip->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($trip);
+
+            $trip->setReasonCancel($request->request->get('why'));
+            $state = $stateRepository->find(5);
+            $trip->setState($state);
+
+            $entityManager->persist($trip);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('trip_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
+    }
+    #[Route('/register/{id}', name: 'register_user_trip', methods: ['POST'])]
+    public function registerUserTrip(Request $request, Trip $trip, EntityManagerInterface $entityManager, UserRepository $userRepository): Response
+    {
+        /*J'instancie l'utilsateur dont l'id est celui de l'utilsateur connecté*/
+        $user = $userRepository->find($this->security->getUser()->getId());
+
+        /*Je l'ajoute dans mon tableau users avec la fonction addUser*/
+        $trip->addUser($user);
+
+        $entityManager->persist($trip);
+        $entityManager->flush();
+
+        return $this->redirectToRoute( 'trip_show', ["id"=>$trip->getId()], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/unsubscribe/{id}', name: 'unsubscribe_user_trip', methods: ['POST'])]
+    public function unsubscribeUserTrip(Request $request, Trip $trip, EntityManagerInterface $entityManager, UserRepository $userRepository): Response
+    {
+        /*J'instancie l'utilsateur dont l'id est celui de l'utilsateur connecté*/
+        $user = $userRepository->find($this->security->getUser()->getId());
+
+        /*Je l'ajoute dans mon tableau users avec la fonction addUser*/
+        $trip->removeUser($user);
+
+        $entityManager->persist($trip);
+        $entityManager->flush();
+        return $this->redirectToRoute('trip_show', ["id"=>$trip->getId()], Response::HTTP_SEE_OTHER);
+
+    }
+
+    public function updateState($trips, StateRepository $stateRepository, EntityManagerInterface $entityManager)
+    {
+        foreach($trips as $trip){
+            /*Si la date de clôture est inférieure ç la date du jour et qu'elle est ouverte, alors elle est fermée*/
+            if ($trip->getEndingDate()->format('Y-m-d') < date('Y-m-d') && $trip->getState()->getId() == 2){
+                /*J'instancie l'état dont l'id est 4(fermé)*/
+                $state = $stateRepository->find(4);
+                /*Je définis l'état de trip avec la fonction setstate*/
+                $trip->setState($state);
+
+                $entityManager->persist($trip);
+                $entityManager->flush();
+            }
+            $startingDate = new DateTime($trip->getStartingDate()->format('Y-m-d')); // Y-m-d
+            $startingDate->add(new DateInterval('P30D'));
+            $startingDate = $startingDate->format('Y-m-d');
+
+            if(date('Y-m-d') > $startingDate) {
+                /*J'instancie l'état dont l'id est 6(archivée)*/
+                $state = $stateRepository->find(6);
+                /*Je définis l'état de trip avec la fonction setstate*/
+                $trip->setState($state);
+
+                $entityManager->persist($trip);
+                $entityManager->flush();
+            }
+        }
+    }
+    #[Route('/publish/{id}', name: 'publish_trip', methods: ['POST'])]
+    public function publishTrip(Trip $trip, EntityManagerInterface $entityManager, StateRepository $stateRepository): Response
+    {
+        /*J'instancie l'état dont l'id est 2(ouvert)*/
+        $state = $stateRepository->find(2);
+        /*Je définis l'état de trip avec la fonction setstate*/
+        $trip->setState($state);
+
+        $entityManager->persist($trip);
+        $entityManager->flush();
+        return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
+
     }
 }
