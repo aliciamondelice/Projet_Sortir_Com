@@ -8,7 +8,7 @@
             <img src="{{ asset('images/logo_white.png') }}" alt="logo">
             <form method="post" class="field">
                 {% if error %}
-                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                    <div class="alert alert-danger">Mot de Passe erroné</div>
                 {% endif %}
 
                 {% if app.user %}
