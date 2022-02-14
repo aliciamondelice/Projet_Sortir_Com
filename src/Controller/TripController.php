@@ -228,4 +228,5 @@ class TripController extends AbstractController
         return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
 
     }
+
 }
