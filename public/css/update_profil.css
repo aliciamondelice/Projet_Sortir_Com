@@ -1,7 +1,7 @@
 .container{
     margin-left: auto;
     margin-right: auto;
-    width: 60%;
+    width: 50%;
 }
 #file_img{
     text-align: center;
@@ -24,5 +24,16 @@ img.photo_default{
 }
 #button_submit{
     margin-bottom: 2%;
+}
+#img_default{
+    text-align: center;
+}
+
+img.photo_default {
+    border-radius: 50%;
+}
+
+input#profil_edit_pictureFile_file {
+
 }
 

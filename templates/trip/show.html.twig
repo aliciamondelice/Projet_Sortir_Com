@@ -2,42 +2,99 @@
 
 {% block title %}{{ trip.name }}{% endblock %}
 {% block meta_title %}{{ trip.name }}{% endblock %}
-
+{% block stylesheets %} <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+                       integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+                       crossorigin=""/>{% endblock %}
+{% block script %} <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+                           integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+                           crossorigin=""></script>{% endblock %}
 {% block body %}
     <!-- Contenu de la page à développer ici (Ce qu'il y a après le titre de la page en bleu) -->
+    {% if trip.state.id == 5 %}
+        <article class="message is-danger">
+            <div class="message-header">
+                <p>Motif d'annulation</p>
+            </div>
+            <div class="message-body">
+                {{ trip.ReasonCancel }}
+            </div>
+        </article>
+    {% endif %}
+    <h2 class="has-text-centered title has-text-weight-medium has-text-black">A propos de l'évènement</h2>
+    <div class="field">
+        <label class="label mb-0">Date et heure de la sortie</label>
+        <p>{{ trip.startingDate|date('d-m-Y H:i') }}</p>
+    </div>
+    <div class="field">
+        <label class="label mb-0">Date limite d'inscription</label>
+        <p>{{ trip.endingDate|date('d-m-Y') }}</p>
+    </div>
+    <div class="field">
+        <label class="label mb-0">Durée</label>
+        <p>{{ trip.duration }} minutes</p>
+    </div>
+    <div class="field">
+        <label class="label mb-0">Nombre d'inscriptions / nombre de places</label>
+        <p>{{ trip.users|length }} / {{ trip.maxAttendees }}</p>
+    </div>
+    <div class="field">
+        <label class="label mb-0">Description et infos</label>
+        <p>{{ trip.informations }}</p>
+    </div>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ trip.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ trip.name }}</td>
-            </tr>
-            <tr>
-                <th>Informations</th>
-                <td>{{ trip.informations }}</td>
-            </tr>
-            <tr>
-                <th>Starting_date</th>
-                <td>{{ trip.startingDate ? trip.startingDate|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Ending_date</th>
-                <td>{{ trip.endingDate ? trip.endingDate|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Duration</th>
-                <td>{{ trip.duration }}</td>
-            </tr>
-            <tr>
-                <th>Max_attendees</th>
-                <td>{{ trip.maxAttendees }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <h2 class="has-text-centered title has-text-weight-medium has-text-black mt-6">Lieu de l'évènement</h2>
+    <div class="columns">
+        <div class="column">
+            <div class="field">
+                <label class="label mb-0">Site organisateur</label>
+                <p>{{ trip.site.name }}</p>
+            </div>
+            <div class="field">
+                <label class="label mb-0">Lieu (<a href="https://www.google.com/maps/dir/?api=1&destination={{ trip.place.city.name }}+{{ trip.place.street }}"target="_blank">Itinéraire Google Map</a>)</label>
+                <p>{{ trip.place.name }}</p>
+                <p>{{ trip.place.street }}</p>
+                <p>({{ trip.place.latitude }}; {{ trip.place.longitude }})</p>
+                <p>{{ trip.place.city.name }}</p>
+            </div>
+        </div>
+        <div class="column">
+            <div id="map">
 
+            </div>
+        </div>
+    </div>
+
+    <h2 class="has-text-centered title has-text-weight-medium has-text-black mt-6">Liste des participants</h2>
+    {% for user in trip.users %}
+        <div class="card mb-3">
+            <div class="card-content">
+                <div class="media">
+                    {%  if user.getPictureLink() is not null %}
+                    <div class="media-left">
+                        <figure class="image is-128x128">
+                            <img src="{{ asset('images/users/'~user.getPictureLink()) }}" alt="Photo utilisateur">
+                        </figure>
+                    </div>
+                    {% endif %}
+                    <div class="media-content">
+                        <p class="title is-4">{{ user.username }}</p>
+                        <p class="subtitle is-6">{{ user.name }} {{ user.surname }}</p>
+                        <p><a href="{{ path('profil', {id: user.id}) }}">Voir le profil</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
     <a href="{{ path('home') }}" class="button is-primary is-fullwidth mb-3">Retour</a>
+    <script>
+        var map = L.map('map').setView([ {{ trip.place.latitude }} , {{ trip.place.longitude }} ], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        L.marker([{{ trip.place.latitude }} , {{ trip.place.longitude }}]).addTo(map)
+            .bindPopup('{{ trip.place.name }}')
+            .openPopup();
+    </script>
 {% endblock %}

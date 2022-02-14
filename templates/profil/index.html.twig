@@ -1,25 +1,37 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}Profil{% endblock %}
 {% block meta_title %}Profil{% endblock %}
 
 {% block body %}
     <!-- Contenu de la page à développer ici (Ce qu'il y a après le titre de la page en bleu) -->
-    
-    <section class="section ">
-    <div class="block">
-    <h1 class="title is-2"> {{ user.getUsername()}}</h1>
+    <div class="has-text-centered">
+        <h2 class="title is-3"> {{ user.getUsername() }}</h2>
+
+
+        {% if user.getPictureLink() is not null %}
+            <figure class="image avatar">
+                <img class="is-rounded" src="{{ asset('images/users/'~user.getPictureLink()) }}" alt="photo_user"/>
+            </figure>
+        {% else %}
+            <figure class="image avatar">
+                <img class="is-rounded" src="{{ asset('images/img_user.png') }}" alt="photo_user_par_default">
+            </figure>
+        {% endif %}
     </div>
-    <figure class="image is-128x128">
-        <img class="is-rounded" src="{{ asset('images/users/'~user.getPictureLink()) }}" alt="photo_user" />
-    </figure>
-    <p>Prénom : {{ user.getName()}}</p>
-    <p>Nom : {{ user.getSurname()}}</p>
-    <p>Téléphone : {{ user.getPhone()}}</p>
-    <p>Email : {{ user.getEmail()}}</p>
-    <p>Site : {{ user.site.getName()}}</p>
-        <a href="{{ path("home") }}" class="button is-fullwidth is-primary">Retour</a>
-    </section>
 
+    <div class="message">
+        <div class="message-body has-text-centered">
+            <p><span class="has-text-weight-bold">Prénom : </span>{{ user.getName() }}</p>
+            <p><span class="has-text-weight-bold">Nom : </span>{{ user.getSurname() }}</p>
+            <p><span class="has-text-weight-bold">Téléphone : </span>{{ user.getPhone() }}</p>
+            <p><span class="has-text-weight-bold">Email : </span>{{ user.getEmail() }}</p>
+            <p><span class="has-text-weight-bold">Site : </span>{{ user.site.getName() }}</p>
+        </div>
+    </div>
 
+    <a href="{{ path("home") }}" class="button is-fullwidth is-primary mb-3">Retour</a>
+
+    {% if user.id == app.user.id %}
+        <a href="/profil/{{ user.id }}/edit" class="button is-fullwidth is-primary">Modifier le profil</a>
+    {% endif %}
 {% endblock %}

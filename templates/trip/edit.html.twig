@@ -4,9 +4,94 @@
 {% block meta_title %}Modifier une sortie{% endblock %}
 
 {% block body %}
-    {{ include('trip/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ form_start(formTrip) }}
+        {{ form_row(formTrip.name, {
+            label: 'Intitulé'
+        }) }}
+        {{ form_row(formTrip.starting_date) }}
+        {{ form_row(formTrip.ending_date) }}
+        {{ form_row(formTrip.duration) }}
+        {{ form_row(formTrip.max_attendees) }}
+        {{ form_row(formTrip.informations) }}
+        <div class="field control">
+            {% if app.user %}
+                <label class="label">Site organisateur</label>
+                <input class="input" type="text" value="{{ app.user.site }}" disabled>
+            {% endif %}
+        </div>
+        <div class="field" id="place">
+            <label class="label">Lieu</label>
+                {{ form_row(formTrip.place) }}
+        </div>
+        {{ form_row(formTrip.save) }}
 
-    <a href="{{ path('trip_index') }}">back to list</a>
+        {# Si l'état de la sortie n'est pas à 1, on masque le bouton (car si état > 1 c'est que c'est publié) #}
+        {% if trip.state.id != 1 %}
+            <div class="is-hidden">
+                {{ form_row(formTrip.saveAndAdd) }}
+            </div>
+        {% endif %}
 
-    {{ include('trip/_delete_form.html.twig') }}
+    {{ form_end(formTrip) }}
+
+    <button class="js-modal-trigger button is-danger is-fullwidth mb-2" data-target="modal-js-delete">Annuler la sortie</button>
+    <a class="button is-warning is-fullwidth" href="{{ path('home') }}">Retour à la liste</a>
+
+    <div id="modal-js-delete" class="modal">
+        <div class="modal-background"></div>
+
+        <div class="modal-content">
+            <div class="box">
+                <p class="mb-5">Annulation de : <b>{{ trip.name }}</b></p>
+                {{ include('trip/_delete_form.html.twig') }}
+            </div>
+        </div>
+
+        <button class="modal-close is-large" aria-label="close"></button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Functions to open and close a modal
+            function openModal($el) {
+                $el.classList.add('is-active');
+            }
+
+            function closeModal($el) {
+                $el.classList.remove('is-active');
+            }
+
+            function closeAllModals() {
+                (document.querySelectorAll('.modal') || []).forEach(($modal) => {
+                    closeModal($modal);
+                });
+            }
+
+            (document.querySelectorAll('.js-modal-trigger') || []).forEach(($trigger) => {
+                const modal = $trigger.dataset.target;
+                const $target = document.getElementById(modal);
+                console.log($target);
+
+                $trigger.addEventListener('click', () => {
+                    openModal($target);
+                });
+            });
+
+            (document.querySelectorAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button') || []).forEach(($close) => {
+                const $target = $close.closest('.modal');
+
+                $close.addEventListener('click', () => {
+                    closeModal($target);
+                });
+            });
+
+            document.addEventListener('keydown', (event) => {
+                const e = event || window.event;
+
+                if (e.keyCode === 27) {
+                    closeAllModals();
+                }
+            });
+        });
+    </script>
 {% endblock %}

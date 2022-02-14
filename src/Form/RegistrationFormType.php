@@ -22,48 +22,63 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('username',TextType::class,array( 'label' => FALSE,
-            'attr' => array(
-            'placeholder' => 'Pseudo'
-
-             )))
-            ->add('name',TextType::class,array( 'label' => FALSE,
-                'attr' => array(
-                    'placeholder' => 'Prénom'
-                )))
-            ->add('surname',TextType::class,array( 'label' => FALSE,
-                'attr' => array(
-                    'placeholder' => 'Nom'
-                )))
-            ->add('phone',TextType::class,array( 'label' => FALSE,
-                'attr' => array(
-                    'placeholder' => 'Téléphone'
-                )))
-            ->add('email',TextType::class,array( 'label' => FALSE,
-                'attr' => array(
-                    'placeholder' => 'Email'
-                )))
+            ->add('username',TextType::class,
+                ['label' => FALSE,
+                'attr' => ['placeholder' => 'Pseudo',
+                    'class' => 'input'
+                ],
+             ])
+            ->add('name',TextType::class,
+                ['label' => FALSE,
+                'attr' => ['placeholder' => 'Prenom',
+                    'class' => 'input'
+                ],
+            ])
+            ->add('surname',TextType::class,
+                ['label' => FALSE,
+                    'attr' => ['placeholder' => 'nom',
+                        'class' => 'input'
+                    ],
+                ])
+            ->add('phone',TextType::class,
+                ['label' => FALSE,
+                    'attr' => ['placeholder' => 'Téléphone',
+                        'class' => 'input'
+                    ],
+                ])
+            ->add('email',TextType::class,
+                ['label' => FALSE,
+                    'attr' => ['placeholder' => 'Email',
+                        'class' => 'input'
+                    ],
+                ])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'invalid_message' => 'The password fields must match.',
+                'invalid_message' => 'Le mot de passe doit être identique.',
                 'options' => ['attr' => ['class' => 'password-field']],
                 'required' => true,
-                'constraints' => [new Length(['min' => 8])],
-                'first_options'  => ['label'  => FALSE,
-                    'attr' => array(
-                        'placeholder' => 'Mot de passe'
-                    )],
-                'second_options' => [ 'label' => FALSE,
-                    'attr' => array(
-                        'placeholder' => 'Retaper le mot de passe'
-                    )],
+                'first_options'  => [
+                    'label'=>false,
+                    'attr' => ['placeholder' => 'Mot de passe',
+                        'class' => 'input',
+                    ]],
+                'second_options' => [
+                    'label'=>false,
+                    'attr' => [
+                        'class' => 'input'
+                    ]
+
+                ],
             ])
+
+
             ->add('site', EntityType::class,[
                 'class' => Site::class,
                 'placeholder' => 'Site',
                 'choice_label' => "name",
-
-
+                'row_attr' => ['class' => 'select is-fullwidth'],
+                'label_attr' => ['class' => 'is-hidden'],
+                'attr' => ['class' => 'input'],
                 "label"=>FALSE
 
             ])
@@ -75,11 +90,6 @@ class RegistrationFormType extends AbstractType
                     'image_uri' => true,
                     'required'=>false,
                     'label'=>FALSE,
-
-
-
-
-
 
                 ]
             );

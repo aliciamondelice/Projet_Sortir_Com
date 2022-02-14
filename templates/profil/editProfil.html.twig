@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    <link rel="stylesheet" href=" {{ asset('css/update_profil.css') }}">
+{% endblock %}
+{% block title %}
+    Modifier profil  {{ user.name }} {{ user.surname }}
+{% endblock %}
+{% block body %}
+    {% if user.getPictureLink() is null %}
+        <div class="block" id="img_default">
+            <img class="photo_default" src="{{ asset('images/img_user.png') }}" alt="photo_user_par_default">
+        </div>
+    {% endif %}
+
+    {{ form_start(form) }}
+
+    <div class="block" id="img_default">
+        <div class=photo_default">{{ form_row(form.pictureFile) }}</div>
+    </div>
+    <div class="block">
+        {{ form_row(form.username) }}
+    </div>
+    <div class="block">
+        {{ form_row(form.name) }}
+    </div>
+    <div class="block">
+        {{ form_row(form.surname) }}
+    </div>
+    <div class="block">
+        {{ form_row(form.phone) }}
+    </div>
+    <div class="block">
+        {{ form_row(form.email) }}
+    </div>
+    <div class="block">
+        {{ form_row(form.password.first) }}
+    </div>
+    <div class="block">
+        {{ form_row(form.password.second) }}
+    </div>
+
+    <div class="block" id="button_form">
+        <button type="submit" class="button is-small is-fullwidth is-primary" id="button_submit">Enregistrer</button>
+    </div>
+
+    {{ form(form) }}
+{% endblock %}
+
+
+

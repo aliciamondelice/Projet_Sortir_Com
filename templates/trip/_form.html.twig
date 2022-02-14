@@ -1,6 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
 {{ form_start(formTrip) }}
     {{ form_row(formTrip.name, {
         label: 'Intitulé'
     }) }}
+
     <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
+{% endblock %}
