@@ -136,4 +136,5 @@ class TripController extends AbstractController
 
         return $this->redirectToRoute('trip_index', [], Response::HTTP_SEE_OTHER);
     }
+
 }
