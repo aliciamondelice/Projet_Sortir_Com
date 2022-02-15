@@ -8,14 +8,18 @@
         <thead>
         <tr>
             <th>Nom</th>
+            <th>Prenom</th>
+            <th>Site</th>
+            <th>Detail</th>
         </tr>
         </thead>
         <tbody>
         {% for user in users %}
             <tr>
-
+                <td>{{ user.surname }}</td>
                 <td>{{ user.name }}</td>
-
+                <td>{{ user.site.name }}</td>
+                <td><a href="{{ path('profil', {id: user.id}) }}">Afficher les details</a></td>
             </tr>
         {% else %}
             <tr>
