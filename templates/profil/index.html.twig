@@ -25,13 +25,15 @@
         <div class="message-body has-text-centered">
             <p><span class="has-text-weight-bold">Prénom : </span>{{ user.getName() }}</p>
             <p><span class="has-text-weight-bold">Nom : </span>{{ user.getSurname() }}</p>
+            {% if app.user.roles[0] ==("ROLE_ADMIN") or user.id == app.user.id %}
             <p><span class="has-text-weight-bold">Téléphone : </span>{{ user.getPhone() }}</p>
             <p><span class="has-text-weight-bold">Email : </span>{{ user.getEmail() }}</p>
+            {% endif %}
             <p><span class="has-text-weight-bold">Site : </span>{{ user.site.getName() }}</p>
         </div>
     </div>
 
-    <a href="{{ path("home") }}" class="button is-fullwidth is-primary mb-3">Retour</a>
+    <a href="{{ path("user") }}" class="button is-fullwidth is-primary mb-3">Retour</a>
 
     {% if user.id == app.user.id %}
         <a href="/profil/{{ user.id }}/edit" class="button is-fullwidth is-primary">Modifier le profil</a>

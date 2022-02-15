@@ -4,5 +4,25 @@
 {% block meta_title %}Liste des sites{% endblock %}
 
 {% block body %}
-    <!-- Contenu de la page à développer ici (Ce qu'il y a après le titre de la page en bleu) -->
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Nom</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for site in siteRep %}
+            <tr>
+
+                <td>{{ site.name }}</td>
+
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ path('new_site') }}">Ajouter un site</a>
 {% endblock %}

@@ -6,6 +6,8 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
+use JetBrains\PhpStorm\Internal\LanguageLevelTypeAware;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 use Symfony\Component\HttpFoundation\File\File;
@@ -17,12 +19,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
- */
-
-
-/**
  * @Vich\Uploadable
  */
+
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -68,7 +67,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $surname;
 
 
-    #[Assert\Regex(pattern: "/^(0)[1-9]([-. ]?[0-9]{2} ){3}([-. ]?[0-9]{2})$/", message: "Veuillez rentrer un numéro de téléphone qui respecte cet format SVP : 0X XX XX XX XX.")]
+    #[Assert\Regex(pattern: "/^(0)[1-9]([-. ]?[0-9]{2}){3}([-. ]?[0-9]{2})$/", message: "Veuillez rentrer un numéro de téléphone qui respecte cet format SVP : 0X XX XX XX XX.")]
     #[ORM\Column(type: 'string', length: 15)]
     private $phone;
 
@@ -83,7 +82,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
      /**
      * @Vich\UploadableField(mapping="user_picture", fileNameProperty="PictureLink")
-     * @param File|UploadedFile|null $fichierImage
+     * @param File|UploadedFile|null $pictureFile
      */
     private $pictureFile;
 
@@ -306,7 +305,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->pictureFile = $fichier;
         if ($fichier) {
-            $this->author = '';
+            $this->username = '';
         }
         return $this;
     }
@@ -332,5 +331,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+    /** @see \Serializable::serialize() */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->username,
+            $this->password,
+        ));
+    }
+    /** @see \Serializable::unserialize() */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->username,
+            $this->password,
+            ) = unserialize($serialized, array('allowed_classes' => false));
     }
 }

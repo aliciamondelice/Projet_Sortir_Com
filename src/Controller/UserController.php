@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -9,6 +10,16 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class UserController extends AbstractController
 {
+    #[Route('/utilisateur', name: 'user')]
+    public function index(UserRepository $userRepository): Response
+    {
+
+        $user= $userRepository->findAll();
+        return $this->render('user/index.html.twig', [
+            'controller_name' => 'UserController',
+            'users'=> $user,
+        ]);
+    }
     /**
      * @Route("/login", name="app_login")
      */

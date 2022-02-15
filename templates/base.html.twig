@@ -29,7 +29,13 @@
 
                 <div id="navbarBasicExample" class="navbar-menu">
                     <div class="navbar-end">
+                        {% if app.user.roles[0] ==("ROLE_ADMIN") %}
+                            <a class="navbar-item color-text-blue has-text-weight-medium" href="{{ path('user') }}">Utilisateur</a>
+                            <a class="navbar-item color-text-blue has-text-weight-medium" href="{{ path('city') }}">Ville</a>
+                            <a class="navbar-item color-text-blue has-text-weight-medium" href="{{ path('site') }}">Campus</a>
+                        {% endif %}
                         <a class="navbar-item color-text-blue has-text-weight-medium" href="{{ path('home') }}">Accueil</a>
+                        <a class="navbar-item color-text-blue has-text-weight-medium" href="{{ path('trip_index') }}">Sortie</a>
                         <a class="navbar-item color-text-blue has-text-weight-medium" href="{{ path('profil', {'id' : app.user.id}) }}">Mon profil</a>
                         <a class="navbar-item color-text-blue has-text-weight-medium" href="{{ path('app_logout') }}">Se déconnecter</a>
                     </div>

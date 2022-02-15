@@ -2,7 +2,7 @@
 {% block stylesheets %}
     <link rel="stylesheet" href=" {{ asset('css/profil.css') }}">
 {% endblock %}
-{% block title %}Mon profil{% endblock %}
+{% block title %}Profil utilisateur{% endblock %}
 
 
 {% block body %}
@@ -48,7 +48,7 @@
     <div class ="block" id ="button_form">
 
     <button type="submit" class="button is-small is-fullwidth is-primary" id = "button_submit">Enregistrer</button>
-    <button type="reset" class="button is-small is-fullwidth is-danger">Annuler</button>
+    <a type="reset" class="button is-small is-fullwidth is-danger" href="{{ path('user') }}">Annuler</a>
     </div>
 
 
