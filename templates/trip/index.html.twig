@@ -31,9 +31,11 @@
                 <td>
                     <a href="{{ path('trip_show', {'id': trip.id}) }}">Afficher</a>
                 </td>
+                {% if  app.user.roles[0] ==("ROLE_ADMIN") or trip.organizer.id == app.user.id %}
                 <td>
                     <a href="{{ path('trip_edit', {'id': trip.id}) }}">Modifier</a>
                 </td>
+                {% endif %}
             </tr>
         {% else %}
             <tr>
