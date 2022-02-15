@@ -8,10 +8,10 @@
     <div class="background-image" id="header-home">
         <div class="container is-flex is-justify-content-center is-align-items-center">
             <div class="section is-flex-grow-1">
-                <form id="search" onsubmit="launch_search(); return false;">
+                {#<form id="search" onsubmit="launch_search(); return false;">#}
                     <div class="columns">
                         <div class="column">
-                            <input id="search" class="input mb-2" type="text" placeholder="Rechercher...">
+                            <input id="keywords" class="input mb-2" type="text" placeholder="Rechercher...">
                             <div class="control has-icons-left mb-2">
                                 <label class="has-text-white">Date de début</label>
                                 <input id="date_debut" class="input" type="datetime-local" placeholder="Date début">
@@ -20,7 +20,7 @@
                                 <label class="has-text-white">Date de clôture</label>
                                 <input id="date_cloture" class="input" type="datetime-local" placeholder="Date fin">
                             </div>
-                            <button class="button is-black is-fullwidth" type="submit">Rechercher</button>
+                            <button class="button is-black is-fullwidth" type="submit" onclick="launch_search()">Rechercher</button>
                         </div>
 
                         <div class="column">
@@ -53,7 +53,7 @@
                             </label>
                         </div>
                     </div>
-                </form>
+                {#</form>#}
             </div>
         </div>
     </div>
@@ -74,7 +74,7 @@
         {% for trip in trips %}
             {% if (((app.user.id != trip.organizer.id and trip.state.id != 1) or (app.user.id == trip.organizer.id)) and (trip.state.id != 6)) %}
                 <div class="column is-4">
-                    <div class="card" data-organizer="{{ trip.organizer.id }}" data-register="{{ app.user.id }}">
+                    <div class="card" data-organizer="{{ trip.organizer.id }}" data-register="{{ app.user.id }}" data-title="{{ trip.name }}" {#data-StartDate = "{{ trip.startingDate }}"#}>
                         <div class="card-content">
                             <p class="title">
                                 {{ trip.name }}
@@ -138,41 +138,30 @@
         {% endfor %}
     </div>
 
-    {#<script>
+    <script>
         function launch_search() {
-            /*Je récupère la checkbox #oragnizer*/
-            let checkbox_organizer_id = document.querySelector('#organizer');
+            /*Je récupère toutes les cards*/
+            let cards = document.querySelectorAll('.card');
 
-            /*Si #organizer est coché, je récupère toutes les sorties */
-            if (checkbox_organizer_id.checked) {
-                let cards = document.querySelectorAll('.card')
-                /*Pour chacune des sorties, j'ajoute une classe pour les masquer. Et je récupère l'id de l'utilisateur qui a crée la sortie*/
-                cards.forEach(function (card) {
+            /*Je récupère la valeur de l'input rechercher*/
+            let keywordsSearch = document.querySelector('#keywords').value.toLowerCase();
+
+            /*let dateStart = new Date();
+            dateStart = document.querySelector('#date_debut').value;*/
+
+
+            cards.forEach(function (card){
+                card.parentElement.classList.remove('is-hidden');
+                console.log(cards);
+                if(keywordsSearch !== '' && keywordsSearch.indexOf(card.getAttribute("data-title").toLowerCase())
+                    /*|| dateStart === card.getAttribute("data-StartDate")*/
+                ){
                     card.parentElement.classList.add('is-hidden');
-                    let card_organizer_id = card.getAttribute("data-organizer");
-                        /*Si l'utilisateur connecté = à l'id de l'utilisateur qui a crée la sortie, j'affiche la card */
-                        if (card_organizer_id === checkbox_organizer_id.value) {
-                            card.parentElement.classList.remove('is-hidden');
-                        }
-                });
-            }
-
-            let checkbox_is_register = document.querySelector('#is-register');
-
-            if (checkbox_is_register.checked){
-                let cards = document.querySelectorAll('.card')
-
-                cards.forEach(function (card) {
-                    card.parentElement.classList.add('is-hidden');
-                    let card_is_register = card.getAttribute("data-register");
-
-                    if (card_is_register === checkbox_is_register.value) {
-                        card.parentElement.classList.remove('is-hidden');
-                    }
-                });
-            }
+                    console.log("prout");
+                }
+            });
         }
-    </script>#}
+    </script>
 {% endblock %}
 
 
