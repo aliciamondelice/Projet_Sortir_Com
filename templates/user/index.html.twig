@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des sites{% endblock %}
-{% block meta_title %}Liste des sites{% endblock %}
+{% block title %}Liste des utilisateurs{% endblock %}
+{% block meta_title %}Liste des utilisateurs{% endblock %}
 
 {% block body %}
     <table class="table">
@@ -11,10 +11,10 @@
         </tr>
         </thead>
         <tbody>
-        {% for site in siteRep %}
+        {% for user in users %}
             <tr>
 
-                <td>{{ site.name }}</td>
+                <td>{{ user.name }}</td>
 
             </tr>
         {% else %}
@@ -24,5 +24,5 @@
         {% endfor %}
         </tbody>
     </table>
-    <a href="{{ path('new_site') }}">Ajouter un site</a>
+    <a href="{{ path('app_register') }}">Ajouter un utilisateur</a>
 {% endblock %}
