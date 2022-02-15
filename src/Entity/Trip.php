@@ -58,6 +58,8 @@ class Trip
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->starting_date = new \DateTime();
+        $this->ending_date = new \DateTime();
 
     }
 

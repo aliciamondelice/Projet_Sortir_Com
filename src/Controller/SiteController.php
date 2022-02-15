@@ -4,23 +4,27 @@ namespace App\Controller;
 
 use App\Entity\Site;
 use App\Form\SiteType;
+use App\Repository\SiteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('/site')]
 class SiteController extends AbstractController
 {
-    #[Route('/site', name: 'site')]
-    public function index(): Response
+    #[Route('/', name: 'site')]
+    public function index(SiteRepository $siteRepository): Response
     {
+        $siteRep= $siteRepository->findAll();
         return $this->render('site/index.html.twig', [
             'controller_name' => 'SiteController',
+            'siteRep' => $siteRep,
         ]);
     }
 
-    #[Route('/new_site', name:'new_site')]
+    #[Route('/new', name:'new_site')]
 
     public function newSite(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -32,7 +36,7 @@ class SiteController extends AbstractController
             $entityManager->persist($site);
             $entityManager->flush();
 
-            return $this->redirectToRoute('new_place', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('site', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('site/new.html.twig', [
