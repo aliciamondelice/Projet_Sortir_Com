@@ -1,7 +1,9 @@
 {% extends 'base.html.twig' %}
 {% block title %}Profil{% endblock %}
 {% block meta_title %}Profil{% endblock %}
-
+{% block stylesheets %}
+    <link rel="stylesheet" href=" {{ asset('css/profil.css') }}">
+{% endblock %}
 {% block body %}
     <!-- Contenu de la page à développer ici (Ce qu'il y a après le titre de la page en bleu) -->
     <div class="has-text-centered">
