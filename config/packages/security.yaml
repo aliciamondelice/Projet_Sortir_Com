@@ -45,6 +45,7 @@ security:
     - { path: ^/site, roles: ROLE_ADMIN }
     - { path: ^/city, roles: ROLE_ADMIN }
     - { path: ^/register, roles: ROLE_ADMIN }
+    - { path: ^/utilisateur, roles: ROLE_ADMIN }
 
 when@test:
   security:
