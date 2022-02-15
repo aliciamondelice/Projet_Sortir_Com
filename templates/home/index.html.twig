@@ -74,7 +74,7 @@
         {% for trip in trips %}
             {% if (((app.user.id != trip.organizer.id and trip.state.id != 1) or (app.user.id == trip.organizer.id)) and (trip.state.id != 6)) %}
                 <div class="column is-4">
-                    <div class="card" data-organizer="{{ trip.organizer.id }}" data-register="{{ app.user.id }}" data-title="{{ trip.name }}" {#data-StartDate = "{{ trip.startingDate }}"#}>
+                    <div class="card" data-organizer="{{ trip.organizer.id }}" data-register="{{ app.user.id }}" data-title="{{ trip.name }}" data-StartDate = "{{ trip.startingDate|date('Y-m-d H:i:s') }}">
                         <div class="card-content">
                             <p class="title">
                                 {{ trip.name }}
@@ -146,18 +146,24 @@
             /*Je récupère la valeur de l'input rechercher*/
             let keywordsSearch = document.querySelector('#keywords').value.toLowerCase();
 
-            /*let dateStart = new Date();
-            dateStart = document.querySelector('#date_debut').value;*/
-
+            let dateStart = document.querySelector('#date_debut').value;
+            let dateSt = new Date(dateStart)
+            console.log(dateSt)
+            console.log(typeof dateSt)
 
             cards.forEach(function (card){
-                card.parentElement.classList.remove('is-hidden');
-                console.log(cards);
-                if(keywordsSearch !== '' && keywordsSearch.indexOf(card.getAttribute("data-title").toLowerCase())
-                    /*|| dateStart === card.getAttribute("data-StartDate")*/
+
+                let dateCard = new Date(card.getAttribute("data-StartDate"));
+
+                console.log(dateCard);
+                console.log(typeof dateCard)
+                card.parentElement.classList.add('is-hidden');
+
+                if( keywordsSearch !== '' && keywordsSearch.indexOf(card.getAttribute("data-title").toLowerCase())
+                    || dateSt.valueOf() === dateCard.valueOf()
                 ){
-                    card.parentElement.classList.add('is-hidden');
-                    console.log("prout");
+                    console.log(card.getAttribute("data-StartDate"))
+                    card.parentElement.classList.remove('is-hidden');
                 }
             });
         }
