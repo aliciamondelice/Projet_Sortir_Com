@@ -14,8 +14,8 @@
 
     {{ form_start(form) }}
 
-    <div class="block" id="img_default">
-        <div class=photo_default">{{ form_row(form.pictureFile) }}</div>
+    <div class="block">
+        {{ form_row(formAvatar.avatar) }}
     </div>
     <div class="block">
         {{ form_row(form.username) }}
@@ -39,9 +39,7 @@
         {{ form_row(form.password.second) }}
     </div>
 
-    <div class="block" id="button_form">
-        <button type="submit" class="button is-small is-fullwidth is-primary" id="button_submit">Enregistrer</button>
-    </div>
+    <button type="submit" class="button is-fullwidth is-primary" id="button_submit">Enregistrer</button>
 
     {{ form(form) }}
 {% endblock %}
