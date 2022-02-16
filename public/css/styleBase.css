@@ -1,6 +1,13 @@
 html{
     min-height: 100%;
 }
+.image img {
+    display: block;
+    height: 100%;
+    width: 100%;
+    border-radius: 65px;
+    object-fit: cover;
+}
 html:after {
     content: "";
     position: absolute;
