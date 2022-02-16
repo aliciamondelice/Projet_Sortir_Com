@@ -32,6 +32,7 @@
             <label class="label">Ville</label>
             {{ form_row((formPlace.city), {}) }}
         </div>
+            <a href="{{ path('new_city_user') }}" class="button is-black is-fullwidth mb-4">Ajouter une ville</a>
 
         <div class="field" id="place">
             <label class="label">Lieu</label>
@@ -58,14 +59,24 @@
                     document.querySelector('#add_place').textContent = "Ajouter un lieu"
                     document.getElementById("trip_place").required = true;
                 }
+
             }
+            function coordinate(){
+                    document.querySelector('#coordinate').classList.remove("is-hidden")
+                }
         </script>
 
         <div class="has-background-light p-3 mb-6 is-hidden" id="new_place">
-            {{ form_row(formPlace.name, {}) }}
-            {{ form_row(formPlace.street, {}) }}
-            {{ form_row(formPlace.latitude, {}) }}
-            {{ form_row(formPlace.longitude, {}) }}
+            <a class="haut">{{ form_row(formPlace.name, {}) }}</a>
+            <a class="haut">{{ form_row(formPlace.street, {}) }}</a>
+
+
+            <a class="button" onclick="coordinate()">Ajouter Coordonées</a>
+
+            <div class="has-background-light p-3 mb-6 is-hidden" id="coordinate">
+                {{ form_row(formPlace.latitude, {}) }}
+                {{ form_row(formPlace.longitude, {}) }}
+            </div>
         </div>
     {{ form_end(formTrip) }}
     <a class="button is-danger is-fullwidth" href="{{ path('home') }}">Annuler</a>

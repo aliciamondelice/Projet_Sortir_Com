@@ -30,6 +30,7 @@
                 <div id="navbarBasicExample" class="navbar-menu">
                     <div class="navbar-end">
                         {% if app.user.roles[0] ==("ROLE_ADMIN") %}
+                            <a class="navbar-item color-text-green has-text-weight-medium" >ADMINISTRATEUR</a>
                             <a class="navbar-item color-text-blue has-text-weight-medium" href="{{ path('user') }}">Utilisateur</a>
                             <a class="navbar-item color-text-blue has-text-weight-medium" href="{{ path('city') }}">Ville</a>
                             <a class="navbar-item color-text-blue has-text-weight-medium" href="{{ path('site') }}">Campus</a>
@@ -46,7 +47,7 @@
         <div class="container">
             <div class="section pb-0">
                 <div class="mb-2">
-                    <p class="has-text-centered">Bonjour, {{ app.user.name }}</p>
+                    <p class="has-text-centered">Bonjour, {{ app.user.username }}</p>
                 </div>
                 <h1 class="title  is-1 has-text-centered has-text-weight-bold color-text-blue">{% block title %}{% endblock %}</h1>
             </div>
@@ -57,7 +58,7 @@
                 {% block body %}{% endblock %}
             </div>
         </div>
-    <script src="{{ asset('JS/script.js') }}"></script>
+    <script src="{{ asset('script.js') }}"></script>
         {% block javascripts %}
 
         {% endblock %}

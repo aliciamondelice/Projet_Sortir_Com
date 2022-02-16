@@ -3,7 +3,7 @@
     <link rel="stylesheet" href=" {{ asset('css/update_profil.css') }}">
 {% endblock %}
 {% block title %}
-    Modifier profil  {{ user.name }} {{ user.surname }}
+    Modifier profil
 {% endblock %}
 {% block body %}
     {% if user.getPictureLink() is null %}
@@ -43,7 +43,7 @@
         {{ form_row(form.password.second) }}
     </div>
 
-    <button type="submit" class="button is-fullwidth is-primary" id="button_submit">Enregistrer</button>
+    <button type="submit" class="button is-fullwidth is-primary mb-3" id="button_submit">Enregistrer</button>
     <a class="button is-fullwidth is-danger" href="{{ path('home') }}">Annuler</a>
     {{ form(form) }}
     {% block javascripts %}

@@ -7,14 +7,17 @@
     <table class="table">
         <thead>
         <tr>
+            <th>Id</th>
             <th>Nom</th>
+            <th>Option</th>
         </tr>
         </thead>
         <tbody>
         {% for site in siteRep %}
             <tr>
-
+                <td>{{ site.id }}</td>
                 <td>{{ site.name }}</td>
+                <td><a href="deleteSite/{{ site.id }}">Supprimer</a> </td>
 
             </tr>
         {% else %}

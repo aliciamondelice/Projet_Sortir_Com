@@ -8,6 +8,7 @@
         <thead>
         <tr>
             <th>Nom</th>
+            <th>Option</th>
         </tr>
         </thead>
         <tbody>
@@ -15,6 +16,7 @@
         <tr>
 
             <td>{{ city.name }}</td>
+            <td><a href="deleteCity/{{ city.id }}">Supprimer</a></td>
 
         </tr>
     {% else %}

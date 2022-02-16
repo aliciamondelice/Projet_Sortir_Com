@@ -57,9 +57,32 @@
                 <p>{{ trip.site.name }}</p>
             </div>
             <div class="field">
-                <label class="label mb-0">Lieu (<a
-                            href="https://www.google.com/maps/dir/?api=1&destination={{ trip.place.city.name }}+{{ trip.place.street }}"
-                            target="_blank">Itinéraire Google Map</a>)</label>
+                <label class="label mb-0">Lieu (<a onclick="my_rendre()">M'y rendre</a>)</label>
+
+                <script>
+                    function my_rendre(){
+                        if(document.querySelector('#myrendre').classList.contains('is-hidden')) {
+                            document.querySelector('#myrendre').classList.remove("is-hidden")
+                        }
+                        else{
+                            document.querySelector('#myrendre').classList.add("is-hidden")
+                        }
+                    }
+                </script>
+
+                        <div class="has-background-light p-3 mb-6 is-hidden" id="myrendre">
+                            <a href="https://www.google.com/maps/dir/?api=1&destination={{ trip.place.city.name }}+{{ trip.place.street }}&travelmode=driving"
+                               target="_blank">Voiture
+                            </a>
+                            <br>
+                            <a href="https://www.google.com/maps/dir/?api=1&destination={{ trip.place.city.name }}+{{ trip.place.street }}&travelmode=bicycling"
+                               target="_blank">Vélo
+                            </a>
+                            <br>
+                            <a href="https://www.google.com/maps/dir/?api=1&destination={{ trip.place.city.name }}+{{ trip.place.street }}&travelmode=transit"
+                               target="_blank">Transport en commun
+                            </a>
+                        </div>
                 <p>{{ trip.place.name }}</p>
                 <p>{{ trip.place.street }}</p>
                 <p>({{ trip.place.latitude }}; {{ trip.place.longitude }})</p>
@@ -81,7 +104,7 @@
                     {% if user.getPictureLink() is not null %}
                         <div class="media-left">
                             <figure class="image is-128x128">
-                                <img src="{{ asset('images/users/'~user.getPictureLink()) }}" alt="Photo utilisateur">
+                                <img class="profil_participant is-rounded" src="{{ asset('images/users/'~user.getPictureLink()) }}" alt="Photo utilisateur">
                             </figure>
                         </div>
                     {% endif %}
