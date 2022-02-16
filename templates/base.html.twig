@@ -18,6 +18,7 @@
                 <div class="navbar-brand">
                     <a class="navbar-item" href="{{ path('home') }}">
                         <img src="{{ asset('images/Logo_green.png') }}" alt="logo" id="img">
+                        <p class="color-text-blue ml-2 has-text-weight-bold">SORTIR.COM</p>
                     </a>
 
                     <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -27,16 +28,18 @@
                 </a>
                 </div>
 
-                <div id="navbarBasicExample" class="navbar-menu">
-                    <div class="navbar-end">
-                        {% if app.user.roles[0] ==("ROLE_ADMIN") %}
-                            <a class="navbar-item color-text-green has-text-weight-medium" >ADMINISTRATEUR</a>
-                            <a class="navbar-item color-text-blue has-text-weight-medium" href="{{ path('user') }}">Utilisateur</a>
-                            <a class="navbar-item color-text-blue has-text-weight-medium" href="{{ path('city') }}">Ville</a>
+                <div id="navbarBasicExample" class="navbar-menu ml-5">
+                    {% if app.user.roles[0] ==("ROLE_ADMIN") %}
+                        <div class="navbar-start">
+                            <p class="navbar-item color-text-green has-text-white has-text-weight-medium" >ADMINISTRATEUR</p>
+                            <a class="navbar-item color-text-blue has-text-weight-medium" href="{{ path('user') }}">Utilisateurs</a>
+                            <a class="navbar-item color-text-blue has-text-weight-medium" href="{{ path('city') }}">Villes</a>
                             <a class="navbar-item color-text-blue has-text-weight-medium" href="{{ path('site') }}">Campus</a>
-                        {% endif %}
+                            <a class="navbar-item color-text-blue has-text-weight-medium" href="{{ path('trip_index') }}">Sorties</a>
+                        </div>
+                    {% endif %}
+                    <div class="navbar-end">
                         <a class="navbar-item color-text-blue has-text-weight-medium" href="{{ path('home') }}">Accueil</a>
-                        <a class="navbar-item color-text-blue has-text-weight-medium" href="{{ path('trip_index') }}">Sortie</a>
                         <a class="navbar-item color-text-blue has-text-weight-medium" href="{{ path('profil', {'id' : app.user.id}) }}">Mon profil</a>
                         <a class="navbar-item color-text-blue has-text-weight-medium" href="{{ path('app_logout') }}">Se déconnecter</a>
                     </div>
