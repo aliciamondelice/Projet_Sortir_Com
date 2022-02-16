@@ -4,16 +4,14 @@
 {% block meta_title %}Créer une ville{% endblock %}
 
 {% block body %}
-    <!-- Contenu de la page à développer ici (Ce qu'il y a après le titre de la page en bleu) -->
-
     {{ form_start(formCity) }}
-    {{ form_row(formCity.name, {
-        label: 'Nom'
-    }) }}
-    {{ form_row(formCity.cp, {
-        label: 'Code Postal'
-    }) }}
+    <!-- Contenu de la page à développer ici (Ce qu'il y a après le titre de la page en bleu) -->
+    <h2 class="has-text-centered title has-text-weight-medium has-text-black">Nouvelle ville</h2>
+<div class="has-background-light p-3 mb-3">
 
+    {{ form_row(formCity.name, {}) }}
+    {{ form_row(formCity.cp, {}) }}
+</div>
     <button type="submit" class="button is-primary is-fullwidth mb-3">{{ button_label|default('Enregistrer') }}</button>
     <a class="button is-danger is-fullwidth" href="{{ path("trip_new") }}">Annuler</a>
     {{ form_end(formCity) }}
