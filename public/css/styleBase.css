@@ -67,4 +67,11 @@ html:after {
 #trip_starting_date_time_hour, #trip_starting_date_time_minute {
     margin: 0 5px;
 }
-#map { height: 300px; }
+#map {
+    height: 300px;
+}
+.profil_participant{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
