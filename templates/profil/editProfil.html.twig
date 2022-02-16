@@ -46,7 +46,9 @@
     <button type="submit" class="button is-fullwidth is-primary" id="button_submit">Enregistrer</button>
     <a class="button is-fullwidth is-danger" href="{{ path('home') }}">Annuler</a>
     {{ form(form) }}
-
+    {% block javascripts %}
+        <script src="{{ asset('JS/annimPageEditProfil.js') }}"></script>
+    {% endblock %}
 {% endblock %}
 
 

@@ -61,3 +61,25 @@ html:after {
     margin: 0 5px;
 }
 #map { height: 300px; }
+
+p.has-text-centered {
+    padding-top: 30px;
+    position: relative;
+    text-align: center;
+    font-size: 22px;
+    letter-spacing: 8px;
+    background: linear-gradient(#000, #000);
+    background-repeat: no-repeat;
+    background-size: 80%;
+    animation: animate 8s infinite;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: rgba(0, 0, 0, 0);
+}
+@keyframes animate {
+    0% {
+        background-position: -500%;
+    }
+    100% {
+        background-position: 500%;
+    }
+}

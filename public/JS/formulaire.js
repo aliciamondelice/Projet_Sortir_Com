@@ -8,6 +8,7 @@ validInputUsername2.addEventListener('input',(e)=>{
 
     }else{
         validInputUsername2.style.borderColor="red";
+        validInputUsername2.style.borderWidth="2px";
     }
 })
 let validInputName = document.getElementById("registration_form_name");
@@ -19,6 +20,7 @@ validInputName.addEventListener('input',(e)=>{
 
     }else{
         validInputName.style.borderColor="red";
+        validInputUsername2.style.borderWidth="2px";
     }
 })
 let validInputSurname = document.getElementById("registration_form_surname");
@@ -29,17 +31,11 @@ validInputSurname.addEventListener('input',(e)=>{
         validInputSurname.style.borderWidth="2px";
     }else{
         validInputSurname.style.borderColor="red";
+        validInputUsername2.style.borderWidth="2px";
     }
 })
 
 
-
-let img = document.getElementById('img');
-
-let angle=0;
-setInterval(function(){
-    img.style.transform="rotateZ("+ angle++ +"deg)";
-}, 60);
 
 
 window.addEventListener('click',(e)=>{

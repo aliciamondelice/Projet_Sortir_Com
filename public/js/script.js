@@ -22,3 +22,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+let img = document.getElementById('img');
+let angle=0;
+setInterval(function(){
+    img.style.transform="rotateZ("+ angle++ +"deg)";
+}, 40);
