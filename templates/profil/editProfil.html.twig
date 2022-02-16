@@ -7,16 +7,20 @@
 {% endblock %}
 {% block body %}
     {% if user.getPictureLink() is null %}
-        <div class="block" id="img_default">
-            <img class="photo_default" src="{{ asset('images/img_user.png') }}" alt="photo_user_par_default">
-        </div>
+        <figure class="image avatar">
+            <img class="is-rounded" src="{{ asset('images/img_user.png') }}" alt="photo_user_par_default">
+        </figure>
     {% endif %}
 
     {{ form_start(form) }}
 
-   {# <div class="block">
+    {# <div class="block">
         {{ form_row(formAvatar.avatar) }}
-    </div>#}
+
+    </div> #}
+    <div class="block">
+        {{ form_row(form.pictureFile) }}
+    </div>
     <div class="block">
         {{ form_row(form.username) }}
     </div>
@@ -40,8 +44,9 @@
     </div>
 
     <button type="submit" class="button is-fullwidth is-primary" id="button_submit">Enregistrer</button>
-
+    <a class="button is-fullwidth is-danger" href="{{ path('home') }}">Annuler</a>
     {{ form(form) }}
+
 {% endblock %}
 
 
