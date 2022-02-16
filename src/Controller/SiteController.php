@@ -44,5 +44,14 @@ class SiteController extends AbstractController
             'formSite' => $formSite,
         ]);
     }
+    #[Route('/deleteSite/{id}', name: 'site_delete')]
+    public function delete(Request $request, Site $site, EntityManagerInterface $entityManager): Response
+    {
+        $this->container->get('security.token_storage')->setToken(null);
+        $entityManager->remove($site);
+        $entityManager->flush();
+        $this->addFlash('success', 'Le site a bien été supprimé !');
+        return $this->redirectToRoute('site');
+    }
 
 }

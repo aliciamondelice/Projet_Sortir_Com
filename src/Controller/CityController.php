@@ -7,6 +7,7 @@ use App\Entity\Place;
 use App\Form\CityType;
 use App\Form\PlaceType;
 use App\Repository\CityRepository;
+use App\Repository\StateRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/city')]
 class CityController extends AbstractController
 {
-    #[Route('/', name: 'city')]
+    #[Route('/list', name: 'city')]
     public function index(CityRepository $cityRepository): Response
     {
 
@@ -65,6 +66,35 @@ class CityController extends AbstractController
             'city' => $city,
             'formCity' => $formCity,
         ]);
+    }
+    #[Route('/newcity', name:'new_city_user')]
+    public function newCityUser(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $city = new City();
+        $formCity = $this->createForm(CityType::class, $city);
+        $formCity->handleRequest($request);
+
+        if ($formCity->isSubmitted() && $formCity->isValid()) {
+            $entityManager->persist($city);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('trip_new', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('city/newUser.html.twig', [
+            'city' => $city,
+            'formCity' => $formCity,
+        ]);
+    }
+
+    #[Route('/deleteCity/{id}', name: 'city_delete')]
+    public function delete(Request $request, City $city, EntityManagerInterface $entityManager): Response
+    {
+        $this->container->get('security.token_storage')->setToken(null);
+        $entityManager->remove($city);
+        $entityManager->flush();
+        $this->addFlash('success', 'La ville a bien été supprimée !');
+        return $this->redirectToRoute('city');
     }
 
 }
