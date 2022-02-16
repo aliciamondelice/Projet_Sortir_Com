@@ -52,7 +52,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Seriali
     #[ORM\OneToMany(targetEntity: Trip::class, mappedBy: 'organizer')]
     private $organized_trips;
 
-    #[ORM\Column(type: 'string', length: 50)]
+    #[ORM\Column(type: 'string', length: 50 , unique:true)]
     #[Assert\Regex(pattern: "/(^([0-9a-zA-Z_]){3,20}$)/", message: "Le pseudo doit avoir que des lettres et des chiffres avec 3 caractères au minimum et 20 au maximum.")]
     private $username;
 
