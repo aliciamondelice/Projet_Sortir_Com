@@ -105,7 +105,7 @@ class TripController extends AbstractController
 
     }
 
-    #[Route('/{id}', name: 'trip_show', methods: ['GET','POST'])]
+    #[Route('/{id}', name: 'trip_show', methods: ['GET'])]
     public function show(Trip $trip): Response
     {
         return $this->render('trip/show.html.twig', [
