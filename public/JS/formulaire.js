@@ -1,13 +1,13 @@
 
-let validInputUsername = document.getElementById("registration_form_username");
-validInputUsername.addEventListener('input',(e)=>{
+let validInputUsername2 = document.getElementById("registration_form_username");
+validInputUsername2.addEventListener('input',(e)=>{
 
     if(e.target.value.length>=3){
-        validInputUsername.style.borderColor="#006400";
-        validInputUsername.style.borderWidth="2px";
+        validInputUsername2.style.borderColor="#006400";
+        validInputUsername2.style.borderWidth="2px";
 
     }else{
-        validInputUsername.style.borderColor="red";
+        validInputUsername2.style.borderColor="red";
     }
 })
 let validInputName = document.getElementById("registration_form_name");
@@ -15,7 +15,7 @@ let validInputName = document.getElementById("registration_form_name");
 validInputName.addEventListener('input',(e)=>{
     if(e.target.value.length>=3){
         validInputName.style.borderColor="#006400";
-        validInputUsename.style.borderWidth="2px";
+        validInputName.style.borderWidth="2px";
 
     }else{
         validInputName.style.borderColor="red";
@@ -26,7 +26,7 @@ let validInputSurname = document.getElementById("registration_form_surname");
 validInputSurname.addEventListener('input',(e)=>{
     if(e.target.value.length>=3){
         validInputSurname.style.borderColor="#006400";
-        validInputUsename.style.borderWidth="2px";
+        validInputSurname.style.borderWidth="2px";
     }else{
         validInputSurname.style.borderColor="red";
     }
