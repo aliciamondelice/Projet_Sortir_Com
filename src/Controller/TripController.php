@@ -198,7 +198,7 @@ class TripController extends AbstractController
     public function updateState($trips, StateRepository $stateRepository, EntityManagerInterface $entityManager)
     {
         foreach($trips as $trip){
-            /*Si la date de clôture est inférieure ç la date du jour et qu'elle est ouverte, alors elle est fermée*/
+            /*Si la date de clôture est inférieure à la date du jour et qu'elle est ouverte, alors elle est fermée*/
             if ($trip->getEndingDate()->format('Y-m-d') < date('Y-m-d') && $trip->getState()->getId() == 2){
                 /*J'instancie l'état dont l'id est 4(fermé)*/
                 $state = $stateRepository->find(4);

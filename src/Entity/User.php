@@ -54,7 +54,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Seriali
 
     #[ORM\Column(type: 'string', length: 50)]
     #[Assert\Regex(pattern: "/(^([0-9a-zA-Z_]){3,20}$)/", message: "Le pseudo doit avoir que des lettres et des chiffres avec 3 caractères au minimum et 20 au maximum.")]
-
     private $username;
 
     #[ORM\Column(type: 'string', length: 50)]

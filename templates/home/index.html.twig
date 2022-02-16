@@ -82,7 +82,7 @@
                             </p>
                             <p class="subtitle">
                                 <a href="{{ path('profil', {id : trip.organizer.id}) }}">
-                                    @{{ trip.organizer.username }}
+                                    @{{ trip.organizer.name }}
                                 </a>
                             </p>
                             <p class="content">
@@ -101,33 +101,42 @@
                             </p>
                         </div>
                         <footer class="card-footer">
-                            <p class="card-footer-item">
-                            <span>
-                                <a href="{{ path('trip_show', {id : trip.id}) }}">Afficher</a>
-                            </span>
-                            </p>
+                                <p class="card-footer-item">
+                                <span>
+                                    <a href="{{ path('trip_show', {id : trip.id}) }}">Afficher</a>
+                                </span>
+                                </p>
+                            {# Si l'état est différent de 5(annulée) et que mon tableau de participant est différent de nbre max de participant
+                            alors j'affiche s'inscrire et se désinscire#}
                             {% if trip.state.id != 5 and trip.users|length != trip.maxAttendees %}
-                                {# Si l'id de l'utilisateur est dans la liste des utilisateurs inscrits #}
-                                {% if trip in app.user.trips%}
-                                    {{ include('trip/_unsubscribe_user_form.html.twig')  }}
-                                {% else %}
-                                    {# Si l'id de l'utilisateur n'est pas orgnisateur#}
-                                    {% if app.user.id != trip.organizer.id %}
-                                        {{ include('trip/_register_user_form.html.twig')  }}
-                                    {% endif %}
+
+                                {% if trip.startingDate > "now"|date %}
+
+                                        {# Si l'id de l'utilisateur est dans la liste des utilisateurs inscrits #}
+                                        {% if trip in app.user.trips%}
+                                            {{ include('trip/_unsubscribe_user_form.html.twig')  }}
+                                        {% else %}
+                                            {# Si l'id de l'utilisateur n'est pas organisateur#}
+                                            {% if app.user.id != trip.organizer.id %}
+                                                {{ include('trip/_register_user_form.html.twig')  }}
+                                            {% endif %}
+                                        {% endif %}
+
+                                        {# Si l'id de l'utilisateur connecté est égal à l'id de l'organisateur alors
+                                        j'affiche Modifier#}
+                                        {% if app.user.id == trip.organizer.id and trip.state.id <= 2 %}
+                                            <p class="card-footer-item">
+                                            <span>
+                                                <a href="{{ path('trip_edit', {id : trip.id}) }}">Modifier</a>
+                                            </span>
+                                            </p>
+                                        {% endif %}
                                 {% endif %}
 
 
 
-                                {% if app.user.id == trip.organizer.id and trip.state.id <= 2 %}
-                                    <p class="card-footer-item">
-                                    <span>
-                                        <a href="{{ path('trip_edit', {id : trip.id}) }}">Modifier</a>
-                                    </span>
-                                    </p>
-                                {% endif %}
 
-                                {# Si l'id de l'utilisateur est égal à celui de l'organisateur et qie l'id de la sortie est égal à 1 (=en création) #}
+                                {# Si l'id de l'utilisateur est égal à celui de l'organisateur et que l'id de la sortie est égal à 1 (=en création) #}
                                 {% if (trip.state.id == 1 and app.user.id == trip.organizer.id) %}
                                     {{ include('trip/_publish_trip.html.twig') }}
                                 {% endif %}
