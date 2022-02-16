@@ -16,7 +16,7 @@
         <tr>
 
             <td>{{ city.name }}</td>
-            <td><a href="{{ path('city_delete', {'id': 'x'}) }}">Supprimer</a></td>
+            <td><a href="deleteCity/{{ city.id }}">Supprimer</a></td>
 
         </tr>
     {% else %}
