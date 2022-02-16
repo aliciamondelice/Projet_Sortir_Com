@@ -19,6 +19,18 @@ class ProfilEditType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('pictureFile',
+                VichImageType::class,[
+                    'label' => FALSE,
+                    'allow_delete' => false ,
+                    'download_label' => FALSE ,
+                    'image_uri' => true,
+                    'required'=>false,
+                    'imagine_pattern' => '',
+
+                ]
+            )
+
 
             ->add('username',TextType::class,
                 [
@@ -75,17 +87,6 @@ class ProfilEditType extends AbstractType
 
                 ],
             ])
-            ->add('pictureFile',
-                VichImageType::class,[
-                    'label' => FALSE,
-                    'allow_delete' => false ,
-                    'download_label' => FALSE ,
-                    'image_uri' => true,
-                    'required'=>false,
-                    'imagine_pattern' => '',
-
-                ]
-            )
 
 
           //  ->add('Valider', submitType::class,  [ 'row_attr' => ['class' => 'button is-primary is-fullwidth mb-3'],])

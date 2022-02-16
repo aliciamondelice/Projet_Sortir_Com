@@ -8,8 +8,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
 use JetBrains\PhpStorm\Internal\LanguageLevelTypeAware;
+use Serializable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -23,7 +23,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface, Serializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -338,7 +338,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return serialize(array(
             $this->id,
             $this->username,
+            $this->email,
             $this->password,
+
         ));
     }
     /** @see \Serializable::unserialize() */
@@ -347,6 +349,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         list (
             $this->id,
             $this->username,
+            $this->email,
             $this->password,
             ) = unserialize($serialized, array('allowed_classes' => false));
     }

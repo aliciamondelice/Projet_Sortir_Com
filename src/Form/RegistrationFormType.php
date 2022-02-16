@@ -17,6 +17,7 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 
+
 class RegistrationFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -64,7 +65,7 @@ class RegistrationFormType extends AbstractType
                     ]],
                 'second_options' => [
                     'label'=>false,
-                    'attr' => [
+                    'attr' => ['placeholder' => 'Confirmer votre mot de passe',
                         'class' => 'input'
                     ]
 

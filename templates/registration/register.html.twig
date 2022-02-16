@@ -9,9 +9,11 @@
 
     <div class="container " >
 
-    <div class ="block" id="img_default">
-        <img class="photo_default" src="{{ asset('images/img_user.png') }}" alt="photo_user_par_default"></figure>
-    </div>
+
+        <figure class="image avatar">
+        <img class="is-rounded"  src="{{ asset('images/img_user.png') }}" alt="photo_user_par_default">
+        </figure>
+        <div id ="file_image"></div>
 
     {{ form_start(registrationForm)}}
 
@@ -55,7 +57,9 @@
     {{ form_end(registrationForm) }}
 
 </div>
-
-
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
+    {% block javascripts %}
+        <script src="{{ asset('JS/formulaire.js') }}"></script>
+    {% endblock %}
 {% endblock %}
 
