@@ -67,7 +67,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Seriali
     private $surname;
 
 
-    #[Assert\Regex(pattern: "/^(0)[1-9]([-. ]?[0-9]{2} ){3}([-. ]?[0-9]{2})$/", message: "Veuillez rentrer un numéro de téléphone qui respecte cet format SVP : 0X XX XX XX XX.")]
+    #[Assert\Regex(pattern: "/^(0)[1-9]([-. ]?[0-9]{2}){3}([-. ]?[0-9]{2})$/", message: "Veuillez rentrer un numéro de téléphone qui respecte cet format SVP : 0X XX XX XX XX.")]
     #[ORM\Column(type: 'string', length: 15)]
     private $phone;
 

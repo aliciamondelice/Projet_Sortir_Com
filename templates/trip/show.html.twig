@@ -2,12 +2,19 @@
 
 {% block title %}{{ trip.name }}{% endblock %}
 {% block meta_title %}{{ trip.name }}{% endblock %}
-{% block stylesheets %} <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-                       integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-                       crossorigin=""/>{% endblock %}
-{% block script %} <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
-                           integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
-                           crossorigin=""></script>{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+          crossorigin=""/>
+{% endblock %}
+
+{% block script %}
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+            integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+            crossorigin=""></script>
+{% endblock %}
+
 {% block body %}
     <!-- Contenu de la page à développer ici (Ce qu'il y a après le titre de la page en bleu) -->
     {% if trip.state.id == 5 %}
@@ -50,7 +57,9 @@
                 <p>{{ trip.site.name }}</p>
             </div>
             <div class="field">
-                <label class="label mb-0">Lieu (<a href="https://www.google.com/maps/dir/?api=1&destination={{ trip.place.city.name }}+{{ trip.place.street }}"target="_blank">Itinéraire Google Map</a>)</label>
+                <label class="label mb-0">Lieu (<a
+                            href="https://www.google.com/maps/dir/?api=1&destination={{ trip.place.city.name }}+{{ trip.place.street }}"
+                            target="_blank">Itinéraire Google Map</a>)</label>
                 <p>{{ trip.place.name }}</p>
                 <p>{{ trip.place.street }}</p>
                 <p>({{ trip.place.latitude }}; {{ trip.place.longitude }})</p>
@@ -69,12 +78,12 @@
         <div class="card mb-3">
             <div class="card-content">
                 <div class="media">
-                    {%  if user.getPictureLink() is not null %}
-                    <div class="media-left">
-                        <figure class="image is-128x128">
-                            <img src="{{ asset('images/users/'~user.getPictureLink()) }}" alt="Photo utilisateur">
-                        </figure>
-                    </div>
+                    {% if user.getPictureLink() is not null %}
+                        <div class="media-left">
+                            <figure class="image is-128x128">
+                                <img src="{{ asset('images/users/'~user.getPictureLink()) }}" alt="Photo utilisateur">
+                            </figure>
+                        </div>
                     {% endif %}
                     <div class="media-content">
                         <p class="title is-4">{{ user.username }}</p>
@@ -87,7 +96,7 @@
     {% endfor %}
     <a href="{{ path('home') }}" class="button is-primary is-fullwidth mb-3">Retour</a>
     <script>
-        var map = L.map('map').setView([ {{ trip.place.latitude }} , {{ trip.place.longitude }} ], 13);
+        let map = L.map('map').setView([ {{ trip.place.latitude }} , {{ trip.place.longitude }} ], 13);
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
