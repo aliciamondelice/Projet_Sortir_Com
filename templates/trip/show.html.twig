@@ -100,7 +100,7 @@
                     {% if user.getPictureLink() is not null %}
                         <div class="media-left">
                             <figure class="image is-128x128">
-                                <img src="{{ asset('images/users/'~user.getPictureLink()) }}" alt="Photo utilisateur">
+                                <img class="profil_participant is-rounded" src="{{ asset('images/users/'~user.getPictureLink()) }}" alt="Photo utilisateur">
                             </figure>
                         </div>
                     {% endif %}
