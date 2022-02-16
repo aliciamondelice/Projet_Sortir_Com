@@ -17,7 +17,7 @@
             <nav class="navbar" role="navigation" aria-label="main navigation">
                 <div class="navbar-brand">
                     <a class="navbar-item" href="{{ path('home') }}">
-                        <img src="{{ asset('images/Logo_green.png') }}" alt="logo">
+                        <img src="{{ asset('images/Logo_green.png') }}" alt="logo" id="img">
                     </a>
 
                     <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -58,5 +58,8 @@
             </div>
         </div>
     <script src="{{ asset('script.js') }}"></script>
+        {% block javascripts %}
+
+        {% endblock %}
     </body>
 </html>

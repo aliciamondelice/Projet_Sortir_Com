@@ -20,6 +20,7 @@ class ProfilController extends AbstractController
     #[Route('/profil/{id}', name: 'profil')]
     public function index(
       User $user,
+
     ): Response
     {
 
@@ -31,9 +32,9 @@ class ProfilController extends AbstractController
     #[Route('/profil/{id}/edit', name: 'profil_edit')]
     public function editProfile(Request $request, EntityManagerInterface $entityManager, User $user, UserPasswordHasherInterface $userPasswordHasher): Response
     {
-        $form = $this->createForm(ProfilEditType::class,$user);
+        $form = $this->createForm(ProfilEditType::class, $user);
         $form->handleRequest($request);
-        if($form->isSubmitted()&& $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
@@ -42,17 +43,18 @@ class ProfilController extends AbstractController
             );
 
             $entityManager->flush();
-            $this->addFlash('message','Profil mis à jour');
-            return $this->redirectToRoute('profil', ["id"=> $user->getId()]);
+            $this->addFlash('message', 'Profil mis à jour');
+            return $this->redirectToRoute('profil', ["id" => $user->getId()]);
         }
         return $this->render('profil/editProfil.html.twig', [
-            'form'=> $form->createView(),
-            'user'=>$user
+            'form' => $form->createView(),
+            'user' => $user
 
         ]);
     }
-    #[Route('deleteUser/{id}', name: 'user_delete')]
-    public function delete(Request $request ,User $user, EntityManagerInterface $entityManager): Response
+
+    #[Route('/deleteUser/{id}', name: 'user_delete')]
+    public function delete(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
         $this->container->get('security.token_storage')->setToken(null);
         $entityManager->remove($user);

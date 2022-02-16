@@ -1,18 +1,18 @@
 {% extends 'base.html.twig' %}
-{% block title %}Profil{% endblock %}
-{% block meta_title %}Profil{% endblock %}
+{% block title %}Profil {{ user.name }} {% endblock %}
+{% block meta_title %}Profil {% endblock %}
 {% block stylesheets %}
     <link rel="stylesheet" href=" {{ asset('css/profil.css') }}">
 {% endblock %}
 {% block body %}
     <!-- Contenu de la page à développer ici (Ce qu'il y a après le titre de la page en bleu) -->
     <div class="has-text-centered">
-        <h2 class="title is-3"> {{ user.getUsername() }}</h2>
+        <h2 class="title is-3"></h2>
 
 
-        {% if user.getPictureLink() is not null %}
+        {% if user.PictureLink is not null %}
             <figure class="image avatar">
-                <img class="is-rounded" src="{{ asset('images/users/'~user.getPictureLink()) }}" alt="photo_user"/>
+                <img class="is-rounded" src="{{ asset('images/users/'~user.pictureLink) }}" alt="photo_user"/>
             </figure>
         {% else %}
             <figure class="image avatar">
@@ -23,13 +23,11 @@
 
     <div class="message">
         <div class="message-body has-text-centered">
-            <p><span class="has-text-weight-bold">Prénom : </span>{{ user.getName() }}</p>
-            <p><span class="has-text-weight-bold">Nom : </span>{{ user.getSurname() }}</p>
-            {% if app.user.roles[0] ==("ROLE_ADMIN") or user.id == app.user.id %}
-            <p><span class="has-text-weight-bold">Téléphone : </span>{{ user.getPhone() }}</p>
-            <p><span class="has-text-weight-bold">Email : </span>{{ user.getEmail() }}</p>
-            {% endif %}
-            <p><span class="has-text-weight-bold">Site : </span>{{ user.site.getName() }}</p>
+            <p><span class="has-text-weight-bold">Prénom : </span>{{ user.name }}</p>
+            <p><span class="has-text-weight-bold">Nom : </span>{{ user.surname }}</p>
+            <p><span class="has-text-weight-bold">Téléphone : </span>{{ user.phone }}</p>
+            <p><span class="has-text-weight-bold">Email : </span>{{ user.email }}</p>
+            <p><span class="has-text-weight-bold">Site : </span>{{ user.site.name() }}</p>
         </div>
     </div>
 
@@ -38,4 +36,6 @@
     {% if user.id == app.user.id %}
         <a href="/profil/{{ user.id }}/edit" class="button is-fullwidth is-primary">Modifier le profil</a>
     {% endif %}
+    <a href="/deleteUser/{{ user.id }}" class="button is-fullwidth is-danger">Supprimer le profil</a>
+
 {% endblock %}
