@@ -47,7 +47,7 @@
         <div class="container">
             <div class="section pb-0">
                 <div class="mb-2">
-                    <p class="has-text-centered">Bonjour, {{ app.user.username }}</p>
+                    <p class="has-text-centered">Bonjour, {{ app.user.name }}</p>
                 </div>
                 <h1 class="title  is-1 has-text-centered has-text-weight-bold color-text-blue">{% block title %}{% endblock %}</h1>
             </div>
@@ -58,7 +58,11 @@
                 {% block body %}{% endblock %}
             </div>
         </div>
-    <script src="{{ asset('script.js') }}"></script>
+<<<<<<<<< Temporary merge branch 1
+    <script src="{{ asset('js/script.js') }}"></script>
+=========
+    <script src="{{ asset('JS/script.js') }}"></script>
+>>>>>>>>> Temporary merge branch 2
         {% block javascripts %}
 
         {% endblock %}
