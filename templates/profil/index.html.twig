@@ -38,8 +38,11 @@
     <a href="{{ path('home') }}" class="button is-fullwidth is-primary mb-3">Retour</a>
     {% endif %}
     {% if user.id == app.user.id %}
-        <a href="/profil/{{ user.id }}/edit" class="button is-fullwidth is-primary">Modifier le profil</a>
+        <a href="/profil/{{ user.id }}/edit" class="button is-fullwidth is-primary mb-3">Modifier le profil</a>
     {% endif %}
+
+    {% if app.user.roles[0]==("ROLE_ADMIN") or user.id == app.user.id %}
     <a href="/deleteUser/{{ user.id }}" class="button is-fullwidth is-danger">Supprimer le profil</a>
+    {% endif %}
 
 {% endblock %}

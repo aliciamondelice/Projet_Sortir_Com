@@ -61,22 +61,26 @@
 
                 <script>
                     function my_rendre(){
+                        if(document.querySelector('#myrendre').classList.contains('is-hidden')) {
                             document.querySelector('#myrendre').classList.remove("is-hidden")
+                        }
+                        else{
+                            document.querySelector('#myrendre').classList.add("is-hidden")
+                        }
                     }
                 </script>
 
                         <div class="has-background-light p-3 mb-6 is-hidden" id="myrendre">
-                            <form action="{{ path('choixloc') }}" method="post">
-                        <select id="choix">
-                            <option value="blank"> </option>
-                            <option value="driving">Voiture</option>
-                            <option value="bicycling ">Vélo</option>
-                            <option value="transit">Transport en commun</option>
-                        </select>
-                            </form>
-
-                            <a href="https://www.google.com/maps/dir/?api=1&destination={{ trip.place.city.name }}+{{ trip.place.street }}&travelmode="
-                               target="_blank">Itinéraire
+                            <a href="https://www.google.com/maps/dir/?api=1&destination={{ trip.place.city.name }}+{{ trip.place.street }}&travelmode=driving"
+                               target="_blank">Voiture
+                            </a>
+                            <br>
+                            <a href="https://www.google.com/maps/dir/?api=1&destination={{ trip.place.city.name }}+{{ trip.place.street }}&travelmode=bicycling"
+                               target="_blank">Vélo
+                            </a>
+                            <br>
+                            <a href="https://www.google.com/maps/dir/?api=1&destination={{ trip.place.city.name }}+{{ trip.place.street }}&travelmode=transit"
+                               target="_blank">Transport en commun
                             </a>
                         </div>
                 <p>{{ trip.place.name }}</p>
