@@ -42,8 +42,10 @@ security:
     - { path: ^/home, roles: ROLE_USER }
     - { path: ^/profil, roles: ROLE_USER }
     - { path: ^/trip, roles: ROLE_USER }
+    - { path: ^/city/newcity, roles: ROLE_USER }
     - { path: ^/site, roles: ROLE_ADMIN }
-    - { path: ^/city, roles: ROLE_ADMIN }
+    - { path: ^/city/new, roles: ROLE_ADMIN }
+    - { path: ^/city/list, roles: ROLE_ADMIN }
     - { path: ^/register, roles: ROLE_ADMIN }
     - { path: ^/utilisateur, roles: ROLE_ADMIN }
 

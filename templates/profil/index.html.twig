@@ -30,9 +30,11 @@
             <p><span class="has-text-weight-bold">Site : </span>{{ user.site.name() }}</p>
         </div>
     </div>
-
+    {% if app.user.roles[0] ==("ROLE_ADMIN")%}
     <a href="{{ path("user") }}" class="button is-fullwidth is-primary mb-3">Retour</a>
-
+    {% else %}
+    <a href="{{ path('home') }}" class="button is-fullwidth is-primary mb-3">Retour</a>
+    {% endif %}
     {% if user.id == app.user.id %}
         <a href="/profil/{{ user.id }}/edit" class="button is-fullwidth is-primary">Modifier le profil</a>
     {% endif %}
