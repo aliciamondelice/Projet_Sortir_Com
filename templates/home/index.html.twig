@@ -48,7 +48,7 @@
                         </label>
 
                         <label class="checkbox has-text-white is-block">
-                            <input id="too-late" value="4" type="checkbox">
+                            <input id="archived" value="4" type="checkbox">
                             Sorties passées
                         </label>
                     </div>
@@ -74,7 +74,14 @@
         {% for trip in trips %}
             {% if (((app.user.id != trip.organizer.id and trip.state.id != 1) or (app.user.id == trip.organizer.id)) and (trip.state.id != 6)) %}
                 <div class="column is-4">
-                    <div class="card" data-register="{{ app.user.id }}" data-title="{{ trip.name }}" data-StartDate="{{ trip.startingDate|date('Y-m-d') }}" data-EndDate="{{ trip.endingDate|date('Y-m-d') }}" data-site="{{ trip.site.id }}" data-organizer="{{ trip.organizer.id }} data-register">
+                    <div class="card"
+                         data-register="{{ trip in app.user.trips ? 'true' : 'false' }}"
+                         data-title="{{ trip.name }}"
+                         data-StartDate="{{ trip.startingDate|date('Y-m-d') }}"
+                         data-EndDate="{{ trip.endingDate|date('Y-m-d') }}"
+                         data-site="{{ trip.site.id }}"
+                         data-organizer="{{ trip.organizer.id }}"
+                         data-state="{{ trip.state.id }}">
                         <div class="card-content">
                             <p class="title">
                                 {{ trip.name }}
@@ -144,6 +151,7 @@
 
     <script>
         function launch_search() {
+            console.log('Début recherche')
             /*Je récupère toutes les cards*/
             let cards = document.querySelectorAll('.card');
 
@@ -160,40 +168,140 @@
             /*Je récupère le checkbox coché de organisateur*/
             let organizer = document.querySelector('#organizer');
 
-            cards.forEach(function (card){
+            let register = document.querySelector('#is-register');
+
+            let not_register = document.querySelector('#is-not-register');
+
+            let archived = document.querySelector('#archived');
+
+            /*cards.forEach(function (card){
 
                 let dateStartCard = card.getAttribute("data-StartDate");
                 let dateEndCard = card.getAttribute("data-EndDate");
                 let siteCard = card.getAttribute("data-site");
                 let organizerCard = card.getAttribute("data-organizer");
                 let registerCard = card.getAttribute("data-register");
-                let notRegisterCard = card.getAttribute("data-notRegister");
-                let archivedCard = card.getAttribute("data-archived");
+                let stateCard = card.getAttribute("data-state");
 
                 card.parentElement.classList.remove('is-hidden');
 
-                if( keywordsSearch !== '' && keywordsSearch.indexOf(card.getAttribute("data-title").toLowerCase())){
+                if( keywordsSearch !== '' && keywordsSearch.indexOf(card.getAttribute("data-title").toLowerCase())) {
                     card.parentElement.classList.add('is-hidden');
                 }
 
-                /* Penser à vérifier si c'est vide au niveau du input ! */
-                if (dateStart !== dateStartCard && dateStart !== ''){
+                if (dateStart !== '' && dateStart !== dateStartCard){
                     card.parentElement.classList.add('is-hidden');
                 }
 
-                /* Penser à vérifier si c'est vide au niveau du input ! */
-                if (dateEnd !== dateEndCard && dateEnd!== ''){
+                if (dateEnd!== '' && dateEnd !== dateEndCard){
                     card.parentElement.classList.add('is-hidden');
                 }
 
-                /* Penser à vérifier si c'est vide au niveau du input ! */
-                /* Dans le <option>Choisir un site</option>, ajouer un value="" pour n'avoir aucune valeur ! */
-                if (siteName !== siteCard && siteName !== ''){
+                if (siteName !== '' && siteName !== siteCard){
                     card.parentElement.classList.add('is-hidden');
                 }
 
                 if (organizer.checked && organizer.value !== organizerCard){
                     card.parentElement.classList.add('is-hidden');
+                }
+
+                if(register.checked && registerCard !== 'true'){
+                    card.parentElement.classList.add('is-hidden');
+                }
+
+                if(not_register.checked && registerCard !== 'false'){
+                    card.parentElement.classList.add('is-hidden');
+                }
+                if(archived.checked && stateCard !== '4') {
+                    card.parentElement.classList.add('is-hidden');
+                }
+            });*/
+
+
+            /* En prenant en compte multi recherche */
+            cards.forEach(function (card){
+                /* On initialise une première variable
+                * Cette variable va compter le nombre de contraintes demandées */
+                let conditions_requises = 0;
+                /* On initialise une deuxième variable,
+                * Cette variable va compter le nombre de contraintes validées par la card */
+                let conditions_valide = 0;
+
+                let titleCard = card.getAttribute("data-title").toLowerCase()
+                let dateStartCard = card.getAttribute("data-StartDate");
+                let dateEndCard = card.getAttribute("data-EndDate");
+                let siteCard = card.getAttribute("data-site");
+                let organizerCard = card.getAttribute("data-organizer");
+                let registerCard = card.getAttribute("data-register");
+                let stateCard = card.getAttribute("data-state");
+
+                card.parentElement.classList.add('is-hidden');
+
+                if( keywordsSearch !== '') {
+                    conditions_requises++;
+                    if(titleCard.toLowerCase().includes(keywordsSearch.toLowerCase())) {
+                        console.log('keyword valide')
+                        conditions_valide++;
+                    }
+                }
+
+                if (dateStart !== ''){
+                    conditions_requises++;
+                    if(dateStart === dateStartCard) {
+                        console.log('dateStart valide')
+                        conditions_valide++;
+                    }
+                }
+
+                if (dateEnd!== ''){
+                    conditions_requises++;
+                    if(dateEnd === dateEndCard) {
+                        console.log('dateEnd valide')
+                        conditions_valide++;
+                    }
+                }
+
+                if (siteName !== ''){
+                    conditions_requises++;
+                    if(siteName === siteCard) {
+                        console.log('siteName valide')
+                        conditions_valide++;
+                    }
+                }
+
+                if (organizer.checked){
+                    conditions_requises++;
+                    if(organizer.value === organizerCard) {
+                        console.log('organizer valide')
+                        conditions_valide++;
+                    }
+                }
+
+                if(register.checked){
+                    conditions_requises++;
+                    if(registerCard === 'true') {
+                        console.log('registerCard valide')
+                        conditions_valide++;
+                    }
+                }
+
+                if(not_register.checked){
+                    conditions_requises++;
+                    if(registerCard === 'false') {
+                        console.log('not_register valide')
+                        conditions_valide++;
+                    }
+                }
+                if(archived.checked) {
+                    conditions_requises++;
+                    if(stateCard !== '5') {
+                        console.log('archived valide')
+                        conditions_valide++;
+                    }
+                }
+
+                if(conditions_requises === conditions_valide) {
+                    card.parentElement.classList.remove('is-hidden');
                 }
             });
         }
