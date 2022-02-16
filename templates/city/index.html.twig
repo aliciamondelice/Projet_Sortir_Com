@@ -8,6 +8,7 @@
         <thead>
         <tr>
             <th>Nom</th>
+            <th>Option</th>
         </tr>
         </thead>
         <tbody>
@@ -15,6 +16,7 @@
         <tr>
 
             <td>{{ city.name }}</td>
+            <td><a href="{{ path('city_delete', {'id': 'x'}) }}">Supprimer</a></td>
 
         </tr>
     {% else %}

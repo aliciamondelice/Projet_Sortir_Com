@@ -57,9 +57,28 @@
                 <p>{{ trip.site.name }}</p>
             </div>
             <div class="field">
-                <label class="label mb-0">Lieu (<a
-                            href="https://www.google.com/maps/dir/?api=1&destination={{ trip.place.city.name }}+{{ trip.place.street }}"
-                            target="_blank">Itinéraire Google Map</a>)</label>
+                <label class="label mb-0">Lieu (<a onclick="my_rendre()">M'y rendre</a>)</label>
+
+                <script>
+                    function my_rendre(){
+                            document.querySelector('#myrendre').classList.remove("is-hidden")
+                    }
+                </script>
+
+                        <div class="has-background-light p-3 mb-6 is-hidden" id="myrendre">
+                            <form action="{{ path('choixloc') }}" method="post">
+                        <select id="choix">
+                            <option value="blank"> </option>
+                            <option value="driving">Voiture</option>
+                            <option value="bicycling ">Vélo</option>
+                            <option value="transit">Transport en commun</option>
+                        </select>
+                            </form>
+
+                            <a href="https://www.google.com/maps/dir/?api=1&destination={{ trip.place.city.name }}+{{ trip.place.street }}&travelmode="
+                               target="_blank">Itinéraire
+                            </a>
+                        </div>
                 <p>{{ trip.place.name }}</p>
                 <p>{{ trip.place.street }}</p>
                 <p>({{ trip.place.latitude }}; {{ trip.place.longitude }})</p>
