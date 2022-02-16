@@ -47,7 +47,7 @@
         <div class="container">
             <div class="section pb-0">
                 <div class="mb-2">
-                    <p class="has-text-centered">Bonjour, {{ app.user.username }}</p>
+                    <p class="has-text-centered">Bonjour, {{ app.user.name }}</p>
                 </div>
                 <h1 class="title  is-1 has-text-centered has-text-weight-bold color-text-blue">{% block title %}{% endblock %}</h1>
             </div>
@@ -59,6 +59,7 @@
             </div>
         </div>
     <script src="{{ asset('js/script.js') }}"></script>
+
         {% block javascripts %}
 
         {% endblock %}
