@@ -8,24 +8,25 @@
     <div class="background-image" id="header-home">
         <div class="container is-flex is-justify-content-center is-align-items-center">
             <div class="section is-flex-grow-1">
-                <form id="search" onsubmit="launch_search(); return false;">
+                {#<form id="search" onsubmit="launch_search(); return false;">#}
                     <div class="columns">
                         <div class="column">
-                            <input id="search" class="input mb-2" type="text" placeholder="Rechercher...">
+                            <input id="keywords" class="input mb-2" type="text" placeholder="Rechercher...">
                             <div class="control has-icons-left mb-2">
                                 <label class="has-text-white">Date de début</label>
-                                <input id="date_debut" class="input" type="datetime-local" placeholder="Date début">
+                                <input id="date_debut" class="input" type="date" placeholder="Date début">
                             </div>
                             <div class="control has-icons-left mb-2">
                                 <label class="has-text-white">Date de clôture</label>
-                                <input id="date_cloture" class="input" type="datetime-local" placeholder="Date fin">
+                                <input id="date_cloture" class="input" type="date" placeholder="Date fin">
                             </div>
-                            <button class="button is-black is-fullwidth" type="submit">Rechercher</button>
+                            <button class="button is-black is-fullwidth" type="submit" onclick="launch_search()">Rechercher</button>
                         </div>
 
                         <div class="column">
                             <div class="select is-fullwidth mb-2">
                                 <select id="sites">
+                                    <option>Choisir un site</option>
                                 {% for site in sites %}
                                         <option value="{{ site.id }}">{{ site.name }}</option>
                                 {% endfor %}
@@ -53,7 +54,7 @@
                             </label>
                         </div>
                     </div>
-                </form>
+                {#</form>#}
             </div>
         </div>
     </div>
@@ -74,7 +75,7 @@
         {% for trip in trips %}
             {% if (((app.user.id != trip.organizer.id and trip.state.id != 1) or (app.user.id == trip.organizer.id)) and (trip.state.id != 6)) %}
                 <div class="column is-4">
-                    <div class="card" data-organizer="{{ trip.organizer.id }}" data-register="{{ app.user.id }}">
+                    <div class="card" data-register="{{ app.user.id }}" data-title="{{ trip.name }}" data-StartDate="{{ trip.startingDate|date('Y-m-d') }}" data-EndDate="{{ trip.endingDate|date('Y-m-d') }}" data-site="{{ trip.site.id }}" data-organizer="{{ trip.organizer.id }}">
                         <div class="card-content">
                             <p class="title">
                                 {{ trip.name }}
@@ -88,8 +89,8 @@
                                   <span class="icon is-small is-left">
                                     <i class="fas fa-calendar"></i>
                                 </span>
-                                {{ trip.startingDate|date('Y-m-d H:i:s') }}<br>
-                                <b>Fin des inscriptions :</b> {{ trip.endingDate|date('Y-m-d H:i:s') }}<br>
+                                {{ trip.startingDate|date('d/m/Y H:i') }}<br>
+                                <b>Fin des inscriptions :</b> {{ trip.endingDate|date('d/m/Y') }}<br>
                                 <b>Nombre d'inscrits :</b> {{ trip.users|length }}/{{ trip.MaxAttendees }}<br>
                                 {% if trip.state.id == 5 %}
                                     <span class="has-text-danger"><b>Etat :</b> {{ trip.state.libelle }}</span><br>
@@ -138,41 +139,47 @@
         {% endfor %}
     </div>
 
-    {#<script>
+    <script>
         function launch_search() {
-            /*Je récupère la checkbox #oragnizer*/
-            let checkbox_organizer_id = document.querySelector('#organizer');
+            /*Je récupère toutes les cards*/
+            let cards = document.querySelectorAll('.card');
 
-            /*Si #organizer est coché, je récupère toutes les sorties */
-            if (checkbox_organizer_id.checked) {
-                let cards = document.querySelectorAll('.card')
-                /*Pour chacune des sorties, j'ajoute une classe pour les masquer. Et je récupère l'id de l'utilisateur qui a crée la sortie*/
-                cards.forEach(function (card) {
-                    card.parentElement.classList.add('is-hidden');
-                    let card_organizer_id = card.getAttribute("data-organizer");
-                        /*Si l'utilisateur connecté = à l'id de l'utilisateur qui a crée la sortie, j'affiche la card */
-                        if (card_organizer_id === checkbox_organizer_id.value) {
-                            card.parentElement.classList.remove('is-hidden');
-                        }
-                });
-            }
+            /*Je récupère la valeur de l'input rechercher*/
+            let keywordsSearch = document.querySelector('#keywords').value.toLowerCase();
 
-            let checkbox_is_register = document.querySelector('#is-register');
+            /* Je récupère l'heure */
+            let dateStart = document.querySelector('#date_debut').value;
+            let dateEnd = document.querySelector('#date_cloture').value;
 
-            if (checkbox_is_register.checked){
-                let cards = document.querySelectorAll('.card')
+            /*Je récupère le site recherché*/
+            let siteName = document.querySelector('#sites').value;
 
-                cards.forEach(function (card) {
-                    card.parentElement.classList.add('is-hidden');
-                    let card_is_register = card.getAttribute("data-register");
+            /*Je récupère le checkbox coché de organisateur*/
+            let organizer = document.querySelector('#organizer');
 
-                    if (card_is_register === checkbox_is_register.value) {
-                        card.parentElement.classList.remove('is-hidden');
-                    }
-                });
-            }
+            cards.forEach(function (card){
+
+                let dateStartCard = card.getAttribute("data-StartDate");
+                let dateEndCard = card.getAttribute("data-EndDate");
+                let siteCard = card.getAttribute("data-site");
+                let organizerCard = card.getAttribute("data-organizer");
+
+                card.parentElement.classList.add('is-hidden');
+
+
+                if( keywordsSearch !== '' && keywordsSearch.indexOf(card.getAttribute("data-title").toLowerCase())
+                    || dateStart === dateStartCard
+                    || dateEnd === dateEndCard
+                    || siteName === siteCard
+                ){
+                    card.parentElement.classList.remove('is-hidden');
+                }
+                if (organizer.checked && organizer.value === organizerCard){
+                    card.parentElement.classList.remove('is-hidden');
+                }
+            });
         }
-    </script>#}
+    </script>
 {% endblock %}
 
 
