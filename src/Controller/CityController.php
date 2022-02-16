@@ -87,15 +87,14 @@ class CityController extends AbstractController
         ]);
     }
 
-    #[Route('/list/{id}', name: 'city_delete', methods: ['POST'])]
+    #[Route('/deleteCity/{id}', name: 'city_delete')]
     public function delete(Request $request, City $city, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$city->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($city);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('city', [], Response::HTTP_SEE_OTHER);
+        $this->container->get('security.token_storage')->setToken(null);
+        $entityManager->remove($city);
+        $entityManager->flush();
+        $this->addFlash('success', 'La ville a bien été supprimée !');
+        return $this->redirectToRoute('city');
     }
 
 }
