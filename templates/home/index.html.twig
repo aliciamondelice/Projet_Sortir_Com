@@ -173,18 +173,27 @@
                 let siteCard = card.getAttribute("data-site");
                 let organizerCard = card.getAttribute("data-organizer");
 
-                card.parentElement.classList.add('is-hidden');
+                card.parentElement.classList.remove('is-hidden');
 
 
-                if( keywordsSearch !== '' && keywordsSearch.indexOf(card.getAttribute("data-title").toLowerCase())
-                    || dateStart === dateStartCard
-                    || dateEnd === dateEndCard
-                    || siteName === siteCard
-                ){
-                    card.parentElement.classList.remove('is-hidden');
+                if( keywordsSearch !== '' && keywordsSearch.indexOf(card.getAttribute("data-title").toLowerCase())){
+                    card.parentElement.classList.add('is-hidden');
                 }
+
+                if (dateStart === dateStartCard){
+                    card.parentElement.classList.add('is-hidden');
+                }
+
+                if (dateEnd === dateEndCard){
+                    card.parentElement.classList.add('is-hidden');
+                }
+
+                if (siteName === siteCard){
+                    card.parentElement.classList.add('is-hidden');
+                }
+
                 if (organizer.checked && organizer.value === organizerCard){
-                    card.parentElement.classList.remove('is-hidden');
+                    card.parentElement.classList.add('is-hidden');
                 }
             });
         }
