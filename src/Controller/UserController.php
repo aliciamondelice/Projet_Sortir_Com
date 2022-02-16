@@ -10,7 +10,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class UserController extends AbstractController
 {
-    #[Route('/', name: 'user')]
+    #[Route('/utilisateur', name: 'user')]
     public function index(UserRepository $userRepository): Response
     {
 

@@ -7,9 +7,6 @@
         <div class="section is-flex-grow-1 has-text-centered">
             <img src="{{ asset('images/logo_white.png') }}" alt="logo">
             <form method="post" class="field">
-                {% if error %}
-                    <div class="alert alert-danger">Mot de Passe erroné</div>
-                {% endif %}
 
                 {% if app.user %}
                     <div class="mb-3">
@@ -26,6 +23,10 @@
                    <label for="inputPassword" class="label">Mot de passe</label>
                    <input placeholder="*********" type="password" name="password" id="inputPassword" class=" input form-control" autocomplete="current-password" required>
 
+                   {% if error %}
+
+                       <div class="alert alert-danger m-3">Le nom d'utilisateur ou le mot de passe est incorrect</div>
+                   {% endif %}
                        <label class="label mt-3">
                            <input type="checkbox" name="_remember_me" checked>
                            Se Souvenir de moi
