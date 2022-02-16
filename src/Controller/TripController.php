@@ -105,12 +105,20 @@ class TripController extends AbstractController
 
     }
 
-    #[Route('/{id}', name: 'trip_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'trip_show', methods: ['GET','POST'])]
     public function show(Trip $trip): Response
     {
         return $this->render('trip/show.html.twig', [
             'trip' => $trip,
         ]);
+    }
+    #[Route('/', name: 'choixloc', methods: ['GET','POST'])]
+    public function travel(): Response
+    {
+        $moyen = filter_input(INPUT_POST, "choix", FILTER_SANITIZE_STRING);
+        return $moyen;
+
+
     }
 
     #[Route('/{id}/edit', name: 'trip_edit', methods: ['GET', 'POST'])]
