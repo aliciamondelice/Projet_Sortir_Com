@@ -16,7 +16,7 @@
         <tr>
 
             <td>{{ city.name }}</td>
-            <td><a href="deleteCity/{{ city.id }}">Supprimer</a></td>
+            <td><a class="button ml-5 p-2 has-background-link has-text-white" href="deleteCity/{{ city.id }}">Supprimer</a></td>
 
         </tr>
     {% else %}
@@ -26,5 +26,5 @@
     {% endfor %}
         </tbody>
     </table>
-    <a href="{{ path('new_city') }}">Ajouter une ville</a>
+    <a class="button background-blue has-text-white mt-5" href="{{ path('new_city') }}">Ajouter une ville</a>
 {% endblock %}
