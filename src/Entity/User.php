@@ -18,7 +18,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
+ * @UniqueEntity(fields={"email"}, message="Un compte est déjà associé à cet email")
+ * @UniqueEntity(fields={"username"}, message="Ce pseudo existe déjà!")
  * @Vich\Uploadable
  */
 
