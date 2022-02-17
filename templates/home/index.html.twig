@@ -8,52 +8,51 @@
     <div class="background-image" id="header-home">
         <div class="container is-flex is-justify-content-center is-align-items-center">
             <div class="section is-flex-grow-1">
-                {#<form id="search" onsubmit="launch_search(); return false;">#}
-                    <div class="columns">
-                        <div class="column">
-                            <input id="keywords" class="input mb-2" type="text" placeholder="Rechercher...">
-                            <div class="control has-icons-left mb-2">
-                                <label class="has-text-white">Date de début</label>
-                                <input id="date_debut" class="input" type="date" placeholder="Date début">
-                            </div>
-                            <div class="control has-icons-left mb-2">
-                                <label class="has-text-white">Date de clôture</label>
-                                <input id="date_cloture" class="input" type="date" placeholder="Date fin">
-                            </div>
-                            <button class="button is-black is-fullwidth" type="submit" onclick="launch_search()">Rechercher</button>
+                <div class="columns">
+                    <div class="column">
+                        <input id="keywords" class="input mb-2" type="text" placeholder="Rechercher...">
+                        <div class="control has-icons-left mb-2">
+                            <label class="has-text-white">Date de début</label>
+                            <input id="date_debut" class="input" type="date" placeholder="Date début">
                         </div>
-
-                        <div class="column">
-                            <div class="select is-fullwidth mb-2">
-                                <select id="sites">
-                                    <option>Choisir un site</option>
-                                {% for site in sites %}
-                                        <option value="{{ site.id }}">{{ site.name }}</option>
-                                {% endfor %}
-                                </select>
-                            </div>
-
-                            <label class="checkbox has-text-white mb-2 is-block">
-                                <input id="organizer" type="checkbox" value="{{ app.user.id }}">
-                                Sorties dont je suis l'organisateur/trice
-                            </label>
-
-                            <label class="checkbox has-text-white mb-2 is-block">
-                                <input id="is-register" value="{{ app.user.id }}" type="checkbox">
-                                Sorties auxquelles je suis inscrit/e
-                            </label>
-
-                            <label class="checkbox has-text-white mb-2 is-block">
-                                <input id="is-not-register" value="{{ app.user.id }}" type="checkbox">
-                                Sorties auxquelles je ne suis pas inscrit/e
-                            </label>
-
-                            <label class="checkbox has-text-white is-block">
-                                <input id="too-late" value="4" type="checkbox">
-                                Sorties passées
-                            </label>
+                        <div class="control has-icons-left mb-2">
+                            <label class="has-text-white">Date de clôture</label>
+                            <input id="date_cloture" class="input" type="date" placeholder="Date fin">
                         </div>
+                        <button class="button is-black is-fullwidth" type="submit" onclick="launch_search()">Rechercher</button>
                     </div>
+
+                    <div class="column">
+                        <div class="select is-fullwidth mb-2">
+                            <select id="sites">
+                                <option value="">Choisir un site</option>
+                                {% for site in sites %}
+                                    <option value="{{ site.id }}">{{ site.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <label class="checkbox has-text-white mb-2 is-block">
+                            <input id="organizer" type="checkbox" value="{{ app.user.id }}">
+                            Sorties dont je suis l'organisateur/trice
+                        </label>
+
+                        <label class="checkbox has-text-white mb-2 is-block">
+                            <input id="is-register" value="{{ app.user.id }}" type="checkbox">
+                            Sorties auxquelles je suis inscrit/e
+                        </label>
+
+                        <label class="checkbox has-text-white mb-2 is-block">
+                            <input id="is-not-register" value="{{ app.user.id }}" type="checkbox">
+                            Sorties auxquelles je ne suis pas inscrit/e
+                        </label>
+
+                        <label class="checkbox has-text-white is-block">
+                            <input id="archived" value="4" type="checkbox">
+                            Sorties passées
+                        </label>
+                    </div>
+                </div>
                 {#</form>#}
             </div>
         </div>
@@ -75,14 +74,21 @@
         {% for trip in trips %}
             {% if (((app.user.id != trip.organizer.id and trip.state.id != 1) or (app.user.id == trip.organizer.id)) and (trip.state.id != 6)) %}
                 <div class="column is-4">
-                    <div class="card" data-register="{{ app.user.id }}" data-title="{{ trip.name }}" data-StartDate="{{ trip.startingDate|date('Y-m-d') }}" data-EndDate="{{ trip.endingDate|date('Y-m-d') }}" data-site="{{ trip.site.id }}" data-organizer="{{ trip.organizer.id }}">
+                    <div class="card"
+                         data-register="{{ trip in app.user.trips ? 'true' : 'false' }}"
+                         data-title="{{ trip.name }}"
+                         data-StartDate="{{ trip.startingDate|date('Y-m-d') }}"
+                         data-EndDate="{{ trip.endingDate|date('Y-m-d') }}"
+                         data-site="{{ trip.site.id }}"
+                         data-organizer="{{ trip.organizer.id }}"
+                         data-state="{{ trip.state.id }}">
                         <div class="card-content">
                             <p class="title">
                                 {{ trip.name }}
                             </p>
                             <p class="subtitle">
                                 <a href="{{ path('profil', {id : trip.organizer.id}) }}">
-                                    @{{ trip.organizer.name }}
+                                    @{{ trip.organizer.username }}
                                 </a>
                             </p>
                             <p class="content">
@@ -101,41 +107,36 @@
                             </p>
                         </div>
                         <footer class="card-footer">
-                                <p class="card-footer-item">
+                            <p class="card-footer-item">
                                 <span>
                                     <a href="{{ path('trip_show', {id : trip.id}) }}">Afficher</a>
                                 </span>
-                                </p>
+                            </p>
                             {# Si l'état est différent de 5(annulée) et que mon tableau de participant est différent de nbre max de participant
                             alors j'affiche s'inscrire et se désinscire#}
                             {% if trip.state.id != 5 and trip.users|length != trip.maxAttendees %}
 
                                 {% if trip.startingDate > "now"|date %}
-
-                                        {# Si l'id de l'utilisateur est dans la liste des utilisateurs inscrits #}
-                                        {% if trip in app.user.trips%}
-                                            {{ include('trip/_unsubscribe_user_form.html.twig')  }}
-                                        {% else %}
-                                            {# Si l'id de l'utilisateur n'est pas organisateur#}
-                                            {% if app.user.id != trip.organizer.id %}
-                                                {{ include('trip/_register_user_form.html.twig')  }}
-                                            {% endif %}
+                                    {# Si l'id de l'utilisateur est dans la liste des utilisateurs inscrits #}
+                                    {% if trip in app.user.trips%}
+                                        {{ include('trip/_unsubscribe_user_form.html.twig')  }}
+                                    {% else %}
+                                        {# Si l'id de l'utilisateur n'est pas organisateur#}
+                                        {% if app.user.id != trip.organizer.id %}
+                                            {{ include('trip/_register_user_form.html.twig')  }}
                                         {% endif %}
+                                    {% endif %}
 
-                                        {# Si l'id de l'utilisateur connecté est égal à l'id de l'organisateur alors
+                                    {# Si l'id de l'utilisateur connecté est égal à l'id de l'organisateur alors
                                         j'affiche Modifier#}
-                                        {% if app.user.id == trip.organizer.id and trip.state.id <= 2 %}
-                                            <p class="card-footer-item">
+                                    {% if app.user.id == trip.organizer.id and trip.state.id <= 2 %}
+                                        <p class="card-footer-item">
                                             <span>
                                                 <a href="{{ path('trip_edit', {id : trip.id}) }}">Modifier</a>
                                             </span>
-                                            </p>
-                                        {% endif %}
+                                        </p>
+                                    {% endif %}
                                 {% endif %}
-
-
-
-
                                 {# Si l'id de l'utilisateur est égal à celui de l'organisateur et que l'id de la sortie est égal à 1 (=en création) #}
                                 {% if (trip.state.id == 1 and app.user.id == trip.organizer.id) %}
                                     {{ include('trip/_publish_trip.html.twig') }}
@@ -150,6 +151,7 @@
 
     <script>
         function launch_search() {
+            console.log('Début recherche')
             /*Je récupère toutes les cards*/
             let cards = document.querySelectorAll('.card');
 
@@ -166,29 +168,98 @@
             /*Je récupère le checkbox coché de organisateur*/
             let organizer = document.querySelector('#organizer');
 
-            cards.forEach(function (card){
+            let register = document.querySelector('#is-register');
 
+            let not_register = document.querySelector('#is-not-register');
+
+            let archived = document.querySelector('#archived');
+
+            /* En prenant en compte multi recherche */
+            cards.forEach(function (card){
+                /* On initialise une première variable
+                * Cette variable va compter le nombre de contraintes demandées */
+                let conditions_requises = 0;
+                /* On initialise une deuxième variable,
+                * Cette variable va compter le nombre de contraintes validées par la card */
+                let conditions_valide = 0;
+
+                let titleCard = card.getAttribute("data-title").toLowerCase()
                 let dateStartCard = card.getAttribute("data-StartDate");
                 let dateEndCard = card.getAttribute("data-EndDate");
                 let siteCard = card.getAttribute("data-site");
                 let organizerCard = card.getAttribute("data-organizer");
+                let registerCard = card.getAttribute("data-register");
+                let stateCard = card.getAttribute("data-state");
 
                 card.parentElement.classList.add('is-hidden');
 
-
-                if( keywordsSearch !== '' && keywordsSearch.indexOf(card.getAttribute("data-title").toLowerCase())
-                    || dateStart === dateStartCard
-                    || dateEnd === dateEndCard
-                    || siteName === siteCard
-                ){
-                    card.parentElement.classList.remove('is-hidden');
+                if( keywordsSearch !== '') {
+                    conditions_requises++;
+                    if(titleCard.toLowerCase().includes(keywordsSearch.toLowerCase())) {
+                        console.log('keyword valide')
+                        conditions_valide++;
+                    }
                 }
-                if (organizer.checked && organizer.value === organizerCard){
+
+                if (dateStart !== ''){
+                    conditions_requises++;
+                    if(dateStart === dateStartCard) {
+                        console.log('dateStart valide')
+                        conditions_valide++;
+                    }
+                }
+
+                if (dateEnd!== ''){
+                    conditions_requises++;
+                    if(dateEnd === dateEndCard) {
+                        console.log('dateEnd valide')
+                        conditions_valide++;
+                    }
+                }
+
+                if (siteName !== ''){
+                    conditions_requises++;
+                    if(siteName === siteCard) {
+                        console.log('siteName valide')
+                        conditions_valide++;
+                    }
+                }
+
+                if (organizer.checked){
+                    conditions_requises++;
+                    if(organizer.value === organizerCard) {
+                        console.log('organizer valide')
+                        conditions_valide++;
+                    }
+                }
+
+                if(register.checked){
+                    conditions_requises++;
+                    if(registerCard === 'true') {
+                        console.log('registerCard valide')
+                        conditions_valide++;
+                    }
+                }
+
+                if(not_register.checked){
+                    conditions_requises++;
+                    if(registerCard === 'false') {
+                        console.log('not_register valide')
+                        conditions_valide++;
+                    }
+                }
+                if(archived.checked) {
+                    conditions_requises++;
+                    if(stateCard !== '5') {
+                        console.log('archived valide')
+                        conditions_valide++;
+                    }
+                }
+
+                if(conditions_requises === conditions_valide) {
                     card.parentElement.classList.remove('is-hidden');
                 }
             });
         }
     </script>
 {% endblock %}
-
-
