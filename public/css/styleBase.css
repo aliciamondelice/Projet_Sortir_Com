@@ -67,15 +67,15 @@ html:after {
 #trip_starting_date_time_hour, #trip_starting_date_time_minute {
     margin: 0 5px;
 }
-<<<<<<<<< Temporary merge branch 1
+
 #map {
     height: 300px;
 }
-.profil_participant{
+.profil_participant {
     width: 100%;
     height: 100%;
     object-fit: cover;
-=========
+}
 #map { height: 300px; }
 
 p.has-text-centered {
@@ -98,5 +98,5 @@ p.has-text-centered {
     100% {
         background-position: 500%;
     }
->>>>>>>>> Temporary merge branch 2
+
 }
