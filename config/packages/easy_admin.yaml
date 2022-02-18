@@ -1,0 +1,9 @@
+# config/packages/easy_admin.yaml
+easy_admin:
+  entities:
+    Product:
+      # ...
+      form:
+        fields:
+          - { property: 'pictureFile', type: 'file' }
+      # ...
