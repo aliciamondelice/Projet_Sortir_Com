@@ -20,6 +20,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @UniqueEntity(fields={"email"}, message="Un compte est déjà associé à cet email")
  * @UniqueEntity(fields={"username"}, message="Ce pseudo existe déjà!")
+ * @ORM\Entity
  * @Vich\Uploadable
  */
 
@@ -81,8 +82,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Seriali
     private $PictureLink;
 
      /**
-     * @Vich\UploadableField(mapping="user_picture", fileNameProperty="PictureLink")
-     * @param File|UploadedFile|null $pictureFile
+     * @Vich\UploadableField(mapping="product_images", fileNameProperty="PictureLink")
+     * @var File
      */
     private $pictureFile;
 
@@ -280,7 +281,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Seriali
 
         return $this;
     }
-
+    /**
+     * @ORM\Column(type="datetime")
+     * @var \DateTime
+     */
+    private $updatedAt;
     public function getPictureLink(): ?string
     {
         return $this->PictureLink;
@@ -293,23 +298,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Seriali
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPictureFile(): mixed
+    public function getPictureFile()
     {
         return $this->pictureFile;
     }
 
-    public function setPictureFile(?File $fichier = null): self
+    public function setPictureFile(?File $PictureLink = null )
     {
-        $this->pictureFile = $fichier;
-        if ($fichier) {
-            $this->username = '';
+        $this->pictureFile = $PictureLink;
+        // VERY IMPORTANT:
+        // It is required that at least one field changes if you are using Doctrine,
+        // otherwise the event listeners won't be called and the file is lost
+        if ($PictureLink) {
+            // if 'updatedAt' is not defined in your entity, use another property
+            $this->updatedAt = new \DateTime('now');
         }
-        return $this;
     }
-
 
     public function addOrganizedTrip(Trip $organizedTrip): self
     {

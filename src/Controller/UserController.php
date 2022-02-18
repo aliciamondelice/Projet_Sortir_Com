@@ -2,10 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Role\Role;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class UserController extends AbstractController
@@ -15,9 +18,11 @@ class UserController extends AbstractController
     {
 
         $user= $userRepository->findAll();
+
         return $this->render('user/index.html.twig', [
             'controller_name' => 'UserController',
-            'users'=> $user,
+            'users'=>$user,
+
         ]);
     }
     /**
